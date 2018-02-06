@@ -259,6 +259,7 @@ function ContentMap(contentGraphService) {
     ctrl.coords.lat = cenLat
     ctrl.coords.lng = cenLng
 
+    // degree symbol º
     document.getElementById('coord-display').innerHTML = "Latitude: " + ctrl.coords.lat + ", " + "Longitude: " + ctrl.coords.lng
   }
 }

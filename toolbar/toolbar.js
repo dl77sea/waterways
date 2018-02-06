@@ -16,9 +16,17 @@ function Toolbar(contentGraphService) {
     console.log("ctrl.currentBfw ", ctrl.currentBfw)
     console.log("ctrl.bfwDesign ", ctrl.bfwDesign)
 
+    //used for prob thresh
     contentGraphService.threshold = ctrl.bfwDesign
+
+    //used for csv mult
     contentGraphService.currentBfw = ctrl.currentBfw
-    contentGraphService.bfwDesign = ctrl.bfwDesign
+
+    //used for prob ind
+    contentGraphService.designLifetime = ctrl.designLifetime
+
+
+    // contentGraphService.bfwDesign = ctrl.bfwDesign
 
     //build graph
     contentGraphService.updateRatiosGraph()

@@ -6,14 +6,15 @@ function contentGraphService() {
   //these are recieved from toolbar on graph gen click
   vm.threshold = null;
   vm.currentBfw = null;
-  vm.bfwDesign = null;
+  // vm.bfwDesign = null;
+  vm.designLifetime = null;
 
   vm.initRatiosGraph = function() {
 
     vm.margin = {
         top: 5,
         right: 50,
-        bottom: 20,
+        bottom: 40,
         left: 50
       },
       width = 800 - vm.margin.left - vm.margin.right,
@@ -126,20 +127,26 @@ function contentGraphService() {
       let maxVals = []
 
       let yearVals = []
-      for(year of valsAllYears) {
+      for (year of valsAllYears) {
         //make into an array of just it's values
-        for(obj of year) {
+        for (obj of year) {
           yearVals.push(obj.val)
         }
 
-        minVals.push({year: year[0].year, val: Math.min(...yearVals) })
-        maxVals.push({year: year[0].year, val: Math.max(...yearVals) })
+        minVals.push({
+          year: year[0].year,
+          val: Math.min(...yearVals)
+        })
+        maxVals.push({
+          year: year[0].year,
+          val: Math.max(...yearVals)
+        })
 
         yearVals = []
       }
 
       //build areaPath from minVals and maxVals
-      for (let i=0; i < minVals.length; i++) {
+      for (let i = 0; i < minVals.length; i++) {
         areaPath.push({
           year: minVals[i].year,
           val0: minVals[i].val,
@@ -168,13 +175,13 @@ function contentGraphService() {
           return area(areaPath);
         });
 
-        // for visual check valueLines against fill
-        // for(let i=0; i < valueLines.length; i++) {
-        //   vm.svgRatios.append("path")
-        //     .data([valueLines[i]])
-        //     .attr("class", "line")
-        //     .attr("d", vm.valueline);
-        // }
+      // for visual check valueLines against fill
+      // for(let i=0; i < valueLines.length; i++) {
+      //   vm.svgRatios.append("path")
+      //     .data([valueLines[i]])
+      //     .attr("class", "line")
+      //     .attr("d", vm.valueline);
+      // }
 
 
       // Add thereshold line
@@ -184,14 +191,28 @@ function contentGraphService() {
         .attr("y1", vm.y(vm.gThresh))
         .attr("x2", vm.x(vm.gMinMax[1]))
         .attr("y2", vm.y(vm.gThresh))
-        // Add the X Axis
-        vm.svgRatios.append("g")
-          .attr("transform", "translate(0," + height + ")")
-          .call(d3.axisBottom(vm.x).ticks(20));
+      // Add the X Axis
+      vm.svgRatios.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(vm.x).ticks(20))
+        .append("text")
+        .attr("transform", "translate(6)")
+        .attr("y", 24)
+        .attr("dy", "0.71em")
+        .attr("fill", "#000")
+        .text("Year");
 
-        // Add the Y Axis
-        vm.svgRatios.append("g")
-          .call(d3.axisLeft(vm.y).ticks(20));
+
+      // Add the Y Axis
+      vm.svgRatios.append("g")
+        .call(d3.axisLeft(vm.y).ticks(20))
+        .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 6)
+        .attr("dy", "0.71em")
+        .attr("fill", "#000")
+        .text("Bankful Width (ft)");
+
 
     });
 
@@ -213,7 +234,7 @@ function contentGraphService() {
       //format values in valueLine
       for (obj of meanLine) {
         obj.year = vm.parseTime(obj.year)
-        obj.val = parseFloat(obj.val)*vm.currentBfw
+        obj.val = parseFloat(obj.val) * vm.currentBfw
       }
 
       //plot mean line
@@ -225,7 +246,41 @@ function contentGraphService() {
     })
   }
 
+  vm.getProbFailureNum = function(probLine) {
+    //get vals up to lifetime into array
+    let upToLifetimeVals = []
+    let i = 0
+    console.log("vm.designLifetime", vm.designLifetime)
+    console.log("parsed date: ", vm.parseTime(vm.designLifetime))
+    console.log("probLine from getProbFailureNum: ", probLine)
+    let designLifetimeYear = vm.parseTime(vm.designLifetime)
+
+    while (probLine[i].year <= designLifetimeYear) {
+      console.log("from while: ", probLine[i].year)
+      upToLifetimeVals.push(probLine[i].val)
+      i++
+    }
+    console.log("upToLifetimeVals", upToLifetimeVals)
+
+    //get differences of vals in upToLifetimeVals from 1 into array
+    let difVals = []
+    for (let i = 0; i < upToLifetimeVals.length; i++) {
+      if (upToLifetimeVals[i] > 0) {
+        difVals.push(1 - upToLifetimeVals[i])
+      }
+    }
+
+    //multiply those values together
+    console.log("difVals: ", difVals)
+    let prod = difVals[0]
+    for (let i = 1; i < difVals.length; i++) {
+      prod = prod * difVals[i]
+    }
+    console.log("probability indicator: ", prod)
+  }
+
   vm.updateProbabilityGraph = function() {
+
     let width = 800 - vm.margin.left - vm.margin.right
     let height = 150 - vm.margin.top - vm.margin.bottom
 
@@ -246,7 +301,7 @@ function contentGraphService() {
       });
 
     vm.gMinMaxProb;
-    vm.gThreshProb = vm.threshold/vm.currentBfw //verify this division with AM
+    vm.gThreshProb = vm.threshold / vm.currentBfw //verify this division with AM
     vm.gPaddingProb = 0.05
 
     vm.startYearProb = 2014
@@ -302,6 +357,8 @@ function contentGraphService() {
         })
       }
 
+      vm.getProbFailureNum(probLine)
+
       //plot probability line
       data = probLine
       console.log("probline: ", probLine)
@@ -314,11 +371,24 @@ function contentGraphService() {
     // Add the X Axis
     vm.svgProbability.append("g")
       .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(vm.xProb).ticks(20));
+      .call(d3.axisBottom(vm.xProb).ticks(20))
+      .append("text")
+      .attr("transform", "translate(6)")
+      .attr("y", 24)
+      .attr("dy", "0.71em")
+      .attr("fill", "#000")
+      .text("Year");
 
     // Add the Y Axis
     vm.svgProbability.append("g")
-      .call(d3.axisLeft(vm.yProb).ticks(10));
+      .call(d3.axisLeft(vm.yProb).ticks(10))
+      .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", "0.71em")
+      .attr("fill", "#000")
+      .text("Probability");
+
 
     // d3.select('text').attr("dy", '1em')
     // d3.select('text').attr("fill", '#FF0000')
