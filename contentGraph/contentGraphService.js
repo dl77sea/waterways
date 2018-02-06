@@ -53,9 +53,7 @@ function contentGraphService() {
 
   vm.updateRatiosGraph = function() {
     console.log("---from updateRatiosGraph---")
-    console.log("currentBfw", vm.threshold)
     console.log("currentBfw", vm.currentBfw)
-    console.log("bfwDesign", vm.bfwDesign)
 
     console.log("hello from updateRatiosGraph ", vm.threshold)
     vm.clearGraphs()
@@ -80,6 +78,7 @@ function contentGraphService() {
 
     // y.domain([minMax[0] - gPadding, minMax[1] + gPadding]);
     vm.y.domain([0.65, 1.35]);
+    vm.y.domain([0.65 * vm.currentBfw, 1.35 * vm.currentBfw]);
 
     var areaPath = []
     d3.csv("./contentGraph/ratio00.csv", function(error, data) {
@@ -102,9 +101,10 @@ function contentGraphService() {
       for (let i = 0; i < valueLines.length; i++) {
         valueLines[i].forEach(function(d) {
           d.year = vm.parseTime(d.year);
-          d.val = parseFloat(d.val);
+          d.val = parseFloat(d.val) * vm.currentBfw;
         });
       }
+      console.log("******", valueLines)
 
 
       //figure out min and max at each year for all value lines
@@ -213,7 +213,7 @@ function contentGraphService() {
       //format values in valueLine
       for (obj of meanLine) {
         obj.year = vm.parseTime(obj.year)
-        obj.val = parseFloat(obj.val)
+        obj.val = parseFloat(obj.val)*vm.currentBfw
       }
 
       //plot mean line
@@ -246,7 +246,7 @@ function contentGraphService() {
       });
 
     vm.gMinMaxProb;
-    vm.gThreshProb = vm.threshold
+    vm.gThreshProb = vm.threshold/vm.currentBfw //verify this division with AM
     vm.gPaddingProb = 0.05
 
     vm.startYearProb = 2014
@@ -309,7 +309,6 @@ function contentGraphService() {
         .data([data])
         .attr("class", "line")
         .attr("d", vm.valuelineProb);
-
     });
 
     // Add the X Axis

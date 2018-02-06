@@ -3,7 +3,6 @@ function Toolbar(contentGraphService) {
 
   ctrl.$onInit = function() {
     console.log("toolbar init")
-
     //from common
     // ctrl.threshold = 1.0
     ctrl.tbCoords = ctrl.coords
@@ -16,6 +15,7 @@ function Toolbar(contentGraphService) {
     console.log("ctrl.designLifetime ", ctrl.designLifetime)
     console.log("ctrl.currentBfw ", ctrl.currentBfw)
     console.log("ctrl.bfwDesign ", ctrl.bfwDesign)
+
     contentGraphService.threshold = ctrl.bfwDesign
     contentGraphService.currentBfw = ctrl.currentBfw
     contentGraphService.bfwDesign = ctrl.bfwDesign
