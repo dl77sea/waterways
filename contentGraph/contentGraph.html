@@ -1,14 +1,16 @@
 <div ng-show="$ctrl.editMode.mode=='graph'" class="contain" style="align-items: center">
   <div class="push-content-top"></div>
-
+  <!-- <div style="display: flex"> -->
   <div class="graph-container">
+    <div class="graph-title">Bankfull Width</div>
     <div id="d3ratios"></div>
-    <div class="graph-title">Ratio of Stream Flow</div>
   </div>
+<!-- </div> -->
 
   <div class="graph-container">
+    <div class="graph-title">Probability of Exceeding Design Bankfull Width</div>
     <div id="d3probability"></div>
-    <div class="graph-title">Probability of Stream Ratio Above Threshold</div>
+
   </div>
 
   <div class="push-content-bottom"></div>

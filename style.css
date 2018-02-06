@@ -160,7 +160,8 @@ li:nth-child(1n+2) {
 }
 
 .graph-title {
-  text-align: center;
+  /*text-align: center;*/
+  margin-left: 27px;
   font-size: 1.25rem;
 }
 
