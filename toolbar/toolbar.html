@@ -1,0 +1,30 @@
+<form ng-submit="$ctrl.clickGenGraph()">
+<div class="nav">
+  <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center">
+    <div id="input-years" style="display: inline">
+
+      <ul>
+
+        <li><label for="start-year">Start Year</label></label><input name="start-year" ng-model="$ctrl.startYear" maxlength="4" size="4"></input></li>
+
+        <li><label for="end-year">End Year</label><input name="end-year" ng-model="$ctrl.endYear" maxlength="4" size="4"></input></li>
+
+        <li ng-show="$ctrl.editMode.mode=='graph'" style="margin-left: 1rem;"><label for="size_1">Threshold</label><input name="threshold" ng-model="$ctrl.threshold" maxlength="4" size="4"></input></li>
+
+      </ul>
+
+
+    </div>
+
+    <!-- ng-show="$ctrl.coords == true" Latitude: {{$ctrl.lat}}, Longitude: {{$ctrl.lng}} -->
+    <!-- <div id="coord-display" class="coords"><a href=""></a></div> -->
+
+      <div style="z-index: -1; width: 100%; display: inline-block; position: absolute; align-text: center"><div id="coord-display" style="z-index: -1; text-align: center"></div></div>
+
+    <ul class="nav-right-margin-only">
+      <li><button type="input"><a ng-click="$ctrl.clickGenGraph()" class="click" href="">Generate Graph</a></button></li>
+    </ul>
+  </div>
+
+</div>
+</form>
