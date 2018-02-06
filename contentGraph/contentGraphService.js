@@ -2,7 +2,12 @@ angular.module('app').service('contentGraphService', contentGraphService)
 
 function contentGraphService() {
   var vm = this
+
+  //these are recieved from toolbar on graph gen click
   vm.threshold = null;
+  vm.currentBfw = null;
+  vm.bfwDesign = null;
+
   vm.initRatiosGraph = function() {
 
     vm.margin = {
@@ -47,6 +52,11 @@ function contentGraphService() {
   }
 
   vm.updateRatiosGraph = function() {
+    console.log("---from updateRatiosGraph---")
+    console.log("currentBfw", vm.threshold)
+    console.log("currentBfw", vm.currentBfw)
+    console.log("bfwDesign", vm.bfwDesign)
+
     console.log("hello from updateRatiosGraph ", vm.threshold)
     vm.clearGraphs()
     vm.gMinMax;
@@ -88,19 +98,14 @@ function contentGraphService() {
         valueLines.push(valueLine)
       }
 
-      //format data in value lines
+      //format data in value lines (do bankful width mult here)
       for (let i = 0; i < valueLines.length; i++) {
         valueLines[i].forEach(function(d) {
           d.year = vm.parseTime(d.year);
           d.val = parseFloat(d.val);
         });
-
-        // Add valueline paths
-        // vm.svgRatios.append("path")
-        //   .data([valueLines[i]])
-        //   .attr("class", "line")
-        //   .attr("d", vm.valueline);
       }
+
 
       //figure out min and max at each year for all value lines
       //(used for shading and eventually, range setting)
@@ -277,7 +282,8 @@ function contentGraphService() {
         valueLines.push(valueLine)
       }
 
-      // get probability (for each date, in each line, count how many values are above thresh and divide by total valuelines to get y for that date)
+      // get probability (for each date, in each line,
+      // count how many values are above thresh and divide by total valuelines to get y for that date)
       //for each "year slot" check all values in all lines for that year
       let probLine = []
       for (i = 0; i < vm.numYears; i++) {

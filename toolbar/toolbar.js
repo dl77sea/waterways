@@ -13,7 +13,12 @@ function Toolbar(contentGraphService) {
     console.log("click gengraph")
     console.log("lattt from toolbar: ", ctrl.lattt)
 
+    console.log("ctrl.designLifetime ", ctrl.designLifetime)
+    console.log("ctrl.currentBfw ", ctrl.currentBfw)
+    console.log("ctrl.bfwDesign ", ctrl.bfwDesign)
     contentGraphService.threshold = ctrl.bfwDesign
+    contentGraphService.currentBfw = ctrl.currentBfw
+    contentGraphService.bfwDesign = ctrl.bfwDesign
 
     //build graph
     contentGraphService.updateRatiosGraph()
