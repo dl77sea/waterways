@@ -3,13 +3,15 @@
   <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center">
     <div id="input-years" style="display: inline">
 
-      <ul>
+      <ul ng-show="$ctrl.editMode.mode=='graph'">
 
-        <li><label for="start-year">Start Year</label></label><input name="start-year" ng-model="$ctrl.startYear" maxlength="4" size="4"></input></li>
+        <!-- <li><label for="start-year">Start Year</label></label><input name="start-year" ng-model="$ctrl.startYear" maxlength="4" size="4"></input></li> -->
 
-        <li><label for="end-year">End Year</label><input name="end-year" ng-model="$ctrl.endYear" maxlength="4" size="4"></input></li>
+        <!-- <li><label for="end-year">End Year</label><input name="end-year" ng-model="$ctrl.endYear" maxlength="4" size="4"></input></li> -->
 
-        <li ng-show="$ctrl.editMode.mode=='graph'" style="margin-left: 1rem;"><label for="size_1">Threshold</label><input name="threshold" ng-model="$ctrl.threshold" maxlength="4" size="4"></input></li>
+        <li><label for="current-bfw">Current Bankful Width</label><input name="current-bfw" ng-model="$ctrl.currentBfw" maxlength="4" size="4"></input></li>
+        <li><label for="design-lifetime">Design Lifetime</label><input name="design-lifetime" ng-model="$ctrl.designLifetime" maxlength="4" size="4"></input></li>
+        <li><label for="size_1">Bankful Width Design</label><input name="threshold" ng-model="$ctrl.bfwDesign" maxlength="4" size="4"></input></li>
 
       </ul>
 

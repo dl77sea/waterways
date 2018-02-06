@@ -22,6 +22,10 @@ function Common(contentGraphService) {
     ctrl.defaultYearFrom = 2014
     ctrl.defaultYearTo = 2090
 
+    ctrl.defaultBfw = 30
+    ctrl.defaultDesignLifetime = 2050
+    ctrl.defaultBfwDesign = ctrl.defaultBfw
+
     //toolbar, graph, will need lat and lon from map click from mapService
     ctrl.coords = {lat: ctrl.defaultLat, lng: ctrl.defaultLng}
 

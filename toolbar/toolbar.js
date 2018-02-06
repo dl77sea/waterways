@@ -5,7 +5,7 @@ function Toolbar(contentGraphService) {
     console.log("toolbar init")
 
     //from common
-    ctrl.threshold = 1.0
+    // ctrl.threshold = 1.0
     ctrl.tbCoords = ctrl.coords
   }
 
@@ -13,7 +13,7 @@ function Toolbar(contentGraphService) {
     console.log("click gengraph")
     console.log("lattt from toolbar: ", ctrl.lattt)
 
-    contentGraphService.threshold = ctrl.threshold
+    contentGraphService.threshold = ctrl.bfwDesign
 
     //build graph
     contentGraphService.updateRatiosGraph()
@@ -32,7 +32,10 @@ angular.module('app').component('toolbar', {
     editMode: '=',
     coords: '=',
     startYear: '=',
-    endYear: '='
+    endYear: '=',
+    currentBfw: '=',
+    designLifetime: '=',
+    bfwDesign: '='
   }
 })
 
