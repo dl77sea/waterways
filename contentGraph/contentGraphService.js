@@ -196,9 +196,10 @@ function contentGraphService() {
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(vm.x).ticks(20))
         .append("text")
-        .attr("transform", "translate(6)")
-        .attr("y", 24)
+        .attr("transform", "translate(12)")
+        .attr("y", 27)
         .attr("dy", "0.71em")
+        .style("font-size", "1rem")
         .attr("fill", "#000")
         .text("Year");
 
@@ -207,9 +208,10 @@ function contentGraphService() {
       vm.svgRatios.append("g")
         .call(d3.axisLeft(vm.y).ticks(20))
         .append("text")
-        .attr("transform", "rotate(-90)")
+        .attr("transform", "translate(-50) rotate(-90)")
         .attr("y", 6)
         .attr("dy", "0.71em")
+        .style("font-size", "1rem")
         .attr("fill", "#000")
         .text("Bankful Width (ft)");
 
@@ -374,8 +376,9 @@ function contentGraphService() {
       .call(d3.axisBottom(vm.xProb).ticks(20))
       .append("text")
       .attr("transform", "translate(6)")
-      .attr("y", 24)
+      .attr("y", 27)
       .attr("dy", "0.71em")
+      .style("font-size", "1rem")
       .attr("fill", "#000")
       .text("Year");
 
@@ -383,11 +386,15 @@ function contentGraphService() {
     vm.svgProbability.append("g")
       .call(d3.axisLeft(vm.yProb).ticks(10))
       .append("text")
-      .attr("transform", "rotate(-90)")
+      .attr("transform", "translate(-50) rotate(-90)")
       .attr("y", 6)
       .attr("dy", "0.71em")
+      .style("font-size", "1rem")
       .attr("fill", "#000")
       .text("Probability");
+
+
+
 
 
     // d3.select('text').attr("dy", '1em')
