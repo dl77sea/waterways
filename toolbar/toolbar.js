@@ -12,18 +12,18 @@ function Toolbar(contentGraphService) {
     console.log("click gengraph")
     console.log("lattt from toolbar: ", ctrl.lattt)
 
-    console.log("ctrl.designLifetime ", ctrl.designLifetime)
-    console.log("ctrl.currentBfw ", ctrl.currentBfw)
-    console.log("ctrl.bfwDesign ", ctrl.bfwDesign)
+    console.log("contentGraphService.designLifetime ", contentGraphService.designLifetime)
+    console.log("contentGraphService.currentBfw ", contentGraphService.currentBfw)
+    console.log("contentGraphService.bfwDesign ", contentGraphService.threshold)
 
-    //used for prob thresh
-    contentGraphService.threshold = ctrl.bfwDesign
-
-    //used for csv mult
-    contentGraphService.currentBfw = ctrl.currentBfw
-
-    //used for prob ind
-    contentGraphService.designLifetime = ctrl.designLifetime
+    // //used for prob thresh
+    // contentGraphService.threshold = ctrl.bfwDesign
+    //
+    // //used for csv mult
+    // contentGraphService.currentBfw = ctrl.currentBfw
+    //
+    // //used for prob ind
+    // contentGraphService.designLifetime = ctrl.designLifetime
 
 
     // contentGraphService.bfwDesign = ctrl.bfwDesign
@@ -43,12 +43,7 @@ angular.module('app').component('toolbar', {
   bindings: {
     lattt: '=',
     editMode: '=',
-    coords: '=',
-    startYear: '=',
-    endYear: '=',
-    currentBfw: '=',
-    designLifetime: '=',
-    bfwDesign: '='
+    coords: '='
   }
 })
 
