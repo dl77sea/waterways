@@ -1,4 +1,4 @@
-function Footer(contentGraphService) {
+function Footer() {
   var ctrl = this
 
   ctrl.$onInit = function() {
@@ -16,7 +16,10 @@ function Footer(contentGraphService) {
 angular.module('app').component('footer', {
   templateUrl: './footer/footer.html',
   controller: Footer,
-  bindings: {editMode: '='}
+  bindings: {
+    editMode: '=',
+    coords: '='
+  }
 })
 
-Footer.$inject = ['contentGraphService']
+// Footer.$inject = ['contentGraphService']

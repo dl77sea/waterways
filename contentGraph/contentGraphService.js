@@ -98,7 +98,7 @@ function contentGraphService() {
         valueLines.push(valueLine)
       }
 
-      //format data in value lines (do bankful width mult here)
+      //format data in value lines (do bankfull width mult here)
       for (let i = 0; i < valueLines.length; i++) {
         valueLines[i].forEach(function(d) {
           d.year = vm.parseTime(d.year);
@@ -213,9 +213,7 @@ function contentGraphService() {
         .attr("dy", "0.71em")
         .style("font-size", "1rem")
         .attr("fill", "#000")
-        .text("Bankful Width (ft)");
-
-
+        .text("Bankfull Width (ft)");
     });
 
 
