@@ -65,13 +65,13 @@ table {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100%;
+  height: 100vh;
 }
 
 .nav {
   background-color: red;
   width: 100%;
-  height: 3.25rem;
+  height: 3.5rem;
   position: fixed;
   top: 0;
 }
@@ -79,7 +79,7 @@ table {
 .foot {
   background-color: green;
   width: 100%;
-  height: 3.25rem;
+  height: 3.5rem;
   position: fixed;
   bottom: 0;
 }
@@ -170,7 +170,7 @@ li:nth-child(1n+2) {
   /*flex-direction: column;*/
   background-color: white;
   width: 100%;
-  height: 3.25rem;
+  height: 3.5rem;
 }
 
 .push-content-bottom {
@@ -178,7 +178,7 @@ li:nth-child(1n+2) {
   /*flex-direction: column;*/
   background-color: white;
   width: 100%;
-  height: 3.25rem;
+  height: 3.5rem;
 }
 
 a:link,

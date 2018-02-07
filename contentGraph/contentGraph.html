@@ -1,16 +1,20 @@
 <div ng-show="$ctrl.editMode.mode=='graph'" class="contain" style="align-items: center">
   <div class="push-content-top"></div>
-  <!-- <div style="display: flex"> -->
-  <div class="graph-container">
-    <div class="graph-title">Bankfull Width</div>
-    <div id="d3ratios"></div>
-  </div>
-<!-- </div> -->
 
-  <div class="graph-container">
-    <div class="graph-title">Probability of Exceeding Design Bankfull Width</div>
-    <div id="d3probability"></div>
-  </div>
 
+  <div style="display: flex; flex-direction: row;  height: 100%; flex: 1">
+    <div style="display: flex; flex-direction: column; background-color: purple; width: 20rem; height: 100%"></div>
+    <div style="display: flex; flex-direction: column; background-color: orange; justify-content: space-between">
+      <div>
+        <div class="graph-title">Bankfull Width</div>
+        <div id="d3ratios"></div>
+      </div>
+
+      <div>
+        <div class="graph-title">Probability of Exceeding Design Bankfull Width</div>
+        <div id="d3probability"></div>
+      </div>
+    </div>
+  </div>
   <div class="push-content-bottom"></div>
 </div>
