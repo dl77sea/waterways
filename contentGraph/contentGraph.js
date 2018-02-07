@@ -1,7 +1,9 @@
 angular.module('app').component('contentGraph', {
   templateUrl: './contentGraph/contentGraph.html',
   controller: ContentGraph,
-  bindings: {editMode: '='}
+  bindings: {
+    editMode: '='
+  }
 })
 
 function ContentGraph(contentGraphService) {

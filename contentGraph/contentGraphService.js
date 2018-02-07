@@ -4,6 +4,8 @@ function contentGraphService() {
   var vm = this
 
   //these are recieved from toolbar on graph gen click
+
+
   vm.threshold = null;
   vm.currentBfw = null;
   // vm.bfwDesign = null;
@@ -401,13 +403,7 @@ function contentGraphService() {
   }
 
   vm.clearGraphs = function() {
-    //also set style
-    // g text {
-    //   fill: #FF0000
-    //   y: 9
-    //   dy: 0.71em
-    // }
-    // vm.svgProbability.axisLeft.text.
+
     while (vm.svgRatios._groups[0][0].lastChild) {
       vm.svgRatios._groups[0][0].removeChild(vm.svgRatios._groups[0][0].lastChild);
     }

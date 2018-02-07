@@ -3,7 +3,27 @@
 
 
   <div style="display: flex; flex-direction: row;  height: 100%; flex: 1">
-    <div style="display: flex; flex-direction: column; background-color: purple; width: 20rem; height: 100%"></div>
+    <div style="display: flex; flex-direction: column; background-color: purple; width: 20rem; height: 100%">
+
+      <form ng-submit="$ctrl.clickGenGraph()">
+        <!-- <ul ng-show="$ctrl.editMode.mode=='graph'"> -->
+        <ul>
+          <li>
+            <label for="current-bfw">Current Bankfull Width</label>
+            <input name="current-bfw" ng-model="$ctrl.currentBfw" maxlength="4" size="4"></input>
+          </li>
+          <li>
+            <label for="design-lifetime">Design Lifetime</label>
+            <input name="design-lifetime" ng-model="$ctrl.designLifetime" maxlength="4" size="4"></input>
+          </li>
+          <li>
+            <label for="size_1">Bankfull Width Design</label>
+            <input name="threshold" ng-model="$ctrl.bfwDesign" maxlength="4" size="4"></input>
+          </li>
+        </ul>
+      </form>
+
+    </div>
     <div style="display: flex; flex-direction: column; background-color: orange; justify-content: space-between">
       <div>
         <div class="graph-title">Bankfull Width</div>
