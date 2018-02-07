@@ -9,29 +9,11 @@ function Toolbar(contentGraphService) {
   }
 
   ctrl.clickGenGraph = function() {
-    console.log("click gengraph")
-    console.log("lattt from toolbar: ", ctrl.lattt)
-
-    console.log("contentGraphService.designLifetime ", contentGraphService.designLifetime)
-    console.log("contentGraphService.currentBfw ", contentGraphService.currentBfw)
-    console.log("contentGraphService.bfwDesign ", contentGraphService.threshold)
-
-    // //used for prob thresh
-    // contentGraphService.threshold = ctrl.bfwDesign
-    //
-    // //used for csv mult
-    // contentGraphService.currentBfw = ctrl.currentBfw
-    //
-    // //used for prob ind
-    // contentGraphService.designLifetime = ctrl.designLifetime
-
-
-    // contentGraphService.bfwDesign = ctrl.bfwDesign
 
     //build graph
-    contentGraphService.updateRatiosGraph()
-    contentGraphService.updateProbabilityGraph()
-
+    // contentGraphService.updateRatiosGraph()
+    // contentGraphService.updateProbabilityGraph()
+    ctrl.genGraph()
     //switch to show graph
     ctrl.editMode.mode = "graph"
   }
@@ -43,7 +25,8 @@ angular.module('app').component('toolbar', {
   bindings: {
     lattt: '=',
     editMode: '=',
-    coords: '='
+    coords: '=',
+    genGraph: '&'
   }
 })
 

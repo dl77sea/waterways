@@ -11,7 +11,9 @@ function Common(contentGraphService) {
   ctrl.defaultLng = -122.09375
 
 
-  ctrl.lattt = {val: 123}
+  ctrl.lattt = {
+    val: 123
+  }
 
   ctrl.$onInit = function() {
     console.log("common init")
@@ -27,11 +29,16 @@ function Common(contentGraphService) {
     ctrl.defaultBfwDesign = 34
 
     //toolbar, graph, will need lat and lon from map click from mapService
-    ctrl.coords = {lat: ctrl.defaultLat, lng: ctrl.defaultLng}
+    ctrl.coords = {
+      lat: ctrl.defaultLat,
+      lng: ctrl.defaultLng
+    }
 
 
     //footer needs edit mode
-    ctrl.mode = {mode: "map"}
+    ctrl.mode = {
+      mode: "map"
+    }
     ctrl.editMode = ctrl.mode
 
     //graph will need threshold from toolbar (so bind this to graph and toolbar)
@@ -43,6 +50,14 @@ function Common(contentGraphService) {
 
   }
   ctrl.blarfer = function() {
-    console.log("from common: ",ctrl.lattt)
+    console.log("from common: ", ctrl.lattt)
+  }
+
+  //inherited by contentMap and contentGraph components
+  ctrl.genGraph = function() {
+    console.log("hello from inherited genGraph")
+    //build graph
+    contentGraphService.updateRatiosGraph()
+    contentGraphService.updateProbabilityGraph()
   }
 }
