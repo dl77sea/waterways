@@ -52,9 +52,8 @@ function Common(contentGraphService) {
   //inherited by contentMap and contentGraph components
   ctrl.genGraph = function() {
     console.log("hello from inherited genGraph")
-    //build graph
-    ctrl.editMode.mode="graph"
-    // contentGraphService.updateRatiosGraph()
-    // contentGraphService.updateProbabilityGraph()
+    //build graph    
+    contentGraphService.updateRatiosGraph()
+    contentGraphService.updateProbabilityGraph()
   }
 }

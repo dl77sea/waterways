@@ -223,14 +223,19 @@ function ContentMap($scope, contentGraphService) {
 
     // ctrl.editMode.mode = "graph"
     ctrl.genGraph()
+    ctrl.editMode.mode = "graph"
     $scope.$apply()
     console.log("callback happened", ctrl.editMode)
+
   }
+
   ctrl.setLatLngHeader = function(cenLat, cenLng) {
     ctrl.coords.lat = cenLat
     ctrl.coords.lng = cenLng
 
     // degree symbol º
     document.getElementById('coord-display').innerHTML = "LAT "+ ctrl.coords.lat + ", " + "LNG " + ctrl.coords.lng
+
+
   }
 }
