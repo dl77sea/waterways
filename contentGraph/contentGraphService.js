@@ -172,7 +172,7 @@ function contentGraphService() {
       vm.svgRatios.append("g")
         .append("path")
         // .datum(areaPath)
-        .attr("class", "area")
+        .attr("class", "color-graph-fill")
         .attr("d", function(d) {
           return area(areaPath);
         });
@@ -188,7 +188,7 @@ function contentGraphService() {
 
       // Add thereshold line
       vm.svgRatios.append("line")
-        .attr("class", "threshline")
+        .attr("class", "color-graph-ratio-thresh")
         .attr("x1", vm.x(vm.gMinMax[0]))
         .attr("y1", vm.y(vm.gThresh))
         .attr("x2", vm.x(vm.gMinMax[1]))
@@ -279,7 +279,7 @@ function contentGraphService() {
       data = meanLine
       vm.svgRatios.append("path")
         .data([data])
-        .attr("class", "meanline")
+        .attr("class", "color-graph-ratio-line")
         .attr("d", vm.valueline);
 
     })
@@ -405,7 +405,7 @@ function contentGraphService() {
       console.log("probline: ", probLine)
       vm.svgProbability.append("path")
         .data([data])
-        .attr("class", "line")
+        .attr("class", "color-graph-prob-line")
         .attr("d", vm.valuelineProb);
 
       // add the Y gridlines

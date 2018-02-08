@@ -4,54 +4,58 @@
 
   <div style="display: flex; flex-direction: row;  height: 100%; flex: 1">
     <!-- <div style="display: flex; flex-direction: column; background-color: purple; width: 20rem; height: 100%"> -->
-    <div style="display: flex; flex-direction: column; width: 20rem; height: 100%; background-color: purple">
+    <div style="display: flex; flex-direction: column; width: 20rem; height: 100%;">
       <div>
         <form ng-submit="$ctrl.clickGenGraph()">
           <!-- <ul ng-show="$ctrl.editMode.mode=='graph'"> -->
 
           <ul>
-            <li style="background-color: yellow; text-align: center;">
+            <li class="color-form-input-bg" style="text-align: center;">
               <div style="padding-top: 1.5rem;">
-                <label for="current-bfw">Current Bankfull Width</label>
+                <label class="color-form-input-text" for="current-bfw">Current Bankfull Width</label>
               </div>
-              <div style="padding-bottom: 1.5rem; padding-top: 0.5rem">
+              <div style="padding-bottom: 1.5rem; padding-top: 0.25rem">
                 <input name="current-bfw" ng-model="$ctrl.currentBfw" maxlength="4" size="4"></input>
               </div>
             </li>
-            <li style="background-color: yellow; text-align: center; margin-top: 0.25rem">
+            <li class="color-form-input-bg" style="text-align: center; margin-top: 0.25rem">
               <div style="padding-top: 1.5rem;">
-                <label for="design-lifetime">Design Lifetime</label>
+                <label class="color-form-input-text" for="design-lifetime">Design Lifetime</label>
               </div>
-              <div style="padding-bottom: 1.5rem; padding-top: 0.5rem">
+              <div style="padding-bottom: 1.5rem; padding-top: 0.25rem">
                 <input name="design-lifetime" ng-model="$ctrl.designLifetime" maxlength="4" size="4"></input>
               </div>
             </li>
-            <li style="background-color: yellow; text-align: center; margin-top: 0.25rem">
+            <li class="color-form-input-bg" style="text-align: center; margin-top: 0.25rem">
               <div style="padding-top: 1.5rem;">
-                <label for="size_1">Bankfull Width Design</label>
+                <label class="color-form-input-text" for="size_1">Bankfull Width Design</label>
               </div>
-              <div style="padding-bottom: 1.5rem; padding-top: 0.5rem">
+              <div style="padding-bottom: 1.5rem; padding-top: 0.25rem">
                 <input name="threshold" ng-model="$ctrl.bfwDesign" maxlength="4" size="4"></input>
               </div>
             </li>
           </ul>
-          <div style="text-align: center; margin-top: 3rem">
-            <button type="input" ng-click="$ctrl.updateGraphs()">Update Graphs</button>
-          </div>
         </form>
       </div>
 
-      <div style="margin-top: auto; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 225px; background-color: green">snarf</div>
+      <div style="display: flex; justify-content: center; align-items: center; flex-grow: 2">
+        <button type="input" ng-click="$ctrl.updateGraphs()">Update Graphs</button>
+      </div>
+
+      <div class="color-prob-fail-background" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 225px;">
+        <div style="text-align: center; margin-bottom: 1rem">Probability of Failure Over<br>Design Lifetime</div>
+        <div style="font-size: 4rem">0.23%</div>
+      </div>
 
     </div>
-    <div style="display: flex; flex-direction: column; background-color: orange; justify-content: space-between">
+    <div style="margin-left: 1rem; display: flex; flex-direction: column; justify-content: space-between">
       <div>
-        <div class="graph-title">Bankfull Width</div>
+        <div class="graph-title color-title-graph">Bankfull Width</div>
         <div id="d3ratios"></div>
       </div>
 
       <div>
-        <div class="graph-title">Probability of Exceeding Design Bankfull Width</div>
+        <div class="graph-title color-title-graph">Probability of Exceeding Design Bankfull Width</div>
         <div id="d3probability"></div>
       </div>
     </div>

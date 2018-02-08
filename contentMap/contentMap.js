@@ -233,7 +233,7 @@ function ContentMap($scope, contentGraphService) {
     ctrl.coords.lng = cenLng
 
     // degree symbol º
-    document.getElementById('coord-display').innerHTML = "LAT " + ctrl.coords.lat + ",&nbsp;&nbsp;" + "LNG " + ctrl.coords.lng
+    document.getElementById('coord-display').innerHTML = "LAT " + ctrl.coords.lat + ",&nbsp;&nbsp;" + "LNG&nbsp;&nbsp;" + ctrl.coords.lng
 
 
   }

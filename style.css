@@ -134,23 +134,8 @@ li:nth-child(1n+2) {
   padding-left: 3rem;
 }
 
-.line {
-  fill: none;
-  stroke: steelblue;
-  stroke-width: 2px;
-}
 
-.meanline {
-  fill: none;
-  stroke: orange;
-  stroke-width: 2px;
-}
 
-.threshline {
-  fill: none;
-  stroke: red;
-  stroke-width: 2px;
-}
 
 .axis-line {
   fill: none;
@@ -237,17 +222,26 @@ button {
      padding-bottom: 1rem;
      padding-left: 2rem;
      padding-right: 2rem;
-     background-color: blue;
+     background-color: #40c4ff;
      color: white;
      text-decoration: none!important;
+     outline: none;
      /*border is optional*/
      /*border-bottom:1px solid #444;*/
      font-weight: normal;
      cursor: pointer;
 }
 button:hover {
-  background-color: red;
+  background-color: #00b0ff;
 }
+
+.color-button {
+  background-color: #40c4ff;
+}
+.color-button-hover {
+  background-color: #00b0ff;
+}
+
 
 
 
@@ -259,9 +253,51 @@ button:hover {
 g .tick text {
   font-size: 0.75rem;
 }
-.area {
-  fill: yellow;
+.color-graph-fill {
+    fill: #e1f5fe;
 }
 .grid {
   color: black;
+}
+
+.color-title-main {
+  color: #40c4ff;
+}
+
+.color-title-graph {
+  color: #01579b;
+  /*#80d8ff;*/
+}
+
+
+.color-prob-fail-background {
+  background-color: #fbc02d;
+}
+
+.color-graph-ratio-line {
+  fill: none;
+  stroke: #01579b;
+  stroke-width: 4px;
+}
+.color-graph-prob-line {
+  fill: none;
+  /*stroke: #fbc02d;*/
+  stroke: #fbc02d;
+  stroke-width: 2px;
+}
+
+.color-graph-ratio-thresh {
+  fill: none;
+  stroke: #fbc02d;
+  stroke-width: 2px;
+}
+
+.color-form-input-bg {
+  background-color: #eceff1;
+  /*background-color: #e1f5fe;*/
+}
+
+.color-form-input-text {
+  color: #37474f;
+  /*color: #01579b;*/
 }
