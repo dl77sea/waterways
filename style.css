@@ -61,6 +61,10 @@ table {
 }
 
 /*custom*/
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
 .contain {
   display: flex;
   flex-direction: column;

@@ -9,8 +9,7 @@ function Toolbar(contentGraphService) {
   }
 
   ctrl.clickGenGraph = function() {
-
-    //build graph
+    // build graph
     // contentGraphService.updateRatiosGraph()
     // contentGraphService.updateProbabilityGraph()
     ctrl.genGraph()

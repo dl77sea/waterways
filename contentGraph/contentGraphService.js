@@ -252,6 +252,7 @@ function contentGraphService() {
         .attr("x2", vm.x(vm.gMinMax[1]))
         .attr("y2", vm.y(vm.y.domain()[1]))
 
+
     });
 
 
@@ -280,6 +281,7 @@ function contentGraphService() {
         .data([data])
         .attr("class", "meanline")
         .attr("d", vm.valueline);
+
     })
 
 
@@ -459,8 +461,8 @@ function contentGraphService() {
       .attr("fill", "#000")
       .text("Probability");
 
-    // d3.select('text').attr("dy", '1em')
-    // d3.select('text').attr("fill", '#FF0000')
+    d3.selectAll('text').attr('font-family', 'Roboto')
+    // font-family: 'Roboto', sans-serif;
 
   }
   // gridlines in y axis function

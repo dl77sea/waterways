@@ -11,7 +11,7 @@ angular.module('app').component('contentMap', {
 
 // Toolbar.$inject = ['serviceSvg','serviceCase', 'servicePartition']
 // function Toolbar(serviceSvg, serviceCase, servicePartition) {
-ContentMap.$inject = ['$scope','contentGraphService']
+ContentMap.$inject = ['$scope', 'contentGraphService']
 
 function ContentMap($scope, contentGraphService) {
   var ctrl = this
@@ -104,18 +104,17 @@ function ContentMap($scope, contentGraphService) {
         //   // ctrl.setLatLngHeader(cenLat, cenLng)
         //
         // } else {
-          tileOpts = {
-            strokeColor: ctrl.colorUnsel,
-            // jointType: BEVEL,
-            strokeOpacity: 1.0,
-            strokeWeight: 1.0,
-            fillColor: '#FFFFFF',
-            fillOpacity: 0.0,
-            zIndex: -1,
-            map: map,
-            bounds: square
-          }
-          tile = new google.maps.Rectangle(tileOpts);
+        tileOpts = {
+          strokeColor: ctrl.colorUnsel,
+          strokeOpacity: 1.0,
+          strokeWeight: 1.0,
+          fillColor: '#FFFFFF',
+          fillOpacity: 0.0,
+          zIndex: -1,
+          map: map,
+          bounds: square
+        }
+        tile = new google.maps.Rectangle(tileOpts);
         // }
 
 
@@ -128,13 +127,13 @@ function ContentMap($scope, contentGraphService) {
           //   (thisTileCen.lng() !== ctrl.selectedTile.getBounds().getCenter().lng())
           // ) {
           //
-            this.setOptions({
-              strokeColor: ctrl.colorOver,
-              zIndex: 100,
-              strokeOpacity: 1.0,
-              strokeWeight: 2.0
-            })
-            ctrl.setLatLngHeader(thisTileCen.lat(), thisTileCen.lng())
+          this.setOptions({
+            strokeColor: ctrl.colorOver,
+            zIndex: 100,
+            strokeOpacity: 1.0,
+            strokeWeight: 2.0
+          })
+          ctrl.setLatLngHeader(thisTileCen.lat(), thisTileCen.lng())
           // }
         })
 
@@ -212,7 +211,7 @@ function ContentMap($scope, contentGraphService) {
           // }
         })
 
-      }//end for each tile
+      } //end for each tile
     }
     // console.log ()
     // ctrl.setLatLngHeader(48.71875, -122.09375)
@@ -234,7 +233,7 @@ function ContentMap($scope, contentGraphService) {
     ctrl.coords.lng = cenLng
 
     // degree symbol º
-    document.getElementById('coord-display').innerHTML = "LAT "+ ctrl.coords.lat + ", " + "LNG " + ctrl.coords.lng
+    document.getElementById('coord-display').innerHTML = "LAT " + ctrl.coords.lat + ", " + "LNG " + ctrl.coords.lng
 
 
   }
