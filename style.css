@@ -200,16 +200,24 @@ li .click {
   display: inline;
   margin-right: 0.25rem;
 }*/
-
+.button-form {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 0.5rem;
+  background-color: blue;
+}
 button {
-     background:none!important;
+     /*background:none!important;*/
      color:inherit;
      border:none;
-     padding:0!important;
+     /*padding:0!important;*/
      font: inherit;
+
      /*text-decoration: none!important;*/
      /*border is optional*/
      /*border-bottom:1px solid #444;*/
+
      cursor: pointer;
 }
 
