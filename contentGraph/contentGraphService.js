@@ -15,7 +15,7 @@ function contentGraphService() {
 
     vm.margin = {
         top: 5,
-        right: 50,
+        right: 20,
         bottom: 40,
         left: 50
       },
