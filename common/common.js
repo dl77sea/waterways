@@ -44,11 +44,7 @@ function Common(contentGraphService) {
     //graph will need threshold from toolbar (so bind this to graph and toolbar)
     ctrl.threshold = 1.0
   }
-  //graphService will need a triggering method that lvies here
-  //bound down to toolbar graph gen button
-  ctrl.doGraphs = function() {
 
-  }
   ctrl.blarfer = function() {
     console.log("from common: ", ctrl.lattt)
   }
@@ -57,7 +53,8 @@ function Common(contentGraphService) {
   ctrl.genGraph = function() {
     console.log("hello from inherited genGraph")
     //build graph
-    contentGraphService.updateRatiosGraph()
-    contentGraphService.updateProbabilityGraph()
+    ctrl.editMode.mode="graph"
+    // contentGraphService.updateRatiosGraph()
+    // contentGraphService.updateProbabilityGraph()
   }
 }

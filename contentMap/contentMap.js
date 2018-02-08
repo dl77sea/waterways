@@ -5,17 +5,18 @@ angular.module('app').component('contentMap', {
     lattt: '=',
     coords: '=',
     editMode: '=',
-    blarfer: '&'
+    genGraph: '&'
   }
 })
 
 // Toolbar.$inject = ['serviceSvg','serviceCase', 'servicePartition']
 // function Toolbar(serviceSvg, serviceCase, servicePartition) {
-ContentMap.$inject = ['contentGraphService']
+ContentMap.$inject = ['$scope','contentGraphService']
 
-function ContentMap(contentGraphService) {
+function ContentMap($scope, contentGraphService) {
   var ctrl = this
-  // ctrl.map = null
+
+  ctrl.strYearRange = "2014-2090 "
 
   ctrl.gridInc = 0.0625 / 2
 
@@ -85,24 +86,24 @@ function ContentMap(contentGraphService) {
         let cenLat = square.getCenter().lat()
         let cenLng = square.getCenter().lng()
 
-        if ((cenLat === 48.71875) && (cenLng === (-122.09375))) {
-          console.log("FOUND")
-
-          tileOpts = {
-            strokeColor: ctrl.colorSel,
-            // jointType: BEVEL,
-            strokeOpacity: 1.0,
-            strokeWeight: 4.0,
-            fillColor: '#FFFFFF',
-            fillOpacity: 0.0,
-            map: map,
-            bounds: square
-          }
-          tile = new google.maps.Rectangle(tileOpts);
-          ctrl.selectedTile = tile
-          ctrl.setLatLngHeader(cenLat, cenLng)
-
-        } else {
+        // if ((cenLat === 48.71875) && (cenLng === (-122.09375))) {
+        //   console.log("FOUND")
+        //
+        //   tileOpts = {
+        //     strokeColor: ctrl.colorSel,
+        //     // jointType: BEVEL,
+        //     strokeOpacity: 1.0,
+        //     strokeWeight: 4.0,
+        //     fillColor: '#FFFFFF',
+        //     fillOpacity: 0.0,
+        //     map: map,
+        //     bounds: square
+        //   }
+        //   tile = new google.maps.Rectangle(tileOpts);
+        //   ctrl.selectedTile = tile
+        //   // ctrl.setLatLngHeader(cenLat, cenLng)
+        //
+        // } else {
           tileOpts = {
             strokeColor: ctrl.colorUnsel,
             // jointType: BEVEL,
@@ -115,57 +116,58 @@ function ContentMap(contentGraphService) {
             bounds: square
           }
           tile = new google.maps.Rectangle(tileOpts);
-        }
+        // }
 
 
         tile.addListener('click', ctrl.cbGrid);
 
         tile.addListener('mouseover', function(event) {
           let thisTileCen = this.getBounds().getCenter()
-          if (
-            (thisTileCen.lat() !== ctrl.selectedTile.getBounds().getCenter().lat()) ||
-            (thisTileCen.lng() !== ctrl.selectedTile.getBounds().getCenter().lng())
-          ) {
-
+          // if (
+          //   (thisTileCen.lat() !== ctrl.selectedTile.getBounds().getCenter().lat()) ||
+          //   (thisTileCen.lng() !== ctrl.selectedTile.getBounds().getCenter().lng())
+          // ) {
+          //
             this.setOptions({
               strokeColor: ctrl.colorOver,
               zIndex: 100,
               strokeOpacity: 1.0,
               strokeWeight: 2.0
             })
-          }
+            ctrl.setLatLngHeader(thisTileCen.lat(), thisTileCen.lng())
+          // }
         })
 
-        tile.addListener('mouseout', function(event) {
-          let thisTileCen = this.getBounds().getCenter()
-
-          console.log("--------")
-          console.log("thisTileCen.lat() ", thisTileCen.lat())
-          console.log("thisTileCen.lng() ", thisTileCen.lng())
-          console.log("ctrl.selectedTile.getBounds().getCenter().lat() ", ctrl.selectedTile.getBounds().getCenter().lat())
-          console.log("ctrl.selectedTile.getBounds().getCenter().lng() ", ctrl.selectedTile.getBounds().getCenter().lng())
-          console.log("eval ", (
-            //   (thisTileCen.lat() !== ctrl.selectedTile.getBounds().getCenter().lat()) &&
-            //   (thisTileCen.lng() !== ctrl.selectedTile.getBounds().getCenter().lng())
-            (thisTileCen.lat() !== ctrl.selectedTile.getBounds().getCenter().lat()) &&
-            (thisTileCen.lng() !== ctrl.selectedTile.getBounds().getCenter().lng())
-          ))
-          console.log('eval ', (thisTileCen.lat() !== ctrl.selectedTile.getBounds().getCenter().lat()))
-          console.log("--------")
-
-
-          if (
-            (thisTileCen.lat() !== ctrl.selectedTile.getBounds().getCenter().lat()) ||
-            (thisTileCen.lng() !== ctrl.selectedTile.getBounds().getCenter().lng())
-          ) {
-            console.log('happening')
-            this.setOptions({
-              strokeColor: ctrl.colorUnsel,
-              zIndex: -1,
-              strokeWeight: 1.0
-            })
-          }
-        })
+        // tile.addListener('mouseout', function(event) {
+        //   let thisTileCen = this.getBounds().getCenter()
+        //
+        //   console.log("--------")
+        //   console.log("thisTileCen.lat() ", thisTileCen.lat())
+        //   console.log("thisTileCen.lng() ", thisTileCen.lng())
+        //   console.log("ctrl.selectedTile.getBounds().getCenter().lat() ", ctrl.selectedTile.getBounds().getCenter().lat())
+        //   console.log("ctrl.selectedTile.getBounds().getCenter().lng() ", ctrl.selectedTile.getBounds().getCenter().lng())
+        //   console.log("eval ", (
+        //     //   (thisTileCen.lat() !== ctrl.selectedTile.getBounds().getCenter().lat()) &&
+        //     //   (thisTileCen.lng() !== ctrl.selectedTile.getBounds().getCenter().lng())
+        //     (thisTileCen.lat() !== ctrl.selectedTile.getBounds().getCenter().lat()) &&
+        //     (thisTileCen.lng() !== ctrl.selectedTile.getBounds().getCenter().lng())
+        //   ))
+        //   console.log('eval ', (thisTileCen.lat() !== ctrl.selectedTile.getBounds().getCenter().lat()))
+        //   console.log("--------")
+        //
+        //
+        //   if (
+        //     (thisTileCen.lat() !== ctrl.selectedTile.getBounds().getCenter().lat()) ||
+        //     (thisTileCen.lng() !== ctrl.selectedTile.getBounds().getCenter().lng())
+        //   ) {
+        //     console.log('happening')
+        //     this.setOptions({
+        //       strokeColor: ctrl.colorUnsel,
+        //       zIndex: -1,
+        //       strokeWeight: 1.0
+        //     })
+        //   }
+        // })
 
 
         tile.addListener('mousedown', function(event) {
@@ -176,90 +178,59 @@ function ContentMap(contentGraphService) {
           })
         })
 
-        tile.addListener('mouseup', function(event) {
-          let thisTileCen = this.getBounds().getCenter()
-          if (
-            (thisTileCen.lat() !== ctrl.selectedTile.getBounds().getCenter().lat()) ||
-            (thisTileCen.lng() !== ctrl.selectedTile.getBounds().getCenter().lng())
-          ) {
-            this.setOptions({
-              strokeColor: ctrl.colorUnsel,
-              zIndex: -1,
-              strokeWeight: 1.0
-            })
-          }
-        })
+        // tile.addListener('mouseup', function(event) {
+        //   let thisTileCen = this.getBounds().getCenter()
+        //   if (
+        //     (thisTileCen.lat() !== ctrl.selectedTile.getBounds().getCenter().lat()) ||
+        //     (thisTileCen.lng() !== ctrl.selectedTile.getBounds().getCenter().lng())
+        //   ) {
+        //     this.setOptions({
+        //       strokeColor: ctrl.colorUnsel,
+        //       zIndex: -1,
+        //       strokeWeight: 1.0
+        //     })
+        //   }
+        // })
 
         tile.addListener('mouseout', function(event) {
-          let thisSelectedTile = this.getBounds().getCenter()
+          // let thisSelectedTile = this.getBounds().getCenter()
           console.log(this)
           this.setOptions({
             strokeColor: ctrl.colorUnsel,
             zIndex: 1,
             strokeWeight: 1.0
           })
-          if (
-            (thisSelectedTile.lat() === ctrl.selectedTile.getBounds().getCenter().lat()) &&
-            (thisSelectedTile.lng() === ctrl.selectedTile.getBounds().getCenter().lng())
-          ) {
-            this.setOptions({
-              strokeColor: ctrl.colorSel,
-              zIndex: 9999,
-              strokeWeight: 4.0
-            })
-          }
+          // if (
+          //   (thisSelectedTile.lat() === ctrl.selectedTile.getBounds().getCenter().lat()) &&
+          //   (thisSelectedTile.lng() === ctrl.selectedTile.getBounds().getCenter().lng())
+          // ) {
+          //   this.setOptions({
+          //     strokeColor: ctrl.colorSel,
+          //     zIndex: 9999,
+          //     strokeWeight: 4.0
+          //   })
+          // }
         })
 
-      }
+      }//end for each tile
     }
+    // console.log ()
+    // ctrl.setLatLngHeader(48.71875, -122.09375)
   }
 
   ctrl.cbGrid = function(event) {
-    console.log("cb ", ctrl.lattt)
-    ctrl.lattt.val = 321
-    ctrl.blarfer()
-    let thisTileCen = this.getBounds().getCenter()
+    console.log("callback happened", ctrl.editMode)
 
-    if (
-      (thisTileCen.lat() !== ctrl.selectedTile.getBounds().getCenter().lat()) ||
-      (thisTileCen.lng() !== ctrl.selectedTile.getBounds().getCenter().lng())
-    ) {
-      //if clicking on a newly selected tile
-      ctrl.selectedTile.setOptions({
-        strokeColor: ctrl.colorUnsel,
-        strokeWeight: 1.0
-      })
-      ctrl.selectedTile = this
-      ctrl.selectedTile.setOptions({
-        strokeColor: ctrl.colorSel,
-        strokeWeight: 4.0,
-        zIndex: 9999
-      })
-    }
-
-    let vertices = ctrl.selectedTile.getBounds()
-    let cenLat = ctrl.selectedTile.getBounds().getCenter().lat()
-    let cenLng = ctrl.selectedTile.getBounds().getCenter().lng()
-
-    console.log("sw corner: ", vertices.getSouthWest().lat())
-    console.log("sw corner: ", vertices.getSouthWest().lng())
-    console.log("ne corner: ", vertices.getNorthEast().lat())
-    console.log("ne corner: ", vertices.getNorthEast().lng())
-
-    //lon decreases to east
-    //lat decreases to south
-    console.log("cen lat: ", vertices.getSouthWest().lat() + ctrl.gridInc)
-    console.log("cen lng: ", vertices.getSouthWest().lng() + ctrl.gridInc)
-
-    //call graph (eventually with correctly named cen point)
-    //temporary test for wiring to graph component
-    ctrl.setLatLngHeader(cenLat, cenLng)
+    // ctrl.editMode.mode = "graph"
+    ctrl.genGraph()
+    $scope.$apply()
+    console.log("callback happened", ctrl.editMode)
   }
   ctrl.setLatLngHeader = function(cenLat, cenLng) {
     ctrl.coords.lat = cenLat
     ctrl.coords.lng = cenLng
 
     // degree symbol º
-    document.getElementById('coord-display').innerHTML = "Latitude: " + ctrl.coords.lat + ", " + "Longitude: " + ctrl.coords.lng
+    document.getElementById('coord-display').innerHTML = "LAT "+ ctrl.coords.lat + ", " + "LNG " + ctrl.coords.lng
   }
 }

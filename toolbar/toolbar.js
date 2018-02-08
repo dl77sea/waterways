@@ -26,7 +26,9 @@ angular.module('app').component('toolbar', {
     lattt: '=',
     editMode: '=',
     coords: '=',
-    genGraph: '&'
+    genGraph: '&',
+    startYear: '=',
+    endYear: '='
   }
 })
 
