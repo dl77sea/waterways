@@ -141,9 +141,16 @@ li:nth-child(1n+2) {
   stroke: orange;
   stroke-width: 2px;
 }
+
 .threshline {
   fill: none;
   stroke: red;
+  stroke-width: 2px;
+}
+
+.axis-line {
+  fill: none;
+  stroke: black;
   stroke-width: 2px;
 }
 

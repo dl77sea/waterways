@@ -196,11 +196,11 @@ function contentGraphService() {
       // Add the X Axis
       vm.svgRatios.append("g")
         .attr("transform", "translate(0," + vm.height + ")")
-        .call(d3.axisBottom(vm.x).ticks(20).tickSize(0))
+        .call(d3.axisBottom(vm.x).ticks(20).tickSize(0).tickPadding(5))
         .append("text")
-        .attr("transform", "translate(12)")
+        .attr("transform", "translate(8)")
         .attr("y", 27)
-        .attr("dy", "0.71em")
+        // .attr("dy", "0.71em")
         .style("font-size", "0.75rem")
         .attr("fill", "#000")
         .text("Year");
@@ -209,7 +209,7 @@ function contentGraphService() {
 
       // Add the Y Axis
       vm.svgRatios.append("g")
-        .call(d3.axisLeft(vm.y).ticks(20).tickSize(0))
+        .call(d3.axisLeft(vm.y).ticks(20).tickSize(0).tickPadding(5))
         .append("text")
         .attr("transform", "translate(0) rotate(-90)")
         .attr("y", 0)
@@ -218,15 +218,39 @@ function contentGraphService() {
         .attr("fill", "#000")
         .text("Bankfull Width (ft)");
 
-        // add the Y gridlines
-        vm.svgRatios.append("g")
-          .attr("class", "grid")
-          .attr("transform", "translate(0," + vm.height + ")")
-          .call(make_x_gridlines(vm.x)
-            .tickSize(-vm.height)
-            .tickFormat("")
-          )
+      // add the Y gridlines
+      vm.svgRatios.append("g")
+        .attr("class", "grid")
+        .attr("transform", "translate(0," + vm.height + ")")
+        .call(make_x_gridlines(vm.x)
+          .tickSize(-vm.height)
+          .tickFormat("")
+        )
 
+      // Add axis-left and axis-right lines
+      // vm.svgRatios.append("line")
+      //   .attr("class", "axis-line")
+      //   .attr("x1", vm.x(vm.gMinMax[0]))
+      //   .attr("y1", vm.y(vm.gThresh))
+      //   .attr("x2", vm.x(vm.gMinMax[1]))
+      //   .attr("y2", vm.y(vm.gThresh))
+      // vm.y.domain([0.65, 1.35]);
+
+      //left
+      vm.svgRatios.append("line")
+        .attr("class", "axis-line")
+        .attr("x1", vm.x(vm.gMinMax[0]))
+        .attr("y1", vm.y(vm.y.domain()[0]))
+        .attr("x2", vm.x(vm.gMinMax[0]))
+        .attr("y2", vm.y(vm.y.domain()[1]))
+
+      //right
+      vm.svgRatios.append("line")
+        .attr("class", "axis-line")
+        .attr("x1", vm.x(vm.gMinMax[1]))
+        .attr("y1", vm.y(vm.y.domain()[0]))
+        .attr("x2", vm.x(vm.gMinMax[1]))
+        .attr("y2", vm.y(vm.y.domain()[1]))
 
     });
 
@@ -392,24 +416,41 @@ function contentGraphService() {
         )
       d3.selectAll('.domain').attr('stroke', 'rgba(#00000000)')
 
+      //add axis-lines
+
+      //left
+      vm.svgProbability.append("line")
+        .attr("class", "axis-line")
+        .attr("x1", vm.x(vm.gMinMaxProb[0]))
+        .attr("y1", vm.yProb(vm.yProb.domain()[0]))
+        .attr("x2", vm.x(vm.gMinMaxProb[0]))
+        .attr("y2", vm.yProb(vm.yProb.domain()[1]))
+
+      //right
+      vm.svgProbability.append("line")
+        .attr("class", "axis-line")
+        .attr("x1", vm.x(vm.gMinMaxProb[1]))
+        .attr("y1", vm.yProb(vm.yProb.domain()[0]))
+        .attr("x2", vm.x(vm.gMinMaxProb[1]))
+        .attr("y2", vm.yProb(vm.yProb.domain()[1]))
 
     });
 
     // Add the X Axis
     vm.svgProbability.append("g")
       .attr("transform", "translate(0," + vm.heightProb + ")")
-      .call(d3.axisBottom(vm.xProb).ticks(20).tickSize(0))
+      .call(d3.axisBottom(vm.xProb).ticks(20).tickSize(0).tickPadding(5))
       .append("text")
-      .attr("transform", "translate(6)")
+      .attr("transform", "translate(8)")
       .attr("y", 27)
-      .attr("dy", "0.71em")
+      // .attr("dy", "0.71em")
       .style("font-size", "0.75rem")
       .attr("fill", "#000")
       .text("Year");
 
     // Add the Y Axis
     vm.svgProbability.append("g")
-      .call(d3.axisLeft(vm.yProb).ticks(10).tickSize(0))
+      .call(d3.axisLeft(vm.yProb).ticks(10).tickSize(0).tickPadding(5))
       .append("text")
       .attr("transform", "translate(0) rotate(-90)")
       .attr("y", 0)
