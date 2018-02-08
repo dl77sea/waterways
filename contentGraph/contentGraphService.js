@@ -19,17 +19,17 @@ function contentGraphService() {
         bottom: 40,
         left: 50
       },
-      width = 900 - vm.margin.left - vm.margin.right,
-      height = 350 - vm.margin.top - vm.margin.bottom;
+      vm.width = 900 - vm.margin.left - vm.margin.right,
+      vm.height = 350 - vm.margin.top - vm.margin.bottom;
 
     vm.widthProb = 900 - vm.margin.left - vm.margin.right,
-    vm.heightProb = 200 - vm.margin.top - vm.margin.bottom;
+      vm.heightProb = 200 - vm.margin.top - vm.margin.bottom;
 
     // parse the date / time
     vm.parseTime = d3.timeParse("%Y");
     // define x and y plot scale
-    vm.x = d3.scaleTime().range([0, width]);
-    vm.y = d3.scaleLinear().range([height, 0]);
+    vm.x = d3.scaleTime().range([0, vm.width]);
+    vm.y = d3.scaleLinear().range([vm.height, 0]);
 
     // define the line
     vm.valueline = d3.line()
@@ -40,8 +40,8 @@ function contentGraphService() {
         return vm.y(d.val);
       });
     vm.svgRatios = d3.select("#d3ratios").append("svg")
-      .attr("width", width + vm.margin.left + vm.margin.right)
-      .attr("height", height + vm.margin.top + vm.margin.bottom)
+      .attr("width", vm.width + vm.margin.left + vm.margin.right)
+      .attr("height", vm.height + vm.margin.top + vm.margin.bottom)
       .append("g")
       .attr("transform",
         "translate(" + vm.margin.left + "," + vm.margin.top + ")");
@@ -195,29 +195,40 @@ function contentGraphService() {
         .attr("y2", vm.y(vm.gThresh))
       // Add the X Axis
       vm.svgRatios.append("g")
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(vm.x).ticks(20))
+        .attr("transform", "translate(0," + vm.height + ")")
+        .call(d3.axisBottom(vm.x).ticks(20).tickSize(0))
         .append("text")
         .attr("transform", "translate(12)")
         .attr("y", 27)
         .attr("dy", "0.71em")
-        .style("font-size", "1rem")
+        .style("font-size", "0.75rem")
         .attr("fill", "#000")
         .text("Year");
 
 
+
       // Add the Y Axis
       vm.svgRatios.append("g")
-        .call(d3.axisLeft(vm.y).ticks(20))
+        .call(d3.axisLeft(vm.y).ticks(20).tickSize(0))
         .append("text")
-        .attr("transform", "translate(-50) rotate(-90)")
-        .attr("y", 6)
-        .attr("dy", "0.71em")
-        .style("font-size", "1rem")
+        .attr("transform", "translate(0) rotate(-90)")
+        .attr("y", 0)
+        .attr("dy", "-1.75rem")
+        .style("font-size", "0.75rem")
         .attr("fill", "#000")
         .text("Bankfull Width (ft)");
-    });
 
+        // add the Y gridlines
+        vm.svgRatios.append("g")
+          .attr("class", "grid")
+          .attr("transform", "translate(0," + vm.height + ")")
+          .call(make_x_gridlines(vm.x)
+            .tickSize(-vm.height)
+            .tickFormat("")
+          )
+
+
+    });
 
 
     //mean line
@@ -246,6 +257,8 @@ function contentGraphService() {
         .attr("class", "meanline")
         .attr("d", vm.valueline);
     })
+
+
   }
 
   vm.getProbFailureNum = function(probLine) {
@@ -258,7 +271,7 @@ function contentGraphService() {
     let designLifetimeYear = vm.parseTime(vm.designLifetime)
 
     while (probLine[i].year <= designLifetimeYear) {
-      console.log("from while: ", probLine[i].year)
+      // console.log("from while: ", probLine[i].year)
       upToLifetimeVals.push(probLine[i].val)
       i++
     }
@@ -368,33 +381,51 @@ function contentGraphService() {
         .data([data])
         .attr("class", "line")
         .attr("d", vm.valuelineProb);
+
+      // add the Y gridlines
+      vm.svgProbability.append("g")
+        .attr("class", "grid")
+        .attr("transform", "translate(0," + vm.heightProb + ")")
+        .call(make_x_gridlines(vm.xProb)
+          .tickSize(-vm.heightProb)
+          .tickFormat("")
+        )
+      d3.selectAll('.domain').attr('stroke', 'rgba(#00000000)')
+
+
     });
 
     // Add the X Axis
     vm.svgProbability.append("g")
       .attr("transform", "translate(0," + vm.heightProb + ")")
-      .call(d3.axisBottom(vm.xProb).ticks(20))
+      .call(d3.axisBottom(vm.xProb).ticks(20).tickSize(0))
       .append("text")
       .attr("transform", "translate(6)")
       .attr("y", 27)
       .attr("dy", "0.71em")
-      .style("font-size", "1rem")
+      .style("font-size", "0.75rem")
       .attr("fill", "#000")
       .text("Year");
 
     // Add the Y Axis
     vm.svgProbability.append("g")
-      .call(d3.axisLeft(vm.yProb).ticks(10))
+      .call(d3.axisLeft(vm.yProb).ticks(10).tickSize(0))
       .append("text")
-      .attr("transform", "translate(-50) rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", "0.71em")
-      .style("font-size", "1rem")
+      .attr("transform", "translate(0) rotate(-90)")
+      .attr("y", 0)
+      .attr("dy", "-1.75rem")
+      .style("font-size", "0.75rem")
       .attr("fill", "#000")
       .text("Probability");
 
     // d3.select('text').attr("dy", '1em')
     // d3.select('text').attr("fill", '#FF0000')
+
+  }
+  // gridlines in y axis function
+  function make_x_gridlines(x) {
+    return d3.axisBottom(x)
+      .ticks(7)
   }
 
   vm.clearGraphs = function() {

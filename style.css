@@ -233,3 +233,6 @@ g .tick text {
 .area {
   fill: yellow;
 }
+.grid {
+  color: black;
+}
