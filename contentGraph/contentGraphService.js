@@ -19,11 +19,11 @@ function contentGraphService() {
         bottom: 40,
         left: 50
       },
-      width = 800 - vm.margin.left - vm.margin.right,
-      height = 300 - vm.margin.top - vm.margin.bottom;
+      width = 900 - vm.margin.left - vm.margin.right,
+      height = 350 - vm.margin.top - vm.margin.bottom;
 
-    widthProb = 800 - vm.margin.left - vm.margin.right,
-      heightProb = 150 - vm.margin.top - vm.margin.bottom;
+    vm.widthProb = 900 - vm.margin.left - vm.margin.right,
+    vm.heightProb = 200 - vm.margin.top - vm.margin.bottom;
 
     // parse the date / time
     vm.parseTime = d3.timeParse("%Y");
@@ -47,8 +47,8 @@ function contentGraphService() {
         "translate(" + vm.margin.left + "," + vm.margin.top + ")");
 
     vm.svgProbability = d3.select("#d3probability").append("svg")
-      .attr("width", widthProb + vm.margin.left + vm.margin.right)
-      .attr("height", heightProb + vm.margin.top + vm.margin.bottom)
+      .attr("width", vm.widthProb + vm.margin.left + vm.margin.right)
+      .attr("height", vm.heightProb + vm.margin.top + vm.margin.bottom)
       .append("g")
       .attr("transform",
         "translate(" + vm.margin.left + "," + vm.margin.top + ")");
@@ -283,15 +283,15 @@ function contentGraphService() {
 
   vm.updateProbabilityGraph = function() {
 
-    let width = 800 - vm.margin.left - vm.margin.right
-    let height = 150 - vm.margin.top - vm.margin.bottom
+    // let width = 900 - vm.margin.left - vm.margin.right
+    // let height = 200 - vm.margin.top - vm.margin.bottom
 
     // parse the date / time
     vm.parseTimeProb = d3.timeParse("%Y");
 
     // define x and y plot scale
-    vm.xProb = d3.scaleTime().range([0, width]);
-    vm.yProb = d3.scaleLinear().range([height, 0]);
+    vm.xProb = d3.scaleTime().range([0, vm.widthProb]);
+    vm.yProb = d3.scaleLinear().range([vm.heightProb, 0]);
 
     // define the line
     vm.valuelineProb = d3.line()
@@ -372,7 +372,7 @@ function contentGraphService() {
 
     // Add the X Axis
     vm.svgProbability.append("g")
-      .attr("transform", "translate(0," + height + ")")
+      .attr("transform", "translate(0," + vm.heightProb + ")")
       .call(d3.axisBottom(vm.xProb).ticks(20))
       .append("text")
       .attr("transform", "translate(6)")
@@ -393,13 +393,8 @@ function contentGraphService() {
       .attr("fill", "#000")
       .text("Probability");
 
-
-
-
-
     // d3.select('text').attr("dy", '1em')
     // d3.select('text').attr("fill", '#FF0000')
-
   }
 
   vm.clearGraphs = function() {

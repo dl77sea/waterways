@@ -162,7 +162,8 @@ li:nth-child(1n+2) {
 .graph-title {
   /*text-align: center;*/
   margin-left: 27px;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .push-content-top {
@@ -226,6 +227,9 @@ button {
   padding-right: 0.25rem;
 }
 
+g .tick text {
+  font-size: 0.75rem;
+}
 .area {
   fill: yellow;
 }
