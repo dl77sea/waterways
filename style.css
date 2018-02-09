@@ -234,7 +234,7 @@ button {
      cursor: pointer;
 }
 button:hover {
-  background-color: #00e5ff;
+  background-color: #00acc1;
 }
 
 .color-button {
@@ -278,7 +278,7 @@ g .tick text {
 }
 
 .color-prob-fail-background {
-  background-color: #ffd740;
+  background-color: #ffc400;
 }
 
 .color-graph-ratio-line {
@@ -289,14 +289,14 @@ g .tick text {
 
 .color-graph-prob-line {
   fill: none;
-  /*stroke: #ffd740;*/
-  stroke: #ffd740;
+  /*stroke: #ffc400;*/
+  stroke: #ffc400;
   stroke-width: 2px;
 }
 
 .color-graph-ratio-thresh {
   fill: none;
-  stroke: #ffd740;
+  stroke: #ffc400;
   stroke-width: 2px;
 }
 

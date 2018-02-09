@@ -4,44 +4,46 @@
 
   <div style="display: flex; flex-direction: row;  height: 600px">
     <!-- <div style="display: flex; flex-direction: column; background-color: purple; width: 20rem; height: 100%"> -->
-    <div style="display: flex; flex-direction: column; width: 20rem; height: 100%;">
+    <div style="display: flex; flex-direction: column; width: 20rem; height: 100%; background-color: #eeeeee;">
       <div>
         <form ng-submit="$ctrl.clickGenGraph()">
           <!-- <ul ng-show="$ctrl.editMode.mode=='graph'"> -->
           <ul>
             <li class="color-form-input-bg" style="text-align: center;">
-              <div style="padding-top: 1.25rem;">
+              <div style="padding-top: 2rem;">
                 <label class="color-form-input-text" for="current-bfw">Current Bankfull Width</label>
               </div>
-              <div style="padding-bottom: 1.25rem; padding-top: 0.25rem">
+              <div style="padding-bottom: 1rem; padding-top: 0.25rem">
                 <input name="current-bfw" ng-model="$ctrl.currentBfw" maxlength="4" size="4"></input>
               </div>
             </li>
-            <li class="color-form-input-bg" style="text-align: center; margin-top: 0.25rem">
-              <div style="padding-top: 1.25rem;">
+            <li class="color-form-input-bg" style="text-align: center; margin-top: 0.0rem">
+              <div style="padding-top: 1rem;">
                 <label class="color-form-input-text" for="design-lifetime">Design Lifetime</label>
               </div>
-              <div style="padding-bottom: 1.25rem; padding-top: 0.25rem">
+              <div style="padding-bottom: 1rem; padding-top: 0.25rem">
                 <input name="design-lifetime" ng-model="$ctrl.designLifetime" maxlength="4" size="4"></input>
               </div>
             </li>
             <li class="color-form-input-bg" style="text-align: center; margin-top: 0.25rem">
-              <div style="padding-top: 1.25rem;">
+              <div style="padding-top: 1rem;">
                 <label class="color-form-input-text" for="size_1">Bankfull Width Design</label>
               </div>
-              <div style="padding-bottom: 1.25rem; padding-top: 0.25rem">
+              <div style="padding-bottom: 1rem; padding-top: 0.25rem">
                 <input name="threshold" ng-model="$ctrl.bfwDesign" maxlength="4" size="4"></input>
               </div>
             </li>
           </ul>
+
+          <div style="display: flex; justify-content: center; align-items: center; margin-top: 0.75rem;">
+            <button type="input" ng-click="$ctrl.updateGraphs()">Update Graphs</button>
+          </div>
+
         </form>
       </div>
 
-      <div style="display: flex; justify-content: center; align-items: center; flex-grow: 2">
-        <button type="input" ng-click="$ctrl.updateGraphs()">Update Graphs</button>
-      </div>
 
-      <div class="color-prob-fail-background" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 225px;">
+      <div class="color-prob-fail-background" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 225px; margin-top: auto">
         <div style="text-align: center; margin-bottom: 1rem">Probability of Failure Over<br>Design Lifetime</div>
         <div id="prob-ind" style="font-size: 4rem"></div>
       </div>
