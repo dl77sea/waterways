@@ -23,7 +23,7 @@ function contentGraphService() {
       vm.height = 350 - vm.margin.top - vm.margin.bottom;
 
     vm.widthProb = 900 - vm.margin.left - vm.margin.right,
-      vm.heightProb = 200 - vm.margin.top - vm.margin.bottom;
+      vm.heightProb = 175 - vm.margin.top - vm.margin.bottom;
 
     // parse the date / time
     vm.parseTime = d3.timeParse("%Y");

@@ -75,7 +75,7 @@ body {
 .nav {
   background-color: transparent;
   width: 100%;
-  height: 3.5rem;
+  height: 5rem;
   position: fixed;
   top: 0;
 }
@@ -168,13 +168,13 @@ li:nth-child(1n+2) {
   /*flex-direction: column;*/
   background-color: white;
   width: 100%;
-  height: 3.5rem;
+  height: 5rem;
 }
 
 .push-content-bottom {
   /*display: block;*/
   /*flex-direction: column;*/
-  background-color: white;
+  background-color: transparent;
   width: 100%;
   height: 5rem;
 }
@@ -222,17 +222,19 @@ button {
      padding-bottom: 1rem;
      padding-left: 2rem;
      padding-right: 2rem;
-     background-color: #40c4ff;
+     background-color: #00b8d4;
      color: white;
      text-decoration: none!important;
      outline: none;
+     border-radius: 0.25rem;
+     text-transform: uppercase;
      /*border is optional*/
      /*border-bottom:1px solid #444;*/
      font-weight: normal;
      cursor: pointer;
 }
 button:hover {
-  background-color: #00b0ff;
+  background-color: #00e5ff;
 }
 
 .color-button {
@@ -251,44 +253,49 @@ button:hover {
 }
 
 g .tick text {
+  font-family: 'Roboto', sans-serif;
   font-size: 0.75rem;
+  font-weight: normal;
+  fill: black;
 }
 .color-graph-fill {
-    fill: #e1f5fe;
+    fill: #e0f7fa;
 }
-.grid {
-  color: black;
+
+.grid .tick line {
+  stroke: #37474f;
 }
 
 .color-title-main {
-  color: #40c4ff;
+  color: #00838f;
+   /*#00838f;*/
 }
 
 .color-title-graph {
-  color: #01579b;
+  color: #0097a7;
   /*#80d8ff;*/
 }
 
-
 .color-prob-fail-background {
-  background-color: #fbc02d;
+  background-color: #ffd740;
 }
 
 .color-graph-ratio-line {
   fill: none;
-  stroke: #01579b;
+  stroke: #00b8d4;
   stroke-width: 4px;
 }
+
 .color-graph-prob-line {
   fill: none;
-  /*stroke: #fbc02d;*/
-  stroke: #fbc02d;
+  /*stroke: #ffd740;*/
+  stroke: #ffd740;
   stroke-width: 2px;
 }
 
 .color-graph-ratio-thresh {
   fill: none;
-  stroke: #fbc02d;
+  stroke: #ffd740;
   stroke-width: 2px;
 }
 
@@ -298,6 +305,6 @@ g .tick text {
 }
 
 .color-form-input-text {
-  color: #37474f;
+  color: #607d8b;
   /*color: #01579b;*/
 }
