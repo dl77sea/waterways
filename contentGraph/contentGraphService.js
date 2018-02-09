@@ -186,13 +186,6 @@ function contentGraphService() {
       // }
 
 
-      // Add thereshold line
-      vm.svgRatios.append("line")
-        .attr("class", "color-graph-ratio-thresh")
-        .attr("x1", vm.x(vm.gMinMax[0]))
-        .attr("y1", vm.y(vm.gThresh))
-        .attr("x2", vm.x(vm.gMinMax[1]))
-        .attr("y2", vm.y(vm.gThresh))
       // Add the X Axis
       vm.svgRatios.append("g")
         .attr("transform", "translate(0," + vm.height + ")")
@@ -281,6 +274,13 @@ function contentGraphService() {
         .data([data])
         .attr("class", "color-graph-ratio-line")
         .attr("d", vm.valueline);
+      // Add thereshold line
+      vm.svgRatios.append("line")
+        .attr("class", "color-graph-ratio-thresh")
+        .attr("x1", vm.x(vm.gMinMax[0]))
+        .attr("y1", vm.y(vm.gThresh))
+        .attr("x2", vm.x(vm.gMinMax[1]))
+        .attr("y2", vm.y(vm.gThresh))
 
     })
 
@@ -290,33 +290,50 @@ function contentGraphService() {
   vm.getProbFailureNum = function(probLine) {
     //get vals up to lifetime into array
     let upToLifetimeVals = []
-    let i = 0
+    // let i = 0
     console.log("vm.designLifetime", vm.designLifetime)
     console.log("parsed date: ", vm.parseTime(vm.designLifetime))
     console.log("probLine from getProbFailureNum: ", probLine)
     let designLifetimeYear = vm.parseTime(vm.designLifetime)
 
-    while (probLine[i].year <= designLifetimeYear) {
-      // console.log("from while: ", probLine[i].year)
-      upToLifetimeVals.push(probLine[i].val)
-      i++
+    for(let i=0; i < probLine.length; i++) {
+      if(probLine[i].year <= designLifetimeYear) {
+        upToLifetimeVals.push(probLine[i].val)
+      }
     }
+
     console.log("upToLifetimeVals", upToLifetimeVals)
 
     //get differences of vals in upToLifetimeVals from 1 into array
     let difVals = []
     for (let i = 0; i < upToLifetimeVals.length; i++) {
-      if (upToLifetimeVals[i] > 0) {
-        difVals.push(1 - upToLifetimeVals[i])
+      if (upToLifetimeVals[i] !== 0) {
+        console.log("tofixed: ",(1.0000-upToLifetimeVals[i]).toFixed(4))
+        difVals.push(parseFloat((1 - upToLifetimeVals[i]).toFixed(4)))
       }
     }
 
     //multiply those values together
+    // difVals = [1,2,3,4,5]
     console.log("difVals: ", difVals)
     let prod = difVals[0]
-    for (let i = 1; i < difVals.length; i++) {
-      prod = prod * difVals[i]
+    if (difVals.length > 1) {
+      console.log("here1")
+      for (let i = 1; i < difVals.length; i++) {
+        console.log("prod mult: ", prod)
+        prod = parseFloat((prod * difVals[i]).toFixed(4))
+      }
     }
+    if (difVals.length === 1) {
+      console.log("here2")
+      prod = difVals[0]
+    }
+    if (difVals.length === 0) {
+      console.log("here3")
+      prod = 0
+    }
+
+    document.getElementById('prob-ind').innerHTML = (prod * 10).toFixed(2) + '%'
     console.log("probability indicator: ", prod)
   }
 
@@ -383,7 +400,7 @@ function contentGraphService() {
       //for each "year slot" check all values in all lines for that year
       let probLine = []
       for (i = 0; i < vm.numYears; i++) {
-        console.log("Snarf")
+
         let valsAbove = 0;
         for (valueLine of valueLines) {
           if (valueLine[i].val > vm.gThreshProb) {

@@ -26,7 +26,7 @@ function Common(contentGraphService) {
 
     ctrl.defaultBfw = 30
     ctrl.defaultDesignLifetime = 2050
-    ctrl.defaultBfwDesign = 34
+    ctrl.defaultBfwDesign = 32
 
     //toolbar, graph, will need lat and lon from map click from mapService
     ctrl.coords = {
@@ -52,7 +52,7 @@ function Common(contentGraphService) {
   //inherited by contentMap and contentGraph components
   ctrl.genGraph = function() {
     console.log("hello from inherited genGraph")
-    //build graph    
+    //build graph
     contentGraphService.updateRatiosGraph()
     contentGraphService.updateProbabilityGraph()
   }
