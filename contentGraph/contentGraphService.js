@@ -312,9 +312,11 @@ function contentGraphService() {
 
     //multiply those values together
     // difVals = [1,2,3,4,5]
-    console.log("difVals: ", difVals)
+
+    // difVals=[0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9]
     let prod = difVals[0]
 
+    console.log("difVals: ", difVals)
     if (difVals.length > 1) {
       console.log("here1")
       for (let i = 1; i < difVals.length; i++) {
@@ -331,7 +333,7 @@ function contentGraphService() {
       prod = 0
     }
 
-    document.getElementById('prob-ind').innerHTML = (((1-prod)* 10)).toFixed(2) + '%'
+    document.getElementById('prob-ind').innerHTML = (((1-prod)* 100)).toFixed(2) + '%'
     console.log("probability indicator: ", prod)
   }
 
