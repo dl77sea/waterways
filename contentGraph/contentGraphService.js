@@ -296,8 +296,8 @@ function contentGraphService() {
     console.log("probLine from getProbFailureNum: ", probLine)
     let designLifetimeYear = vm.parseTime(vm.designLifetime)
 
-    for(let i=0; i < probLine.length; i++) {
-      if(probLine[i].year <= designLifetimeYear) {
+    for (let i = 0; i < probLine.length; i++) {
+      if (probLine[i].year <= designLifetimeYear) {
         upToLifetimeVals.push(probLine[i].val)
       }
     }
@@ -307,16 +307,14 @@ function contentGraphService() {
     //get differences of vals in upToLifetimeVals from 1 into array
     let difVals = []
     for (let i = 0; i < upToLifetimeVals.length; i++) {
-      if (upToLifetimeVals[i] !== 0) {
-        console.log("tofixed: ",(1.0000-upToLifetimeVals[i]).toFixed(4))
-        difVals.push(parseFloat((1 - upToLifetimeVals[i]).toFixed(4)))
-      }
+      difVals.push(parseFloat((1 - upToLifetimeVals[i]).toFixed(4)))
     }
 
     //multiply those values together
     // difVals = [1,2,3,4,5]
     console.log("difVals: ", difVals)
     let prod = difVals[0]
+
     if (difVals.length > 1) {
       console.log("here1")
       for (let i = 1; i < difVals.length; i++) {
@@ -333,7 +331,7 @@ function contentGraphService() {
       prod = 0
     }
 
-    document.getElementById('prob-ind').innerHTML = (prod * 10).toFixed(2) + '%'
+    document.getElementById('prob-ind').innerHTML = (((1-prod)* 10)).toFixed(2) + '%'
     console.log("probability indicator: ", prod)
   }
 
