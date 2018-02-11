@@ -11,7 +11,12 @@ function contentGraphService() {
   // vm.bfwDesign = null;
   vm.designLifetime = null;
 
-  vm.initRatiosGraph = function() {
+  vm.initRatiosGraph = function(startYear, endYear, currentBfw, designLifetime, threshold) {
+    vm.threshold = threshold
+    vm.designLifetime = designLifetime
+    vm.currentBfw = currentBfw
+    vm.startYear = startYear
+    vm.endYear = endYear
 
     vm.margin = {
         top: 5,
@@ -221,13 +226,6 @@ function contentGraphService() {
         )
 
       // Add axis-left and axis-right lines
-      // vm.svgRatios.append("line")
-      //   .attr("class", "axis-line")
-      //   .attr("x1", vm.x(vm.gMinMax[0]))
-      //   .attr("y1", vm.y(vm.gThresh))
-      //   .attr("x2", vm.x(vm.gMinMax[1]))
-      //   .attr("y2", vm.y(vm.gThresh))
-      // vm.y.domain([0.65, 1.35]);
 
       //left
       vm.svgRatios.append("line")
@@ -312,7 +310,6 @@ function contentGraphService() {
 
     //multiply those values together
     // difVals = [1,2,3,4,5]
-
     // difVals=[0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9]
     let prod = difVals[0]
 
@@ -379,8 +376,7 @@ function contentGraphService() {
     })
 
     vm.yProb.domain([0.0, 1.0]);
-    d3.csv("./contentGraph/ratio00.csv", function(error, data) {
-      if (error) throw error;
+    d3.csv("./contentGraph/ratio00.csv", function(error, data) { if (error) throw error;
 
       //for each object, make it an array as above for each value line
       let valueLines = []

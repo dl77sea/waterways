@@ -3,13 +3,13 @@ angular.module('app').component('common', {
   controller: Common
   // bindings: {}
 })
+Common.$inject = ['contentGraphService', '$state']
 
-function Common(contentGraphService) {
+function Common(contentGraphService, $state) {
   var ctrl = this
 
   ctrl.defaultLat = 48.71875
   ctrl.defaultLng = -122.09375
-
 
   ctrl.lattt = {
     val: 123
@@ -17,9 +17,7 @@ function Common(contentGraphService) {
 
   ctrl.$onInit = function() {
     console.log("common init")
-
     /*2 way bindings*/
-
     //graph, will need these from toolbar
     ctrl.defaultYearFrom = 2014
     ctrl.defaultYearTo = 2090
@@ -43,6 +41,14 @@ function Common(contentGraphService) {
 
     //graph will need threshold from toolbar (so bind this to graph and toolbar)
     ctrl.threshold = 1.0
+
+    let commonParams = {
+      coords: ctrl.coords,
+      genGraph: ctrl.genGraph
+    }
+    console.log(commonParams)
+    // $state.go('contentMap', commonParams);
+    $state.go('contentMap')
   }
 
   ctrl.blarfer = function() {
