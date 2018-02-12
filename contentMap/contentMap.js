@@ -328,7 +328,8 @@ function ContentMap($scope, contentGraphService, $state, $stateParams) {
       endYear: 2090,
       currentBfw: 32,
       designLifetime: 2060,
-      bfwDesign: 30
+      bfwDesign: 30,
+      notify: false
       // reloadOnSearch: false
     })
   }

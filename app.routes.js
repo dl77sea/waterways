@@ -18,12 +18,12 @@
       })
       .state({
         name: 'content-map',
-        url: '/map',
+        url: '/',
         component: 'contentMap'
       })
       .state({
         name: 'content-graph',
-        url: '/map/?lat&lng&startYear&endYear&currentBfw&designLifetime&bfwDesign',
+        url: '/graph/?lat&lng&startYear&endYear&currentBfw&designLifetime&bfwDesign',
         component: 'contentGraph'
       })
   }

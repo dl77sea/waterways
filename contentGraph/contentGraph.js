@@ -25,27 +25,27 @@ function ContentGraph(contentGraphService, $state, $stateParams) {
     ctrl.defaultDesignLifetime = 2060
 
     //&startYear&endYear&threshold&designLifetime&bfwDesign
-    if($stateParams.startYear === undefined) {
+    if ($stateParams.startYear === undefined) {
       ctrl.startYear = ctrl.defaultStartYear
     } else {
       ctrl.startYear = $stateParams.startYear
     }
-    if($stateParams.endYear === undefined) {
+    if ($stateParams.endYear === undefined) {
       ctrl.startYear = ctrl.defaultEndYear
     } else {
       ctrl.startYear = $stateParams.endYear
     }
-    if($stateParams.currentBfw === undefined) {
+    if ($stateParams.currentBfw === undefined) {
       ctrl.currentBfw = ctrl.defaultCurrentBfw
     } else {
       ctrl.currentBfw = $stateParams.currentBfw
     }
-    if($stateParams.bfwDesign === undefined) {
+    if ($stateParams.bfwDesign === undefined) {
       ctrl.bfwDesign = ctrl.defaultBfwDesign
     } else {
       ctrl.bfwDesign = $stateParams.bfwDesign
     }
-    if($stateParams.designLifetime === undefined) {
+    if ($stateParams.designLifetime === undefined) {
       ctrl.designLifetime = ctrl.defaultDesignLifetime
     } else {
       ctrl.designLifetime = $stateParams.designLifetime
@@ -53,19 +53,8 @@ function ContentGraph(contentGraphService, $state, $stateParams) {
 
     contentGraphService.initRatiosGraph(ctrl.startYear, ctrl.endYear, ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign)
 
-    // console.log(document.getElementById)
-    // ctrl.setGraphVals()
     ctrl.updateGraphs()
   }
-
-  // ctrl.updateGraphOnInit = function() {
-  //   console.log("hello from ctrl.updateGraphOnInit")
-  //
-  //   ctrl.setGraphVals()
-  //   // ctrl.genGraph()
-  //   contentGraphService.updateRatiosGraph()
-  //   contentGraphService.updateProbabilityGraph()
-  // }
 
   ctrl.updateGraphs = function() {
     console.log("hello from ctrl.updateGraphs")
@@ -74,13 +63,13 @@ function ContentGraph(contentGraphService, $state, $stateParams) {
 
     contentGraphService.updateRatiosGraph()
     contentGraphService.updateProbabilityGraph()
-    $state.go('contentGraph',
-    {
-      endYear: ctrl.endYear,
-      currentBfw: ctrl.currentBfw,
-      designLifetime: ctrl.designLifetime,
-      bfwDesign: ctrl.bfwDesign,
-      notify: false}
+    $state.go('content-graph', {
+        endYear: ctrl.endYear,
+        currentBfw: ctrl.currentBfw,
+        designLifetime: ctrl.designLifetime,
+        bfwDesign: ctrl.bfwDesign,
+        notify: false
+      }
       // reloadOnSearch: false}
     )
   }
