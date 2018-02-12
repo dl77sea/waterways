@@ -28,7 +28,6 @@ function ContentMap($scope, contentGraphService, $state, $stateParams) {
   ctrl.gridInc = 0.0625 / 2
 
   ctrl.$onInit = function() {
-    console.log("content map init", $stateParams)
 
     let map = new google.maps.Map(document.getElementById('map'), {
       center: {
@@ -322,14 +321,16 @@ function ContentMap($scope, contentGraphService, $state, $stateParams) {
     //&startYear&endYear&threshold&designLifetime&bfwDesign
 
     // todo: figure out how to get default values from bindings or passed object (whichever better)
-    $state.go('contentGraph', {
+    $state.go('content-graph', {
       lat: 123,
       lng: formattedLng,
       startYear: 2014,
       endYear: 2090,
       currentBfw: 32,
       designLifetime: 2060,
-      bfwDesign: 30})
+      bfwDesign: 30
+      // reloadOnSearch: false
+    })
   }
 
   ctrl.setLatLngHeader = function(cenLat, cenLng) {

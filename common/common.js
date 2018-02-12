@@ -48,7 +48,7 @@ function Common(contentGraphService, $state) {
     }
     console.log(commonParams)
     // $state.go('contentMap', commonParams);
-    $state.go('contentMap')
+    $state.go('content-map')
 
   }
 

@@ -190,7 +190,8 @@ function contentGraphService() {
       //     .attr("d", vm.valueline);
       // }
 
-
+      vm.genMeanLine()
+      
       // Add the X Axis
       vm.svgRatios.append("g")
         .attr("transform", "translate(0," + vm.height + ")")
@@ -248,40 +249,41 @@ function contentGraphService() {
 
 
     //mean line
-    let meanLine = []
-    d3.csv("./contentGraph/ratiomean.csv", function(error, data) {
-      if (error) throw error;
+    vm.genMeanLine = function() {
+      let meanLine = []
+      d3.csv("./contentGraph/ratiomean.csv", function(error, data) {
+        if (error) throw error;
 
-      //build mean line
-      for (obj of data) {
-        meanLine.push({
-          year: obj[""],
-          val: obj[0]
-        })
-      }
+        //build mean line
+        for (obj of data) {
+          meanLine.push({
+            year: obj[""],
+            val: obj[0]
+          })
+        }
 
-      //format values in valueLine
-      for (obj of meanLine) {
-        obj.year = vm.parseTime(obj.year)
-        obj.val = parseFloat(obj.val) * vm.currentBfw
-      }
+        //format values in valueLine
+        for (obj of meanLine) {
+          obj.year = vm.parseTime(obj.year)
+          obj.val = parseFloat(obj.val) * vm.currentBfw
+        }
 
-      //plot mean line
-      data = meanLine
-      vm.svgRatios.append("path")
-        .data([data])
-        .attr("class", "color-graph-ratio-line")
-        .attr("d", vm.valueline);
-      // Add thereshold line
-      vm.svgRatios.append("line")
-        .attr("class", "color-graph-ratio-thresh")
-        .attr("x1", vm.x(vm.gMinMax[0]))
-        .attr("y1", vm.y(vm.gThresh))
-        .attr("x2", vm.x(vm.gMinMax[1]))
-        .attr("y2", vm.y(vm.gThresh))
+        //plot mean line
+        data = meanLine
+        vm.svgRatios.append("path")
+          .data([data])
+          .attr("class", "color-graph-ratio-line")
+          .attr("d", vm.valueline);
+        // Add thereshold line
+        vm.svgRatios.append("line")
+          .attr("class", "color-graph-ratio-thresh")
+          .attr("x1", vm.x(vm.gMinMax[0]))
+          .attr("y1", vm.y(vm.gThresh))
+          .attr("x2", vm.x(vm.gMinMax[1]))
+          .attr("y2", vm.y(vm.gThresh))
 
-    })
-
+      })
+    }
 
   }
 
@@ -330,7 +332,7 @@ function contentGraphService() {
       prod = 0
     }
 
-    document.getElementById('prob-ind').innerHTML = (((1-prod)* 100)).toFixed(2) + '%'
+    document.getElementById('prob-ind').innerHTML = (((1 - prod) * 100)).toFixed(2) + '%'
     console.log("probability indicator: ", prod)
   }
 
@@ -376,7 +378,8 @@ function contentGraphService() {
     })
 
     vm.yProb.domain([0.0, 1.0]);
-    d3.csv("./contentGraph/ratio00.csv", function(error, data) { if (error) throw error;
+    d3.csv("./contentGraph/ratio00.csv", function(error, data) {
+      if (error) throw error;
 
       //for each object, make it an array as above for each value line
       let valueLines = []
