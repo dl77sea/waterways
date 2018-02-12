@@ -58,15 +58,6 @@ function ContentGraph(contentGraphService, $state, $stateParams) {
     ctrl.updateGraphs()
   }
 
-  ctrl.updateGraphOnInit = function() {
-    console.log("hello from ctrl.updateGraphOnInit")
-
-    ctrl.setGraphVals()
-    // ctrl.genGraph()
-    contentGraphService.updateRatiosGraph()
-    contentGraphService.updateProbabilityGraph()
-  }
-
   ctrl.updateGraphs = function() {
     console.log("hello from ctrl.updateGraphs")
     $state.go('contentGraph',
