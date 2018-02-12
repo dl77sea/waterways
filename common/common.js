@@ -49,6 +49,7 @@ function Common(contentGraphService, $state) {
     console.log(commonParams)
     // $state.go('contentMap', commonParams);
     $state.go('contentMap')
+
   }
 
   ctrl.blarfer = function() {

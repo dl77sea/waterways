@@ -316,14 +316,20 @@ function ContentMap($scope, contentGraphService, $state, $stateParams) {
   }
 
   ctrl.cbGrid = function(event) {
-    // console.log("callback happened", ctrl.editMode)
-    // ctrl.genGraph()
-    $state.go('contentGraph')
-    // contentGraphService.updateRatiosGraph()
-    // contentGraphService.updateProbabilityGraph()
-    // ctrl.editMode.mode = "graph"
-    // $scope.$apply()
-    // console.log("callback happened", ctrl.editMode)
+    //format long value (ok for WA)
+    let formattedLng = -ctrl.defaultLng
+    console.log("formattedLng",formattedLng)
+    //&startYear&endYear&threshold&designLifetime&bfwDesign
+
+    // todo: figure out how to get default values from bindings or passed object (whichever better)
+    $state.go('contentGraph', {
+      lat: 123,
+      lng: formattedLng,
+      startYear: 2014,
+      endYear: 2090,
+      currentBfw: 32,
+      designLifetime: 2060,
+      bfwDesign: 30})
   }
 
   ctrl.setLatLngHeader = function(cenLat, cenLng) {

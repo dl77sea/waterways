@@ -36,10 +36,18 @@
       })
       .state({
         name: 'contentGraph',
-        url: '/graph',
+        url: '/graph/?lat&lng&startYear&endYear&currentBfw&designLifetime&bfwDesign',        
         component: 'contentGraph'
       })
     // .state({ name: 'orders', url: '/my-orders', component: 'orders' })
+    //      lat: 123,
+          // lng: formattedLng,
+          // startYear: 2014,
+          // endYear: 2090,
+          // currentBfw: 32,
+          // designLifetime: 2060,
+          // bfwDesign: 30})
+
     // .state({ name: 'cart', url: '/my-cart', component: 'cart' })
     // edit-mode="$ctrl.editMode" coords="$ctrl.coords" gen-graph="$ctrl.genGraph()"
   }
