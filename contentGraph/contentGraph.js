@@ -58,16 +58,25 @@ function ContentGraph(contentGraphService, $state, $stateParams) {
     ctrl.updateGraphs()
   }
 
+  ctrl.updateGraphOnInit = function() {
+    console.log("hello from ctrl.updateGraphOnInit")
+
+    ctrl.setGraphVals()
+    // ctrl.genGraph()
+    contentGraphService.updateRatiosGraph()
+    contentGraphService.updateProbabilityGraph()
+  }
+
   ctrl.updateGraphs = function() {
-    console.log("hello from ctrl.update")
+    console.log("hello from ctrl.updateGraphs")
     $state.go('contentGraph',
     {
       endYear: ctrl.endYear,
       currentBfw: ctrl.currentBfw,
       designLifetime: ctrl.designLifetime,
       bfwDesign: ctrl.bfwDesign,
-      notify: false }
-      // reloadOnSearch: false}
+      notify: false,
+      reloadOnSearch: false}
     )
     ctrl.setGraphVals()
     // ctrl.genGraph()
