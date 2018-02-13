@@ -31,9 +31,9 @@ function ContentGraph(contentGraphService, $state, $stateParams) {
       ctrl.startYear = $stateParams.startYear
     }
     if ($stateParams.endYear === undefined) {
-      ctrl.startYear = ctrl.defaultEndYear
+      ctrl.endYear = ctrl.defaultEndYear
     } else {
-      ctrl.startYear = $stateParams.endYear
+      ctrl.endYear = $stateParams.endYear
     }
     if ($stateParams.currentBfw === undefined) {
       ctrl.currentBfw = ctrl.defaultCurrentBfw
@@ -56,20 +56,26 @@ function ContentGraph(contentGraphService, $state, $stateParams) {
     ctrl.updateGraphs()
   }
 
-  ctrl.updateGraphs = function() {
+  ctrl.updateGraphs = function(e) {
+    // e.preventDefault()
     console.log("hello from ctrl.updateGraphs")
     ctrl.setGraphVals()
     // ctrl.genGraph()
 
     contentGraphService.updateRatiosGraph()
     contentGraphService.updateProbabilityGraph()
-    $state.go('content-graph', {
+    $state.go('common-top.content-graph', {
+        lat: 123,
+        lng: 345,
+        startYear: ctrl.startYear,
         endYear: ctrl.endYear,
         currentBfw: ctrl.currentBfw,
         designLifetime: ctrl.designLifetime,
-        bfwDesign: ctrl.bfwDesign,
-        notify: false
+        bfwDesign: ctrl.bfwDesign
+        // notify: false
       }
+
+      // {notify: false}
       // reloadOnSearch: false}
     )
   }

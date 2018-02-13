@@ -20,10 +20,12 @@ ContentMap.$inject = ['$scope', 'contentGraphService', '$state', '$stateParams']
 
 function ContentMap($scope, contentGraphService, $state, $stateParams) {
   var ctrl = this
+  ctrl.startYear = 2014
+  ctrl.endYear = 2090
   ctrl.defaultLat = 48.71875
   ctrl.defaultLng = -122.09375
   ctrl.coords = {lat: ctrl.defaultLat, lng: ctrl.defaultLng}
-  ctrl.strYearRange = "2014-2090 "
+
 
   ctrl.gridInc = 0.0625 / 2
 
@@ -285,7 +287,7 @@ function ContentMap($scope, contentGraphService, $state, $stateParams) {
             strokeOpacity: 1.0,
             strokeWeight: 2.0
           })
-          ctrl.setLatLngHeader(thisTileCen.lat(), thisTileCen.lng())
+           ctrl.setLatLngHeader(thisTileCen.lat(), thisTileCen.lng())
         })
 
 
@@ -321,15 +323,16 @@ function ContentMap($scope, contentGraphService, $state, $stateParams) {
     //&startYear&endYear&threshold&designLifetime&bfwDesign
 
     // todo: figure out how to get default values from bindings or passed object (whichever better)
-    $state.go('content-graph', {
+    //?lat&lng&startYear&endYear&currentBfw&designLifetime&bfwDesign',
+    $state.go('common-top.content-graph', {
       lat: 123,
       lng: formattedLng,
       startYear: 2014,
       endYear: 2090,
       currentBfw: 32,
       designLifetime: 2060,
-      bfwDesign: 30,
-      notify: false
+      bfwDesign: 30
+      // notify: false
       // reloadOnSearch: false
     })
   }
@@ -337,7 +340,7 @@ function ContentMap($scope, contentGraphService, $state, $stateParams) {
   ctrl.setLatLngHeader = function(cenLat, cenLng) {
     ctrl.coords.lat = cenLat
     ctrl.coords.lng = cenLng
-    document.getElementById('coord-display').innerHTML = "LAT " + ctrl.coords.lat + ",&nbsp;&nbsp;" + "LNG&nbsp;&nbsp;" + ctrl.coords.lng
+    document.getElementById('coord-display').innerHTML = ctrl.startYear + "&nbsp;-&nbsp;"+ctrl.endYear + "&nbsp;&nbsp;LAT " + ctrl.coords.lat + ",&nbsp;&nbsp;" + "LNG&nbsp;&nbsp;" + ctrl.coords.lng
   }
 
 

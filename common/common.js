@@ -32,7 +32,6 @@ function Common(contentGraphService, $state) {
       lng: ctrl.defaultLng
     }
 
-
     //footer needs edit mode
     ctrl.mode = {
       mode: "map"
@@ -42,18 +41,8 @@ function Common(contentGraphService, $state) {
     //graph will need threshold from toolbar (so bind this to graph and toolbar)
     ctrl.threshold = 1.0
 
-    let commonParams = {
-      coords: ctrl.coords,
-      genGraph: ctrl.genGraph
-    }
-    console.log(commonParams)
-    // $state.go('contentMap', commonParams);
-    $state.go('content-map')
-
-  }
-
-  ctrl.blarfer = function() {
-    console.log("from common: ", ctrl.lattt)
+    console.log("just before #state.go")
+    $state.go('common-top.content-map')
   }
 
   //inherited by contentMap and contentGraph components
