@@ -61,7 +61,7 @@ function ContentGraph(contentGraphService, $state, $stateParams) {
     console.log("hello from ctrl.updateGraphs")
     ctrl.setGraphVals()
     // ctrl.genGraph()
-
+//$state.go('main.products", {}, { reload: 'main.products' })
     contentGraphService.updateRatiosGraph()
     contentGraphService.updateProbabilityGraph()
     $state.go('common-top.content-graph', {
@@ -75,7 +75,7 @@ function ContentGraph(contentGraphService, $state, $stateParams) {
         // notify: false
       }
 
-      // {notify: false}
+      // {reload: 'common-top.content-graph'}
       // reloadOnSearch: false}
     )
   }
