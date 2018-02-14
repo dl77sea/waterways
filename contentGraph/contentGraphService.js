@@ -84,14 +84,14 @@ function contentGraphService() {
       return d;
     })
 
-    // y.domain([minMax[0] - gPadding, minMax[1] + gPadding]);
-    vm.y.domain([0.65, 1.35]);
-    vm.y.domain([0.65 * vm.currentBfw, 1.35 * vm.currentBfw]);
+    // vm.y.domain([0.65, 1.35]);
+    // vm.y.domain([0.65 * vm.currentBfw, 1.35 * vm.currentBfw]);
 
     var areaPath = []
     d3.csv("./contentGraph/ratio00.csv", function(error, data) {
       if (error) throw error;
-
+      var rangeMin
+      var rangeMax
       //for each object, make it an array per value line
       let valueLines = []
       for (valueLineObj of data) {
@@ -152,6 +152,27 @@ function contentGraphService() {
         yearVals = []
       }
 
+      //minVals, maxVals now contain objects representing value lines of min and max date values in format: [{year, val}...]
+      //so get just min and max vals into min and max arrays to get just max and min vals to set y axis rangeMin
+      let minValsJustValues = []
+      let maxValsJustValues = []
+      for(let i=0; i < maxVals.length; i++) {
+        minValsJustValues.push(minVals[i].val)
+        maxValsJustValues.push(maxVals[i].val)
+      }
+      console.log("min: ", minValsJustValues)
+      console.log("max: ", maxValsJustValues)
+
+      rangeMin = Math.min(...minValsJustValues)
+      rangeMax = Math.max(...maxValsJustValues)
+      // vm.y.domain([0.65, 1.35]);
+      // console.log("min max vals: ", minVals, maxVals)
+      console.log("rangemin, max: ", rangeMin, rangeMax)
+      // vm.y.domain([0.65 * vm.currentBfw, 1.35 * vm.currentBfw]);
+      // vm.y.domain([rangeMin, rangeMax]);
+      vm.y.domain([rangeMin, rangeMax]);
+
+
       //build areaPath from minVals and maxVals
       for (let i = 0; i < minVals.length; i++) {
         areaPath.push({
@@ -191,7 +212,7 @@ function contentGraphService() {
       // }
 
       vm.genMeanLine()
-      
+
       // Add the X Axis
       vm.svgRatios.append("g")
         .attr("transform", "translate(0," + vm.height + ")")
@@ -208,7 +229,8 @@ function contentGraphService() {
 
       // Add the Y Axis
       vm.svgRatios.append("g")
-        .call(d3.axisLeft(vm.y).ticks(20).tickSize(0).tickPadding(5))
+        // .call(d3.axisLeft(vm.y).ticks(20).tickSize(0).tickPadding(5))
+        .call(d3.axisLeft(vm.y).tickSize(0).tickPadding(5).tickValues(d3.range(rangeMin, rangeMax, 1)))
         .append("text")
         .attr("transform", "translate(0) rotate(-90)")
         .attr("y", 0)
