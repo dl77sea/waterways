@@ -299,8 +299,6 @@ function ContentMap($scope, contentGraphService, $state, $stateParams) {
           })
         })
 
-
-
         tile.addListener('mouseout', function(event) {
           console.log(this)
           this.setOptions({
@@ -335,6 +333,7 @@ function ContentMap($scope, contentGraphService, $state, $stateParams) {
       // notify: false
       // reloadOnSearch: false
     })
+    // {reload: false})
   }
 
   ctrl.setLatLngHeader = function(cenLat, cenLng) {

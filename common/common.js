@@ -41,8 +41,7 @@ function Common(contentGraphService, $state) {
     //graph will need threshold from toolbar (so bind this to graph and toolbar)
     ctrl.threshold = 1.0
 
-    console.log("just before #state.go")
-    $state.go('common-top.content-map')
+    // console.log("just before #state.go")
   }
 
   //inherited by contentMap and contentGraph components

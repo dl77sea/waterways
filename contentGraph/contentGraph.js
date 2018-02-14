@@ -64,6 +64,9 @@ function ContentGraph(contentGraphService, $state, $stateParams) {
 //$state.go('main.products", {}, { reload: 'main.products' })
     contentGraphService.updateRatiosGraph()
     contentGraphService.updateProbabilityGraph()
+
+
+    // problem!!!!!
     $state.go('common-top.content-graph', {
         lat: 123,
         lng: 345,
@@ -74,7 +77,7 @@ function ContentGraph(contentGraphService, $state, $stateParams) {
         bfwDesign: ctrl.bfwDesign
         // notify: false
       }
-
+      // {reload: false}
       // {reload: 'common-top.content-graph'}
       // reloadOnSearch: false}
     )
