@@ -32,6 +32,8 @@
 
     // the known route
     // $urlRouterProvider.when('', '/');
+
+
     $stateProvider
       .state('common-top', {
         abstract: true,
@@ -47,7 +49,7 @@
         url: '/graph?lat&lng&startYear&endYear&currentBfw&designLifetime&bfwDesign',
         component: 'contentGraph'
       }
-
+      // $urlRouterProvider.otherwise('/');
       // , {
       //   reload: false
       // }
