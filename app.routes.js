@@ -30,10 +30,12 @@
     //     parent:'common-top'
     //   })
 
-
+    // the known route
+    // $urlRouterProvider.when('', '/');
     $stateProvider
       .state('common-top', {
         abstract: true,
+        // url: '/',
         component: 'common'
       })
       .state('common-top.content-map', {
@@ -42,11 +44,14 @@
       })
       .state('common-top.content-graph', {
         // url: 'graph',
-        url: '/graph?lat&lng&startYear&endYear&currentBfw&designLifetime&bffwDesign',
+        url: '/graph?lat&lng&startYear&endYear&currentBfw&designLifetime&bfwDesign',
         component: 'contentGraph'
-      }, {
-        reload: false
-      })
+      }
+
+      // , {
+      //   reload: false
+      // }
+    )
 
 
     // $stateProvider

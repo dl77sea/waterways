@@ -53,34 +53,46 @@ function ContentGraph(contentGraphService, $state, $stateParams) {
 
     contentGraphService.initRatiosGraph(ctrl.startYear, ctrl.endYear, ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign)
 
-    ctrl.updateGraphs()
+    ctrl.updateGraphsOnInit()
   }
+  // $state.go('common-top.content-graph', {
+  //   lat: 123,
+  //   lng: 345,
+  //   startYear: ctrl.startYear,
+  //   endYear: ctrl.endYear,
+  //   currentBfw: ctrl.currentBfw,
+  //   designLifetime: ctrl.designLifetime,
+  //   bfwDesign: ctrl.bfwDesign
+  // })
 
-  ctrl.updateGraphs = function(e) {
-    // e.preventDefault()
-    console.log("hello from ctrl.updateGraphs")
+  ctrl.updateGraphsOnInit = function() {
+    console.log("hello from ctrl.updateGraphsOnInit")
     ctrl.setGraphVals()
-    // ctrl.genGraph()
-//$state.go('main.products", {}, { reload: 'main.products' })
+
     contentGraphService.updateRatiosGraph()
     contentGraphService.updateProbabilityGraph()
 
 
-    // problem!!!!!
+  }
+
+  ctrl.updateGraphs = function() {
+    console.log("hello from ctrl.updateGraphs")
+    contentGraphService.updateRatiosGraph()
+    contentGraphService.updateProbabilityGraph()
+
     $state.go('common-top.content-graph', {
-        lat: 123,
-        lng: 345,
-        startYear: ctrl.startYear,
-        endYear: ctrl.endYear,
-        currentBfw: ctrl.currentBfw,
-        designLifetime: ctrl.designLifetime,
-        bfwDesign: ctrl.bfwDesign
-        // notify: false
-      }
-      // {reload: false}
-      // {reload: 'common-top.content-graph'}
-      // reloadOnSearch: false}
-    )
+      lat: 123,
+      lng: 345,
+      startYear: ctrl.startYear,
+      endYear: ctrl.endYear,
+      currentBfw: ctrl.currentBfw,
+      designLifetime: ctrl.designLifetime,
+      bfwDesign: ctrl.bfwDesign
+    }, {
+      reload: false
+      // notify: false
+    })
+
   }
 
   ctrl.setGraphVals = function() {
