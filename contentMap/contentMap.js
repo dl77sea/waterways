@@ -325,11 +325,11 @@ function ContentMap($scope, contentGraphService, $state, $stateParams) {
     $state.go('common-top.content-graph', {
       lat: 123,
       lng: formattedLng,
-      startYear: 2014,
-      endYear: 2090,
-      currentBfw: 32,
-      designLifetime: 2060,
-      bfwDesign: 30
+      // startYear: 2014,
+      // endYear: 2090,
+      // currentBfw: 32,
+      // designLifetime: 2060,
+      // bfwDesign: 30
       // notify: false
       // reloadOnSearch: false
     })

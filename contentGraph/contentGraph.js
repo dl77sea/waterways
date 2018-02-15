@@ -11,7 +11,7 @@ angular.module('app').component('contentGraph', {
   //   genGraph: '&'
   // }
 })
-
+ContentGraph.$inject = ['contentGraphService', '$state', '$stateParams']
 function ContentGraph(contentGraphService, $state, $stateParams) {
   var ctrl = this
 
@@ -22,7 +22,7 @@ function ContentGraph(contentGraphService, $state, $stateParams) {
     ctrl.defaultEndYear = 2090
     ctrl.defaultCurrentBfw = 30
     ctrl.defaultBfwDesign = 32
-    ctrl.defaultDesignLifetime = 2060
+    ctrl.defaultDesignLifetime = 50
 
     //&startYear&endYear&threshold&designLifetime&bfwDesign
     if ($stateParams.startYear === undefined) {
@@ -51,7 +51,9 @@ function ContentGraph(contentGraphService, $state, $stateParams) {
       ctrl.designLifetime = $stateParams.designLifetime
     }
 
-    contentGraphService.initRatiosGraph(ctrl.startYear, ctrl.endYear, ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign)
+
+
+
 
     ctrl.updateGraphsOnInit()
   }
@@ -67,16 +69,18 @@ function ContentGraph(contentGraphService, $state, $stateParams) {
 
   ctrl.updateGraphsOnInit = function() {
     console.log("hello from ctrl.updateGraphsOnInit")
-    ctrl.setGraphVals()
-
+    // ctrl.setGraphVals()
+    contentGraphService.initRatiosGraph(ctrl.startYear, ctrl.endYear, ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign)
     contentGraphService.updateRatiosGraph()
     contentGraphService.updateProbabilityGraph()
 
 
   }
 
+
   ctrl.updateGraphs = function() {
     console.log("hello from ctrl.updateGraphs")
+
     contentGraphService.updateRatiosGraph()
     contentGraphService.updateProbabilityGraph()
 
@@ -104,4 +108,3 @@ function ContentGraph(contentGraphService, $state, $stateParams) {
     contentGraphService.designLifetime = ctrl.designLifetime
   }
 }
-ContentGraph.$inject = ['contentGraphService', '$state', '$stateParams']

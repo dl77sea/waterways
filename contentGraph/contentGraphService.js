@@ -12,8 +12,9 @@ function contentGraphService() {
   vm.designLifetime = null;
 
   vm.initRatiosGraph = function(startYear, endYear, currentBfw, designLifetime, threshold) {
+    console.log("hello from initRatiosGraph")
     vm.threshold = threshold
-    vm.designLifetime = designLifetime
+    vm.designLifetime = vm.getDesignEndYear(designLifetime)
     vm.currentBfw = currentBfw
     vm.startYear = startYear
     vm.endYear = endYear
@@ -59,7 +60,17 @@ function contentGraphService() {
         "translate(" + vm.margin.left + "," + vm.margin.top + ")");
   }
 
+  vm.getDesignEndYear = function(designLifetime) {
+    let designEndYear = (new Date()).getFullYear()+parseInt(designLifetime)
+    console.log("getDesignEndYear: ", designEndYear)
+    return designEndYear
+  }
+
+
   vm.updateRatiosGraph = function() {
+
+
+
     console.log("---from updateRatiosGraph---")
     console.log("currentBfw", vm.currentBfw)
 
