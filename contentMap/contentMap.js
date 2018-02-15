@@ -16,9 +16,9 @@ angular.module('app').component('contentMap', {
 
 // Toolbar.$inject = ['serviceSvg','serviceCase', 'servicePartition']
 // function Toolbar(serviceSvg, serviceCase, servicePartition) {
-ContentMap.$inject = ['$scope', 'contentGraphService', '$state', '$stateParams']
+ContentMap.$inject = ['$scope', 'contentGraphService', '$state', '$stateParams', 'commonService']
 
-function ContentMap($scope, contentGraphService, $state, $stateParams) {
+function ContentMap($scope, contentGraphService, $state, $stateParams, commonService) {
   var ctrl = this
   ctrl.startYear = 2014
   ctrl.endYear = 2090
@@ -27,9 +27,18 @@ function ContentMap($scope, contentGraphService, $state, $stateParams) {
   ctrl.coords = {lat: ctrl.defaultLat, lng: ctrl.defaultLng}
 
 
+
+
   ctrl.gridInc = 0.0625 / 2
 
   ctrl.$onInit = function() {
+    console.log("map onInit")
+
+    //set selected tile (default value used if user has not yet selected one)
+    //with a service
+    // if(commonService.selectedTile !== null) {
+    //   commonService.selectedTile = commonService.selectedTile
+    // }
 
     let map = new google.maps.Map(document.getElementById('map'), {
       center: {
@@ -277,7 +286,42 @@ function ContentMap($scope, contentGraphService, $state, $stateParams) {
         }
         tile = new google.maps.Rectangle(tileOpts);
 
-        tile.addListener('click', ctrl.cbGrid);
+        tile.addListener('click',
+
+        function(event) {
+          // clear previous selected
+          if(commonService.selectedTile !== null) {
+            commonService.selectedTile.setOptions({strokeColor: ctrl.colorUnsel})
+          }
+          // set this selected tile
+          commonService.selectedTile = this
+          commonService.selectedTile.setOptions({strokeColor:ctrl.colorSel})
+
+          ctrl.selectedLat = this.getBounds().getCenter().lat()
+          ctrl.selectedLat = this.getBounds().getCenter().lng()
+
+
+          //format long value (ok for WA)
+          let formattedLng = -ctrl.defaultLng
+          console.log("formattedLng",formattedLng)
+
+          $state.go('common-top.content-graph', {
+            lat: commonService.selectedTile.getBounds().getCenter().lat(),
+            lng: commonService.selectedTile.getBounds().getCenter().lng(),
+            startYear: commonService.startYear,
+            endYear: commonService.endYear,
+            currentBfw: commonService.defaultCurrentBfw,
+            designLifetime: commonService.defaultDesignLifetime,
+            bfwDesign: commonService.defaultBfwDesign
+            // notify: false
+            // reloadOnSearch: false
+          })
+          // {reload: false})
+        }
+
+
+
+      );
 
         tile.addListener('mouseover', function(event) {
           let thisTileCen = this.getBounds().getCenter()
@@ -287,9 +331,8 @@ function ContentMap($scope, contentGraphService, $state, $stateParams) {
             strokeOpacity: 1.0,
             strokeWeight: 2.0
           })
-           ctrl.setLatLngHeader(thisTileCen.lat(), thisTileCen.lng())
+           commonService.setLatLngHeader(thisTileCen.lat(), thisTileCen.lng())
         })
-
 
         tile.addListener('mousedown', function(event) {
           this.setOptions({
@@ -306,42 +349,10 @@ function ContentMap($scope, contentGraphService, $state, $stateParams) {
             zIndex: 1,
             strokeWeight: 1.0
           })
-
         })
-
       } //end for each tile
     }
-
   }
-
-  ctrl.cbGrid = function(event) {
-    //format long value (ok for WA)
-    let formattedLng = -ctrl.defaultLng
-    console.log("formattedLng",formattedLng)
-    //&startYear&endYear&threshold&designLifetime&bfwDesign
-
-    // todo: figure out how to get default values from bindings or passed object (whichever better)
-    //?lat&lng&startYear&endYear&currentBfw&designLifetime&bfwDesign',
-    $state.go('common-top.content-graph', {
-      lat: 123,
-      lng: formattedLng,
-      // startYear: 2014,
-      // endYear: 2090,
-      // currentBfw: 32,
-      // designLifetime: 2060,
-      // bfwDesign: 30
-      // notify: false
-      // reloadOnSearch: false
-    })
-    // {reload: false})
-  }
-
-  ctrl.setLatLngHeader = function(cenLat, cenLng) {
-    ctrl.coords.lat = cenLat
-    ctrl.coords.lng = cenLng
-    document.getElementById('coord-display').innerHTML = ctrl.startYear + "&nbsp;-&nbsp;"+ctrl.endYear + "&nbsp;&nbsp;LAT " + ctrl.coords.lat + ",&nbsp;&nbsp;" + "LNG&nbsp;&nbsp;" + ctrl.coords.lng
-  }
-
 
 }
 

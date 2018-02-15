@@ -11,49 +11,43 @@ angular.module('app').component('contentGraph', {
   //   genGraph: '&'
   // }
 })
-ContentGraph.$inject = ['contentGraphService', '$state', '$stateParams']
-function ContentGraph(contentGraphService, $state, $stateParams) {
+ContentGraph.$inject = ['contentGraphService', '$state', '$stateParams', 'commonService']
+function ContentGraph(contentGraphService, $state, $stateParams, commonService) {
   var ctrl = this
 
   ctrl.$onInit = function() {
     console.log("content graph init")
-    console.log()
-    ctrl.defaultStartYear = 2014
-    ctrl.defaultEndYear = 2090
-    ctrl.defaultCurrentBfw = 30
-    ctrl.defaultBfwDesign = 32
-    ctrl.defaultDesignLifetime = 50
 
+    commonService.setLatLngHeader($stateParams.lat, $stateParams.lng)
     //&startYear&endYear&threshold&designLifetime&bfwDesign
     if ($stateParams.startYear === undefined) {
-      ctrl.startYear = ctrl.defaultStartYear
+      ctrl.startYear = commonService.defaultStartYear
     } else {
       ctrl.startYear = $stateParams.startYear
     }
     if ($stateParams.endYear === undefined) {
-      ctrl.endYear = ctrl.defaultEndYear
+      ctrl.endYear = commonService.defaultEndYear
     } else {
       ctrl.endYear = $stateParams.endYear
     }
     if ($stateParams.currentBfw === undefined) {
-      ctrl.currentBfw = ctrl.defaultCurrentBfw
+      ctrl.currentBfw = commonService.defaultCurrentBfw
     } else {
       ctrl.currentBfw = $stateParams.currentBfw
     }
     if ($stateParams.bfwDesign === undefined) {
-      ctrl.bfwDesign = ctrl.defaultBfwDesign
+      ctrl.bfwDesign = commonService.defaultBfwDesign
     } else {
       ctrl.bfwDesign = $stateParams.bfwDesign
     }
     if ($stateParams.designLifetime === undefined) {
-      ctrl.designLifetime = ctrl.defaultDesignLifetime
+      ctrl.designLifetime = commonService.defaultDesignLifetime
     } else {
       ctrl.designLifetime = $stateParams.designLifetime
     }
 
-
-
-
+    ctrl.lat = $stateParams.lat
+    ctrl.lng = $stateParams.lng
 
     ctrl.updateGraphsOnInit()
   }
@@ -70,7 +64,7 @@ function ContentGraph(contentGraphService, $state, $stateParams) {
   ctrl.updateGraphsOnInit = function() {
     console.log("hello from ctrl.updateGraphsOnInit")
     // ctrl.setGraphVals()
-    contentGraphService.initRatiosGraph(ctrl.startYear, ctrl.endYear, ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign)
+    contentGraphService.initRatiosGraph(ctrl.lat, ctrl.lng, ctrl.startYear, ctrl.endYear, ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign)
     contentGraphService.updateRatiosGraph()
     contentGraphService.updateProbabilityGraph()
 
@@ -85,8 +79,8 @@ function ContentGraph(contentGraphService, $state, $stateParams) {
     contentGraphService.updateProbabilityGraph()
 
     $state.go('common-top.content-graph', {
-      lat: 123,
-      lng: 345,
+      lat: ctrl.lat,
+      lng: ctrl.lng,
       startYear: ctrl.startYear,
       endYear: ctrl.endYear,
       currentBfw: ctrl.currentBfw,
@@ -97,14 +91,5 @@ function ContentGraph(contentGraphService, $state, $stateParams) {
       // notify: false
     })
 
-  }
-
-  ctrl.setGraphVals = function() {
-    //used for prob thresh
-    contentGraphService.threshold = ctrl.bfwDesign
-    //used for csv mult
-    contentGraphService.currentBfw = ctrl.currentBfw
-    //used for prob ind
-    contentGraphService.designLifetime = ctrl.designLifetime
   }
 }

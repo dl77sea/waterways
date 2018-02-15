@@ -61,7 +61,6 @@ table {
 }
 
 /*custom*/
-
 body {
   font-family: 'Roboto', sans-serif;
 }
@@ -211,7 +210,8 @@ li .click {
 .map-title {
   display: inline-block;
   font-size: 2rem;
-  font-weight: 500;
+  font-weight: 500 !important;
+  /*-webkit-font-smoothing: antialiased;*/
   /*color: white;*/
 }
 

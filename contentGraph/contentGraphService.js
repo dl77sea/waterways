@@ -11,7 +11,7 @@ function contentGraphService() {
   // vm.bfwDesign = null;
   vm.designLifetime = null;
 
-  vm.initRatiosGraph = function(startYear, endYear, currentBfw, designLifetime, threshold) {
+  vm.initRatiosGraph = function(lat, lng, startYear, endYear, currentBfw, designLifetime, threshold) {
     console.log("hello from initRatiosGraph")
     vm.threshold = threshold
     vm.designLifetime = vm.getDesignEndYear(designLifetime)
