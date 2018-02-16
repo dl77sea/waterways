@@ -18,8 +18,8 @@ function contentGraphService(commonService) {
     vm.threshold = threshold
     vm.designLifetime = vm.getDesignEndYear(designLifetime)
     vm.currentBfw = currentBfw
-    vm.startYear = startYear
-    vm.endYear = endYear
+    // commonService.startYear = startYear
+    // commonService.endYear = endYear
 
     vm.margin = {
         top: 5,
@@ -74,11 +74,11 @@ function contentGraphService(commonService) {
     vm.gMinMax;
     vm.gThresh = vm.threshold
 
-    vm.startYear = commonService.startYear
-    vm.endYear = commonService.endYear
+    commonService.startYear = commonService.startYear
+    commonService.endYear = commonService.endYear
 
     vm.arrYears = []
-    for (let i = vm.startYear; i <= vm.endYear; i++) {
+    for (let i = commonService.startYear; i <= commonService.endYear; i++) {
       vm.arrYears.push(vm.parseTime(i))
     }
 
@@ -389,11 +389,11 @@ function contentGraphService(commonService) {
     console.log("---vm.currentBfw ",vm.currentBfw)
     console.log("---vm.gThreshProb ",vm.gThreshProb)
 
-    vm.startYearProb = 2014
-    vm.endYearProb = 2090
-    vm.numYears = (vm.endYear + 1) - vm.startYear
+    // commonService.startYear = 2014
+    // commonService.endYear = 2090
+    vm.numYears = (commonService.endYear + 1) - commonService.startYear
     vm.arrYearsProb = []
-    for (let i = vm.startYearProb; i <= vm.endYearProb; i++) {
+    for (let i = commonService.startYear; i <= commonService.endYear; i++) {
       vm.arrYearsProb.push(vm.parseTimeProb(i))
     }
 
