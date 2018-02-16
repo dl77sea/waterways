@@ -11,13 +11,13 @@ angular.module('app').component('contentGraph', {
   //   genGraph: '&'
   // }
 })
-ContentGraph.$inject = ['contentGraphService', '$state', '$stateParams', 'commonService']
-function ContentGraph(contentGraphService, $state, $stateParams, commonService) {
+ContentGraph.$inject = ['contentGraphService', '$state', '$stateParams', 'commonService', '$scope']
+function ContentGraph(contentGraphService, $state, $stateParams, commonService, $scope) {
   var ctrl = this
 
   ctrl.$onInit = function() {
     console.log("content graph init")
-
+    ctrl.prob = '-'
     commonService.setLatLngHeader($stateParams.lat, $stateParams.lng)
     //&startYear&endYear&threshold&designLifetime&bfwDesign
     if ($stateParams.startYear === undefined) {
@@ -50,6 +50,9 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService) 
     ctrl.lng = $stateParams.lng
 
     ctrl.updateGraphsOnInit()
+
+
+
   }
   // $state.go('common-top.content-graph', {
   //   lat: 123,
@@ -61,12 +64,31 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService) 
   //   bfwDesign: ctrl.bfwDesign
   // })
 
+
+
   ctrl.updateGraphsOnInit = function() {
     console.log("hello from ctrl.updateGraphsOnInit")
     // ctrl.setGraphVals()
-    contentGraphService.initRatiosGraph(ctrl.lat, ctrl.lng, ctrl.startYear, ctrl.endYear, ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign)
-    contentGraphService.updateRatiosGraph()
-    contentGraphService.updateProbabilityGraph()
+    // const a = new Promise(function(resolve, reject) {
+      contentGraphService.initRatiosGraph(ctrl.lat, ctrl.lng, ctrl.startYear, ctrl.endYear, ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign)
+      contentGraphService.updateRatiosGraph(()=>{
+        contentGraphService.updateProbabilityGraph(()=>{
+          // resolve()
+          console.log(contentGraphService.prob);
+          ctrl.prob = contentGraphService.prob
+          console.log("all done")
+          $scope.$apply()
+        })
+      })
+    // })
+
+    // a.then(function() {
+    //   // ctrl.prob = contentGraphService.pro
+    //   console.log("all done")
+    // })
+
+
+    //$scope.apply()
 
 
   }

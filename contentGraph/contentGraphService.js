@@ -1,11 +1,10 @@
 angular.module('app').service('contentGraphService', contentGraphService)
+contentGraphService.$inject = ['commonService']
 
-function contentGraphService() {
+function contentGraphService(commonService) {
   var vm = this
 
-  //these are recieved from toolbar on graph gen click
-
-
+  // vm.prob = "-"
   vm.threshold = null;
   vm.currentBfw = null;
   // vm.bfwDesign = null;
@@ -28,7 +27,7 @@ function contentGraphService() {
       vm.width = 900 - vm.margin.left - vm.margin.right,
       vm.height = 350 - vm.margin.top - vm.margin.bottom;
 
-    vm.widthProb = 900 - vm.margin.left - vm.margin.right,
+      vm.widthProb = 900 - vm.margin.left - vm.margin.right,
       vm.heightProb = 175 - vm.margin.top - vm.margin.bottom;
 
     // parse the date / time
@@ -62,25 +61,17 @@ function contentGraphService() {
 
   vm.getDesignEndYear = function(designLifetime) {
     let designEndYear = (new Date()).getFullYear()+parseInt(designLifetime)
-    console.log("getDesignEndYear: ", designEndYear)
     return designEndYear
   }
 
 
-  vm.updateRatiosGraph = function() {
-
-
-
-    console.log("---from updateRatiosGraph---")
-    console.log("currentBfw", vm.currentBfw)
-
-    console.log("hello from updateRatiosGraph ", vm.threshold)
+  vm.updateRatiosGraph = function(cb) {
     vm.clearGraphs()
     vm.gMinMax;
     vm.gThresh = vm.threshold
 
-    vm.startYear = 2014
-    vm.endYear = 2090
+    vm.startYear = commonService.startYear
+    vm.endYear = commonService.endYear
 
     vm.arrYears = []
     for (let i = vm.startYear; i <= vm.endYear; i++) {
@@ -123,7 +114,7 @@ function contentGraphService() {
           d.val = parseFloat(d.val) * vm.currentBfw;
         });
       }
-      console.log("******", valueLines)
+
 
 
       //figure out min and max at each year for all value lines
@@ -277,6 +268,8 @@ function contentGraphService() {
         .attr("x2", vm.x(vm.gMinMax[1]))
         .attr("y2", vm.y(vm.y.domain()[1]))
 
+        cb()
+
 
     });
 
@@ -324,9 +317,6 @@ function contentGraphService() {
     //get vals up to lifetime into array
     let upToLifetimeVals = []
     // let i = 0
-    console.log("vm.designLifetime", vm.designLifetime)
-    console.log("parsed date: ", vm.parseTime(vm.designLifetime))
-    console.log("probLine from getProbFailureNum: ", probLine)
     let designLifetimeYear = vm.parseTime(vm.designLifetime)
 
     for (let i = 0; i < probLine.length; i++) {
@@ -335,7 +325,6 @@ function contentGraphService() {
       }
     }
 
-    console.log("upToLifetimeVals", upToLifetimeVals)
 
     //get differences of vals in upToLifetimeVals from 1 into array
     let difVals = []
@@ -348,28 +337,26 @@ function contentGraphService() {
     // difVals=[0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9]
     let prod = difVals[0]
 
-    console.log("difVals: ", difVals)
+
     if (difVals.length > 1) {
-      console.log("here1")
       for (let i = 1; i < difVals.length; i++) {
-        console.log("prod mult: ", prod)
         prod = parseFloat((prod * difVals[i]).toFixed(4))
       }
     }
     if (difVals.length === 1) {
-      console.log("here2")
       prod = difVals[0]
     }
     if (difVals.length === 0) {
-      console.log("here3")
       prod = 0
     }
 
-    document.getElementById('prob-ind').innerHTML = (((1 - prod) * 100)).toFixed(2) + '%'
-    console.log("probability indicator: ", prod)
+    // document.getElementById('prob-ind').innerHTML = (((1 - prod) * 100)).toFixed(2) + '%'
+    vm.prob = (((1 - prod) * 100)).toFixed(2) + '%'
+    console.log("probability indicator: ", vm.prob)
+
   }
 
-  vm.updateProbabilityGraph = function() {
+  vm.updateProbabilityGraph = function(cb) {
 
     // let width = 900 - vm.margin.left - vm.margin.right
     // let height = 200 - vm.margin.top - vm.margin.bottom
@@ -426,7 +413,7 @@ function contentGraphService() {
         }
         valueLines.push(valueLine)
       }
-
+      console.log("updateProbabilityGraph valueLines: ", valueLines)
       // get probability (for each date, in each line,
       // count how many values are above thresh and divide by total valuelines to get y for that date)
       //for each "year slot" check all values in all lines for that year
@@ -484,6 +471,9 @@ function contentGraphService() {
         .attr("y1", vm.yProb(vm.yProb.domain()[0]))
         .attr("x2", vm.x(vm.gMinMaxProb[1]))
         .attr("y2", vm.yProb(vm.yProb.domain()[1]))
+
+
+        cb()
 
     });
 
