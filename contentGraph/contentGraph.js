@@ -18,7 +18,8 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
 
   ctrl.$onInit = function() {
     console.log("content graph init")
-    ctrl.prob = '-'
+    ctrl.prob = "-"
+    ctrl.firstFailYear = contentGraphService.firstFailYear
     commonService.setLatLngHeader($stateParams.lat, $stateParams.lng)
     //&startYear&endYear&threshold&designLifetime&bfwDesign
     if ($stateParams.startYear === undefined) {
@@ -73,6 +74,7 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
     contentGraphService.updateRatiosGraph(() => {
       contentGraphService.updateProbabilityGraph(() => {
         ctrl.prob = contentGraphService.prob
+        ctrl.firstFailYear = contentGraphService.firstFailYear
         console.log("all done")
         $scope.$apply()
       })
@@ -86,6 +88,7 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
     contentGraphService.updateRatiosGraph(() => {
       contentGraphService.updateProbabilityGraph(() => {
         ctrl.prob = contentGraphService.prob
+        ctrl.firstFailYear = contentGraphService.firstFailYear
         console.log("all done")
 
         $state.go('common-top.content-graph', {

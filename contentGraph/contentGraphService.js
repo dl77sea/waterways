@@ -10,6 +10,9 @@ function contentGraphService(commonService) {
   // vm.bfwDesign = null;
   vm.designLifetime = null;
 
+  vm.firstFailYear = "-"
+  vm.prob  = "-"
+
   vm.initRatiosGraph = function(lat, lng, startYear, endYear, currentBfw, designLifetime, threshold) {
     console.log("hello from initRatiosGraph")
     vm.threshold = threshold
@@ -437,6 +440,13 @@ function contentGraphService(commonService) {
         }
       }
       console.log("failureYears: ",failureYears)
+      //get averge of years recorded:
+      let failureYearsSum = 0
+      for(year of failureYears) {
+        failureYearsSum+= parseInt(year)
+      }
+      vm.firstFailYear = (failureYearsSum/failureYears.length).toFixed(0)
+      console.log("vm.firstFailYear: ", vm.firstFailYear)
       //------------------------------------------------
 
       // get probability (for each date, in each line,
