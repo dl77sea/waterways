@@ -27,7 +27,7 @@ function contentGraphService(commonService) {
       vm.width = 900 - vm.margin.left - vm.margin.right,
       vm.height = 350 - vm.margin.top - vm.margin.bottom;
 
-      vm.widthProb = 900 - vm.margin.left - vm.margin.right,
+    vm.widthProb = 900 - vm.margin.left - vm.margin.right,
       vm.heightProb = 175 - vm.margin.top - vm.margin.bottom;
 
     // parse the date / time
@@ -44,6 +44,7 @@ function contentGraphService(commonService) {
       .y(function(d) {
         return vm.y(d.val);
       });
+
     vm.svgRatios = d3.select("#d3ratios").append("svg")
       .attr("width", vm.width + vm.margin.left + vm.margin.right)
       .attr("height", vm.height + vm.margin.top + vm.margin.bottom)
@@ -60,7 +61,7 @@ function contentGraphService(commonService) {
   }
 
   vm.getDesignEndYear = function(designLifetime) {
-    let designEndYear = (new Date()).getFullYear()+parseInt(designLifetime)
+    let designEndYear = (new Date()).getFullYear() + parseInt(designLifetime)
     return designEndYear
   }
 
@@ -158,7 +159,7 @@ function contentGraphService(commonService) {
       //so get just min and max vals into min and max arrays to get just max and min vals to set y axis rangeMin
       let minValsJustValues = []
       let maxValsJustValues = []
-      for(let i=0; i < maxVals.length; i++) {
+      for (let i = 0; i < maxVals.length; i++) {
         minValsJustValues.push(minVals[i].val)
         maxValsJustValues.push(maxVals[i].val)
       }
@@ -234,10 +235,11 @@ function contentGraphService(commonService) {
         // .call(d3.axisLeft(vm.y).ticks(20).tickSize(0).tickPadding(5))
         .call(d3.axisLeft(vm.y).tickSize(0).tickPadding(5).tickValues(d3.range(rangeMin, rangeMax, 1)))
         .append("text")
-        .attr("transform", "translate(0) rotate(-90)")
+        .attr("transform", "translate(-28) rotate(-90)")
         .attr("y", 0)
-        .attr("dy", "-1.75rem")
+        // .attr("dy", "-1.75rem")
         .style("font-size", "0.75rem")
+        // .style("padding", "0.5rem")
         .attr("fill", "#000")
         .text("Bankfull Width (ft)");
 
@@ -268,7 +270,7 @@ function contentGraphService(commonService) {
         .attr("x2", vm.x(vm.gMinMax[1]))
         .attr("y2", vm.y(vm.y.domain()[1]))
 
-        cb()
+      cb()
 
 
     });
@@ -378,8 +380,11 @@ function contentGraphService(commonService) {
       });
 
     vm.gMinMaxProb;
+
     vm.gThreshProb = vm.threshold / vm.currentBfw //verify this division with AM
-    vm.gPaddingProb = 0.05
+    console.log("---vm.threshold ",vm.threshold)
+    console.log("---vm.currentBfw ",vm.currentBfw)
+    console.log("---vm.gThreshProb ",vm.gThreshProb)
 
     vm.startYearProb = 2014
     vm.endYearProb = 2090
@@ -414,6 +419,26 @@ function contentGraphService(commonService) {
         valueLines.push(valueLine)
       }
       console.log("updateProbabilityGraph valueLines: ", valueLines)
+      console.log("vm.gThreshProb: ", vm.gThreshProb)
+      //---get average first year of probable failure---
+      //for each valueLine, record first year that shows value above threshold (bfwDesign)
+      //return tbd
+      let failureYears = []
+      for (i = 0; i < valueLines.length; i++) {
+        console.log("i: ", i)
+        for (j = 0; j < vm.numYears; j++) {
+          //should this be >= ? does it fail if val is equal to thresh?
+          //it's ok that vm.gThreshProb is always one? should it ever be multiplied by anything?
+          if(valueLines[i][j].val > vm.gThreshProb) {
+            console.log("fail val: ",valueLines[i][j].val)
+            failureYears.push(valueLines[i][j].year)
+            break;
+          }
+        }
+      }
+      console.log("failureYears: ",failureYears)
+      //------------------------------------------------
+
       // get probability (for each date, in each line,
       // count how many values are above thresh and divide by total valuelines to get y for that date)
       //for each "year slot" check all values in all lines for that year
@@ -473,7 +498,7 @@ function contentGraphService(commonService) {
         .attr("y2", vm.yProb(vm.yProb.domain()[1]))
 
 
-        cb()
+      cb()
 
     });
 
@@ -493,9 +518,9 @@ function contentGraphService(commonService) {
     vm.svgProbability.append("g")
       .call(d3.axisLeft(vm.yProb).ticks(10).tickSize(0).tickPadding(5))
       .append("text")
-      .attr("transform", "translate(0) rotate(-90)")
+      .attr("transform", "translate(-28) rotate(-90)")
       .attr("y", 0)
-      .attr("dy", "-1.75rem")
+      // .attr("dy", "-1.75rem")
       .style("font-size", "0.75rem")
       .attr("fill", "#000")
       .text("Probability");
