@@ -12,6 +12,7 @@ angular.module('app').component('contentGraph', {
   // }
 })
 ContentGraph.$inject = ['contentGraphService', '$state', '$stateParams', 'commonService', '$scope']
+
 function ContentGraph(contentGraphService, $state, $stateParams, commonService, $scope) {
   var ctrl = this
 
@@ -68,50 +69,46 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
 
   ctrl.updateGraphsOnInit = function() {
     console.log("hello from ctrl.updateGraphsOnInit")
-    // ctrl.setGraphVals()
-    // const a = new Promise(function(resolve, reject) {
-      contentGraphService.initRatiosGraph(ctrl.lat, ctrl.lng, ctrl.startYear, ctrl.endYear, ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign)
-      contentGraphService.updateRatiosGraph(()=>{
-        contentGraphService.updateProbabilityGraph(()=>{
-          // resolve()
-          console.log(contentGraphService.prob);
-          ctrl.prob = contentGraphService.prob
-          console.log("all done")
-          $scope.$apply()
-        })
+    contentGraphService.initRatiosGraph(ctrl.lat, ctrl.lng, ctrl.startYear, ctrl.endYear, ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign)
+    contentGraphService.updateRatiosGraph(() => {
+      contentGraphService.updateProbabilityGraph(() => {
+        ctrl.prob = contentGraphService.prob
+        console.log("all done")
+        $scope.$apply()
       })
-    // })
-
-    // a.then(function() {
-    //   // ctrl.prob = contentGraphService.pro
-    //   console.log("all done")
-    // })
-
-
-    //$scope.apply()
-
-
+    })
   }
 
 
   ctrl.updateGraphs = function() {
     console.log("hello from ctrl.updateGraphs")
 
-    contentGraphService.updateRatiosGraph()
-    contentGraphService.updateProbabilityGraph()
+    contentGraphService.updateRatiosGraph(() => {
+      contentGraphService.updateProbabilityGraph(() => {
+        ctrl.prob = contentGraphService.prob
+        console.log("all done")
 
-    $state.go('common-top.content-graph', {
-      lat: ctrl.lat,
-      lng: ctrl.lng,
-      startYear: ctrl.startYear,
-      endYear: ctrl.endYear,
-      currentBfw: ctrl.currentBfw,
-      designLifetime: ctrl.designLifetime,
-      bfwDesign: ctrl.bfwDesign
-    }, {
-      reload: false
-      // notify: false
+        $state.go('common-top.content-graph', {
+          lat: ctrl.lat,
+          lng: ctrl.lng,
+          startYear: ctrl.startYear,
+          endYear: ctrl.endYear,
+          currentBfw: ctrl.currentBfw,
+          designLifetime: ctrl.designLifetime,
+          bfwDesign: ctrl.bfwDesign
+        }, {
+          reload: false
+          // notify: false
+        })
+
+        $scope.$apply()
+      })
     })
+
+
+    // contentGraphService.updateRatiosGraph()
+    // contentGraphService.updateProbabilityGraph()
+
 
   }
 }

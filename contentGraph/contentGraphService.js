@@ -518,7 +518,7 @@ function contentGraphService(commonService) {
     //   dy: 0.71em
     // }
     // vm.svgProbability.axisLeft.text.
-
+    console.log("vm.clearGraphs() happened")
     while (vm.svgRatios._groups[0][0].lastChild) {
       vm.svgRatios._groups[0][0].removeChild(vm.svgRatios._groups[0][0].lastChild);
     }
