@@ -3,9 +3,9 @@ angular.module('app').component('common', {
   controller: Common
   // bindings: {}
 })
-Common.$inject = ['contentGraphService', '$state']
+Common.$inject = ['contentGraphService', '$state', 'commonService']
 
-function Common(contentGraphService, $state) {
+function Common(contentGraphService, $state, commonService) {
   var ctrl = this
 
   ctrl.defaultLat = 48.71875
@@ -19,9 +19,12 @@ function Common(contentGraphService, $state) {
     console.log("common init")
     /*2 way bindings*/
     //graph, will need these from toolbar
-    ctrl.defaultYearFrom = 2014
-    ctrl.defaultYearTo = 2090
 
+    ctrl.getStartEndDates(ctrl.continueInit)
+  }
+
+  ctrl.continueInit = function() {
+    console.log("continueInit start")
     ctrl.defaultBfw = 30
     ctrl.defaultDesignLifetime = 2050
     ctrl.defaultBfwDesign = 32
@@ -40,9 +43,23 @@ function Common(contentGraphService, $state) {
 
     //graph will need threshold from toolbar (so bind this to graph and toolbar)
     ctrl.threshold = 1.0
-
-    // console.log("just before #state.go")
   }
+
+  ctrl.getStartEndDates = function(cb) {
+    d3.csv("./contentGraph/ratio00.csv", function(error, data) {
+      if (error) throw error;
+      let keys = Object.keys(data[0])
+      ctrl.startYear = parseInt(keys[0])            //2014
+      ctrl.endYear = parseInt(keys[keys.length-2])  //2090
+
+      commonService.startYear = ctrl.startYear
+      commonService.endYear = ctrl.endYear
+
+      console.log("start and end year from commonService: ", commonService.startYear, commonService.endYear)
+      cb()
+    })
+  }
+
 
   //inherited by contentMap and contentGraph components
   ctrl.genGraph = function() {
