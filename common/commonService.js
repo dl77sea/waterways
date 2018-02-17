@@ -22,4 +22,20 @@ function commonService() {
   vm.setLatLngHeader = function(cenLat, cenLng) {
     document.getElementById('coord-display').innerHTML = "&nbsp;&nbsp;LAT " + cenLat + ",&nbsp;&nbsp;" + "LNG&nbsp;&nbsp;" + cenLng
   }
+
+  vm.getStartEndDates = function(cb) {
+    d3.csv("./contentGraph/ratio00.csv", function(error, data) {
+      if (error) throw error;
+      let keys = Object.keys(data[0])
+      // ctrl.startYear = parseInt(keys[0])            //2014
+      // ctrl.endYear = parseInt(keys[keys.length-2])  //2090
+
+      vm.startYear = parseInt(keys[0])            //2014
+      vm.endYear = parseInt(keys[keys.length-2])  //2090
+
+      console.log("start and end year from commonService: ", commonService.startYear, commonService.endYear)
+      cb()
+    })
+  }
+
 }

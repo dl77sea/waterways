@@ -1,10 +1,10 @@
-function Toolbar(contentGraphService) {
+function Toolbar(contentGraphService, commonService) {
   var ctrl = this
 
   ctrl.$onInit = function() {
     console.log("toolbar init")
 
-    ctrl.getStartEndDates(ctrl.continueInit)
+
     //from common
     // ctrl.threshold = 1.0
   }
@@ -19,9 +19,10 @@ angular.module('app').component('toolbar', {
     editMode: '=',
     coords: '=',
     getStartEndDates: '&',
+    // continueInit: '&',
     startYear: '=',
     endYear: '='
   }
 })
 
-Toolbar.$inject = ['contentGraphService']
+Toolbar.$inject = ['contentGraphService', 'commonService']

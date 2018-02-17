@@ -60,7 +60,7 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
 
 
   ctrl.updateGraphsOnInit = function() {
-    console.log("hello from ctrl.updateGraphsOnInit")
+    console.log("hello from ctrl.updateGraphsOnInit")    
     contentGraphService.initRatiosGraph(ctrl.lat, ctrl.lng, ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign)
     contentGraphService.updateRatiosGraph(() => {
       contentGraphService.updateProbabilityGraph(() => {
