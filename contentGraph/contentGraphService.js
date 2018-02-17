@@ -13,7 +13,7 @@ function contentGraphService(commonService) {
   vm.firstFailYear = "-"
   vm.prob  = "-"
 
-  vm.initRatiosGraph = function(lat, lng, startYear, endYear, currentBfw, designLifetime, threshold) {
+  vm.initRatiosGraph = function(lat, lng, currentBfw, designLifetime, threshold) {
     console.log("hello from initRatiosGraph")
     vm.threshold = threshold
     vm.designLifetime = vm.getDesignEndYear(designLifetime)

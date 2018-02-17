@@ -21,17 +21,8 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
     ctrl.prob = "-"
     ctrl.firstFailYear = contentGraphService.firstFailYear
     commonService.setLatLngHeader($stateParams.lat, $stateParams.lng)
+
     //&startYear&endYear&threshold&designLifetime&bfwDesign
-    if ($stateParams.startYear === undefined) {
-      ctrl.startYear = commonService.defaultStartYear
-    } else {
-      ctrl.startYear = $stateParams.startYear
-    }
-    if ($stateParams.endYear === undefined) {
-      ctrl.endYear = commonService.defaultEndYear
-    } else {
-      ctrl.endYear = $stateParams.endYear
-    }
     if ($stateParams.currentBfw === undefined) {
       ctrl.currentBfw = commonService.defaultCurrentBfw
     } else {
@@ -70,7 +61,7 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
 
   ctrl.updateGraphsOnInit = function() {
     console.log("hello from ctrl.updateGraphsOnInit")
-    contentGraphService.initRatiosGraph(ctrl.lat, ctrl.lng, ctrl.startYear, ctrl.endYear, ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign)
+    contentGraphService.initRatiosGraph(ctrl.lat, ctrl.lng, ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign)
     contentGraphService.updateRatiosGraph(() => {
       contentGraphService.updateProbabilityGraph(() => {
         ctrl.prob = contentGraphService.prob
@@ -94,8 +85,6 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
         $state.go('common-top.content-graph', {
           lat: ctrl.lat,
           lng: ctrl.lng,
-          startYear: ctrl.startYear,
-          endYear: ctrl.endYear,
           currentBfw: ctrl.currentBfw,
           designLifetime: ctrl.designLifetime,
           bfwDesign: ctrl.bfwDesign

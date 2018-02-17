@@ -308,8 +308,6 @@ function ContentMap($scope, contentGraphService, $state, $stateParams, commonSer
           $state.go('common-top.content-graph', {
             lat: commonService.selectedTile.getBounds().getCenter().lat(),
             lng: commonService.selectedTile.getBounds().getCenter().lng(),
-            startYear: commonService.startYear,
-            endYear: commonService.endYear,
             currentBfw: commonService.defaultCurrentBfw,
             designLifetime: commonService.defaultDesignLifetime,
             bfwDesign: commonService.defaultBfwDesign
