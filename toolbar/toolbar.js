@@ -3,6 +3,8 @@ function Toolbar(contentGraphService) {
 
   ctrl.$onInit = function() {
     console.log("toolbar init")
+
+    ctrl.getStartEndDates(ctrl.continueInit)
     //from common
     // ctrl.threshold = 1.0
   }
@@ -16,7 +18,7 @@ angular.module('app').component('toolbar', {
     lattt: '=',
     editMode: '=',
     coords: '=',
-    genGraph: '&',
+    getStartEndDates: '&',
     startYear: '=',
     endYear: '='
   }

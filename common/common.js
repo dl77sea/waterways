@@ -3,9 +3,9 @@ angular.module('app').component('common', {
   controller: Common
   // bindings: {}
 })
-Common.$inject = ['contentGraphService', '$state', 'commonService']
+Common.$inject = ['contentGraphService', '$state', 'commonService', '$scope']
 
-function Common(contentGraphService, $state, commonService) {
+function Common(contentGraphService, $state, commonService, $scope) {
   var ctrl = this
 
   ctrl.defaultLat = 48.71875
@@ -20,7 +20,7 @@ function Common(contentGraphService, $state, commonService) {
     /*2 way bindings*/
     //graph, will need these from toolbar
 
-    ctrl.getStartEndDates(ctrl.continueInit)
+    // ctrl.getStartEndDates(ctrl.continueInit)
   }
 
   ctrl.continueInit = function() {
@@ -43,6 +43,9 @@ function Common(contentGraphService, $state, commonService) {
 
     //graph will need threshold from toolbar (so bind this to graph and toolbar)
     ctrl.threshold = 1.0
+
+    // this needed to update display in child component toolbar
+    $scope.$apply()
   }
 
   ctrl.getStartEndDates = function(cb) {

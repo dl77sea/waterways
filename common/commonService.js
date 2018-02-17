@@ -9,16 +9,17 @@ function commonService() {
   var vm = this
 
   // vm.currentYear = (new Date()).getFullYear()
-  vm.selectedTile=null
-  vm.startYear = 2014
-  vm.endYear = 2090
+  vm.selectedTile = null
+
   vm.defaultCurrentBfw = 30
   vm.defaultBfwDesign = 32
   vm.defaultDesignLifetime = 50
 
+  //set from common.js
+  vm.startYear = null
+  vm.endYear = null
+
   vm.setLatLngHeader = function(cenLat, cenLng) {
-    document.getElementById('coord-display').innerHTML = vm.startYear + "&nbsp;-&nbsp;"+vm.endYear + "&nbsp;&nbsp;LAT " + cenLat + ",&nbsp;&nbsp;" + "LNG&nbsp;&nbsp;" + cenLng
+    document.getElementById('coord-display').innerHTML = vm.startYear + "&nbsp;-&nbsp;" + vm.endYear + "&nbsp;&nbsp;LAT " + cenLat + ",&nbsp;&nbsp;" + "LNG&nbsp;&nbsp;" + cenLng
   }
-
-
 }
