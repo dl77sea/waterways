@@ -20,6 +20,6 @@ function commonService() {
   vm.endYear = null
 
   vm.setLatLngHeader = function(cenLat, cenLng) {
-    document.getElementById('coord-display').innerHTML = vm.startYear + "&nbsp;-&nbsp;" + vm.endYear + "&nbsp;&nbsp;LAT " + cenLat + ",&nbsp;&nbsp;" + "LNG&nbsp;&nbsp;" + cenLng
+    document.getElementById('coord-display').innerHTML = "&nbsp;&nbsp;LAT " + cenLat + ",&nbsp;&nbsp;" + "LNG&nbsp;&nbsp;" + cenLng
   }
 }

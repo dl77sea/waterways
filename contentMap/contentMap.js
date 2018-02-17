@@ -7,10 +7,10 @@ angular.module('app').component('contentMap', {
   templateUrl: './contentMap/contentMap.html',
   controller: ContentMap
   // bindings: {
-  //   lattt: '=',
-  //   coords: '=',
-  //   editMode: '=',
-  //   genGraph: '&'
+    // lattt: '=',
+    // coords: '=',
+    // editMode: '=',
+    // genGraph: '&'
   // }
 })
 
