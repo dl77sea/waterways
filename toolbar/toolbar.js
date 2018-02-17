@@ -5,17 +5,8 @@ function Toolbar(contentGraphService) {
     console.log("toolbar init")
     //from common
     // ctrl.threshold = 1.0
-    ctrl.tbCoords = ctrl.coords
   }
 
-  ctrl.clickGenGraph = function() {
-    // build graph
-    // contentGraphService.updateRatiosGraph()
-    // contentGraphService.updateProbabilityGraph()
-    ctrl.genGraph()
-    //switch to show graph
-    ctrl.editMode.mode = "graph"
-  }
 }
 
 angular.module('app').component('toolbar', {
