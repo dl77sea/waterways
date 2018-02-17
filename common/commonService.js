@@ -15,6 +15,7 @@ function commonService() {
   vm.defaultBfwDesign = 32
   vm.defaultDesignLifetime = 50
 
+
   //set from common.js
   vm.startYear = null
   vm.endYear = null
@@ -33,9 +34,17 @@ function commonService() {
       vm.startYear = parseInt(keys[0])            //2014
       vm.endYear = parseInt(keys[keys.length-2])  //2090
 
-      console.log("start and end year from commonService: ", commonService.startYear, commonService.endYear)
+      console.log("start and end year from commonService: ", vm.startYear, vm.endYear)
+      vm.designLifetimeMax = vm.endYear - (new Date()).getFullYear()
+      console.log(vm.designLifetimeMax)
       cb()
     })
   }
+
+  // vm.getDesignEndYear = function(designLifetime) {
+  //   let designEndYear = (new Date()).getFullYear() + parseInt(designLifetime)
+  //   return designEndYear
+  // }
+
 
 }

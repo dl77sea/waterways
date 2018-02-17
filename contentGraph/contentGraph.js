@@ -42,6 +42,11 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
     ctrl.lat = $stateParams.lat
     ctrl.lng = $stateParams.lng
 
+    ctrl.designLifetimeMax = commonService.designLifetimeMax
+    console.log("ctrl.designLifetime ", ctrl.designLifetime)
+    console.log("ctrl.designLifetimeMax ", ctrl.designLifetimeMax)
+    ctrl.designLifetimeMin = 0
+
     ctrl.updateGraphsOnInit()
 
 
@@ -57,10 +62,8 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
   //   bfwDesign: ctrl.bfwDesign
   // })
 
-
-
   ctrl.updateGraphsOnInit = function() {
-    console.log("hello from ctrl.updateGraphsOnInit")    
+    console.log("hello from ctrl.updateGraphsOnInit")
     contentGraphService.initRatiosGraph(ctrl.lat, ctrl.lng, ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign)
     contentGraphService.updateRatiosGraph(() => {
       contentGraphService.updateProbabilityGraph(() => {
@@ -93,7 +96,7 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
           // notify: false
         })
 
-        $scope.$apply()
+        // $scope.$apply()
       })
     })
 

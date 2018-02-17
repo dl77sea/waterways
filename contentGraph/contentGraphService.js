@@ -11,12 +11,13 @@ function contentGraphService(commonService) {
   vm.designLifetime = null;
 
   vm.firstFailYear = "-"
-  vm.prob  = "-"
+  vm.prob = "-"
 
   vm.initRatiosGraph = function(lat, lng, currentBfw, designLifetime, threshold) {
     console.log("hello from initRatiosGraph")
     vm.threshold = threshold
     vm.designLifetime = vm.getDesignEndYear(designLifetime)
+    // vm.designLifetime = commonService.getDesignEndYear(designLifetime)
     vm.currentBfw = currentBfw
     // commonService.startYear = startYear
     // commonService.endYear = endYear
@@ -30,7 +31,7 @@ function contentGraphService(commonService) {
       vm.width = 900 - vm.margin.left - vm.margin.right,
       vm.height = 350 - vm.margin.top - vm.margin.bottom;
 
-    vm.widthProb = 900 - vm.margin.left - vm.margin.right,
+      vm.widthProb = 900 - vm.margin.left - vm.margin.right,
       vm.heightProb = 175 - vm.margin.top - vm.margin.bottom;
 
     // parse the date / time
@@ -385,9 +386,9 @@ function contentGraphService(commonService) {
     vm.gMinMaxProb;
 
     vm.gThreshProb = vm.threshold / vm.currentBfw //verify this division with AM
-    console.log("---vm.threshold ",vm.threshold)
-    console.log("---vm.currentBfw ",vm.currentBfw)
-    console.log("---vm.gThreshProb ",vm.gThreshProb)
+    console.log("---vm.threshold ", vm.threshold)
+    console.log("---vm.currentBfw ", vm.currentBfw)
+    console.log("---vm.gThreshProb ", vm.gThreshProb)
 
     // commonService.startYear = 2014
     // commonService.endYear = 2090
@@ -432,20 +433,20 @@ function contentGraphService(commonService) {
         for (j = 0; j < vm.numYears; j++) {
           //should this be >= ? does it fail if val is equal to thresh?
           //it's ok that vm.gThreshProb is always one? should it ever be multiplied by anything?
-          if(valueLines[i][j].val > vm.gThreshProb) {
-            console.log("fail val: ",valueLines[i][j].val)
+          if (valueLines[i][j].val > vm.gThreshProb) {
+            console.log("fail val: ", valueLines[i][j].val)
             failureYears.push(valueLines[i][j].year)
             break;
           }
         }
       }
-      console.log("failureYears: ",failureYears)
+      console.log("failureYears: ", failureYears)
       //get averge of years recorded:
       let failureYearsSum = 0
-      for(year of failureYears) {
-        failureYearsSum+= parseInt(year)
+      for (year of failureYears) {
+        failureYearsSum += parseInt(year)
       }
-      vm.firstFailYear = (failureYearsSum/failureYears.length).toFixed(0)
+      vm.firstFailYear = (failureYearsSum / failureYears.length).toFixed(0)
       console.log("vm.firstFailYear: ", vm.firstFailYear)
       //------------------------------------------------
 
