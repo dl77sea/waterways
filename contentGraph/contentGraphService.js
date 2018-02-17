@@ -8,7 +8,7 @@ function contentGraphService(commonService) {
   vm.threshold = null;
   vm.currentBfw = null;
   // vm.bfwDesign = null;
-  vm.designLifetime = null;
+  vm.designLifetime = commonService.defaultDesignLifetime;
 
   vm.firstFailYear = "-"
   vm.prob = "-"

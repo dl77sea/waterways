@@ -11,6 +11,19 @@ angular.module('app').component('contentGraph', {
   //   genGraph: '&'
   // }
 })
+.directive('stringToNumber', function() {
+  return {
+    require: 'ngModel',
+    link: function(scope, element, attrs, ngModel) {
+      ngModel.$parsers.push(function(value) {
+        return '' + value;
+      });
+      ngModel.$formatters.push(function(value) {
+        return parseFloat(value);
+      });
+    }
+  };
+});
 ContentGraph.$inject = ['contentGraphService', '$state', '$stateParams', 'commonService', '$scope']
 
 function ContentGraph(contentGraphService, $state, $stateParams, commonService, $scope) {

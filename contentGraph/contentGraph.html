@@ -22,7 +22,7 @@
                 <label class="color-form-input-text" for="design-lifetime">Design Lifetime</label>
               </div>
               <div style="padding-bottom: 1rem; padding-top: 0.25rem">
-                <input name="design-lifetime" ng-model="$ctrl.designLifetime" type="number" ng-value="{{$ctrl.designLifetime}}" maxlength="2" size="2" min="{{$ctrl.designLifetimeMin}}" max="{{$ctrl.designLifetimeMax}}" required></input>
+                <input name="design-lifetime" type="number" ng-model="$ctrl.designLifetime" string-to-number ng-value="{{$ctrl.designLifetime}}" maxlength="2" size="2" min="{{$ctrl.designLifetimeMin}}" max="{{$ctrl.designLifetimeMax}}" required></input>
                 <!-- <input name="design-lifetime" ng-model="$ctrl.designLifetime" type="number" ng-value="40" size="2" min="0" max="10" required></input> -->
               </div>
             </li>
