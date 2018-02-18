@@ -31,7 +31,7 @@ function contentGraphService(commonService) {
       vm.width = 900 - vm.margin.left - vm.margin.right,
       vm.height = 350 - vm.margin.top - vm.margin.bottom;
 
-      vm.widthProb = 900 - vm.margin.left - vm.margin.right,
+    vm.widthProb = 900 - vm.margin.left - vm.margin.right,
       vm.heightProb = 175 - vm.margin.top - vm.margin.bottom;
 
     // parse the date / time
@@ -274,10 +274,71 @@ function contentGraphService(commonService) {
         .attr("x2", vm.x(vm.gMinMax[1]))
         .attr("y2", vm.y(vm.y.domain()[1]))
 
+      //add start and end of lifetime lines
+      //(note x is in form of date timestamp)
+      //(note vm.y.domain() returns "world coordinates" on svg canvas)
+
+      console.log("vm.gMinMax: ", vm.gMinMax)
+      console.log("vm.designLifetime: ", vm.designLifetime)
+      console.log("vm.parseTime(vm.designLifetime): ", vm.parseTime(vm.designLifetime))
+      console.log("y.domain(): ", vm.y.domain())
+      console.log(commonService.currentYear)
+
+
+      vm.svgRatios.append("line")
+        .attr("class", "end-of-lifetime-line")
+        .attr("x1", vm.x(vm.parseTime(vm.designLifetime)))
+        .attr("y1", vm.y(vm.y.domain()[0]))
+        .attr("x2", vm.x(vm.parseTime(vm.designLifetime)))
+        .attr("y2", vm.y(vm.y.domain()[1]))
+
+      vm.svgRatios.append("line")
+        .attr("class", "start-of-lifetime-line")
+        .attr("x1", vm.x(vm.parseTime(commonService.currentYear)))
+        .attr("y1", vm.y(vm.y.domain()[0]))
+        .attr("x2", vm.x(vm.parseTime(commonService.currentYear)))
+        .attr("y2", vm.y(vm.y.domain()[1]))
+
+      //build area path from start and end lines
+      let lifetimeAreaPath = [{
+          year: vm.parseTime(commonService.currentYear),
+          val0: vm.y.domain()[0],
+          val1: vm.y.domain()[1]
+        },
+        {
+          year: vm.parseTime(vm.designLifetime),
+          val0: vm.y.domain()[0],
+          val1: vm.y.domain()[1]
+        }
+      ]
+
+      vm.svgRatios.append("path")
+        .attr("class", "lifetime-fill")
+        .attr("d", function(d) {
+          return area(lifetimeAreaPath);
+        });
+
+      //append liftime labels
+      let lifetimeStartX = vm.x(vm.parseTime(commonService.currentYear))
+      let lifetimeEndX = vm.x(vm.parseTime(vm.designLifetime))
+      let paddingVal = 7
+      let lifetimeStartTxt = "Begin lifespan, " + commonService.currentYear
+      let lifetimeEndTxt = "End lifespan, " + vm.designLifetime
+      vm.appendLifeSpanLabel(lifetimeStartTxt, lifetimeStartX, paddingVal)
+      vm.appendLifeSpanLabel(lifetimeEndTxt, lifetimeEndX, paddingVal)
       cb()
 
 
     });
+
+    vm.appendLifeSpanLabel = function(label, x, padding) {
+      vm.svgRatios.append("text")
+        .attr("text-anchor", "end")
+        .attr("transform", "translate(" + (x - padding) + "," + 4 + ") rotate(-90)")
+        .style("font-size", "0.75rem")
+        .attr("fill", "#000")
+        .text(label);
+    }
 
 
     //mean line

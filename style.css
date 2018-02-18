@@ -136,8 +136,22 @@ li:nth-child(1n+2) {
   padding-left: 3rem;
 }
 
+.end-of-lifetime-line {
+  fill: none;
+  stroke: black;
+  stroke-width: 1px;
+}
 
+.start-of-lifetime-line {
+  fill: none;
+  stroke: black;
+  stroke-width: 1px;
+}
 
+.lifetime-fill {
+
+  fill: rgba(224,247,250,0.25);
+}
 
 .axis-line {
   fill: none;
@@ -266,7 +280,7 @@ g .tick text {
 }
 
 .grid .tick line {
-  stroke: #37474f;
+  stroke: #aaaaaa;
 }
 
 .color-title-main {
@@ -289,6 +303,7 @@ g .tick text {
   stroke: #00b8d4;
   stroke-width: 4px;
 }
+
 
 .color-graph-prob-line {
   fill: none;

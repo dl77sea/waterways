@@ -15,6 +15,7 @@ function commonService() {
   vm.defaultBfwDesign = 32
   vm.defaultDesignLifetime = 50
 
+  vm.currentYear = (new Date()).getFullYear()
 
   //set from common.js
   vm.startYear = null
