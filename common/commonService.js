@@ -11,8 +11,8 @@ function commonService() {
   // vm.currentYear = (new Date()).getFullYear()
   vm.selectedTile = null
 
-  vm.defaultCurrentBfw = 30
-  vm.defaultBfwDesign = 32
+  vm.defaultCurrentBfw = 5
+  vm.defaultBfwDesign = 6
   vm.defaultDesignLifetime = 50
 
   vm.currentYear = (new Date()).getFullYear()

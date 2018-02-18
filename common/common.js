@@ -11,10 +11,6 @@ function Common(contentGraphService, $state, commonService, $scope) {
   ctrl.defaultLat = 48.71875
   ctrl.defaultLng = -122.09375
 
-  ctrl.lattt = {
-    val: 123
-  }
-
   // ctrl.getStartEndDates = commonService.getStartEndDates(ctrl.continueInit)
 
   ctrl.$onInit = function() {
@@ -27,9 +23,9 @@ function Common(contentGraphService, $state, commonService, $scope) {
 
   ctrl.continueInit = function() {
     console.log("continueInit start")
-    ctrl.defaultBfw = 30
-    ctrl.defaultDesignLifetime = 2050
-    ctrl.defaultBfwDesign = 32
+    // ctrl.defaultBfw = 30
+    // ctrl.defaultDesignLifetime = 2050
+    // ctrl.defaultBfwDesign = 32
 
     //toolbar, graph, will need lat and lon from map click from mapService
     ctrl.coords = {
