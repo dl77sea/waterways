@@ -374,7 +374,7 @@ function contentGraphService(commonService) {
           .attr("y1", vm.y(vm.gThresh))
           .attr("x2", vm.x(vm.gMinMax[1]))
           .attr("y2", vm.y(vm.gThresh))
-
+        
       })
     }
 
