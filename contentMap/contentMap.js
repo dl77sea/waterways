@@ -179,7 +179,10 @@
       });
 
       if (commonService.selectedTile !== null) {
-        map.panTo({lat: commonService.selectedTile.getBounds().getCenter().lat(), lng: commonService.selectedTile.getBounds().getCenter().lng()});
+        map.panTo({
+          lat: commonService.selectedTile.getBounds().getCenter().lat(),
+          lng: commonService.selectedTile.getBounds().getCenter().lng()
+        });
         // map.setZoom(10);
       }
 
@@ -257,16 +260,22 @@
               commonService.selectedTile.getBounds().getCenter().lng() !== cenLng
             ) {
               tileOpts.strokeColor = ctrl.colorUnsel
+              tile = new google.maps.Rectangle(tileOpts);
             } else {
               tileOpts.strokeColor = ctrl.colorSel,
-                tileOpts.zIndex = 99999,
-                tileOpts.strokeWeight = 4.0
+              tileOpts.zIndex = 99999,
+              tileOpts.strokeWeight = 4.0
+
+              //replace existing commonService.selectedTile with reference to newly generated equivelant
+              tile = new google.maps.Rectangle(tileOpts);
+              commonService.selectedTile = tile
             }
           } else {
             tileOpts.strokeColor = ctrl.colorUnsel
+            tile = new google.maps.Rectangle(tileOpts);
           }
 
-          tile = new google.maps.Rectangle(tileOpts);
+          // tile = new google.maps.Rectangle(tileOpts);
 
           tile.addListener('click',
 
@@ -279,11 +288,11 @@
               }
               // set this selected tile
               commonService.selectedTile = this
-              commonService.selectedTile.setOptions({
-                strokeColor: ctrl.colorSel,
-                zIndex: 99999,
-                strokeWeight: 4.0
-              })
+              // commonService.selectedTile.setOptions({
+              //   strokeColor: ctrl.colorSel,
+              //   zIndex: 99999,
+              //   strokeWeight: 4.0
+              // })
 
               ctrl.selectedLat = this.getBounds().getCenter().lat()
               ctrl.selectedLat = this.getBounds().getCenter().lng()
@@ -350,12 +359,56 @@
           })
 
           tile.addListener('mousedown', function(event) {
+            let thisTileCen = this.getBounds().getCenter()
+
+            if (commonService.selectedTile !== null) {
+              console.log("selectedTile exists")
+              commonService.selectedTile.setOptions({
+                strokeColor: ctrl.colorUnsel,
+                zIndex: 999999,
+                strokeWeight: 1.0
+              })
+            }
             this.setOptions({
               strokeColor: ctrl.colorSel,
               zIndex: 99999,
               strokeWeight: 4.0
             })
+
+            // if (commonService.selectedTile !== null) {
+            //   console.log("mousedown there is a selectedTile")
+            //   if (
+            //     thisTileCen.lat() === commonService.selectedTile.getBounds().getCenter().lat() &&
+            //     thisTileCen.lng() === commonService.selectedTile.getBounds().getCenter().lng()
+            //   ) {
+            //     console.log("mousedown on selected tile")
+            //     commonService.selectedTile.setOptions({
+            //       strokeColor: ctrl.colorUnsel,
+            //       zIndex: 0,
+            //       strokeWeight: 1.0
+            //     })
+            //     this.setOptions({
+            //       strokeColor: ctrl.colorSel,
+            //       zIndex: 99999,
+            //       strokeWeight: 4.0
+            //     })
+            //   } else {
+            //     console.log("mousedown not on selected tile")
+            //     commonService.selectedTile.setOptions({
+            //       strokeColor: ctrl.colorUnsel,
+            //       zIndex: 0,
+            //       strokeWeight: 1.0
+            //     })
+            //     this.setOptions({
+            //       strokeColor: ctrl.colorSel,
+            //       zIndex: 99999,
+            //       strokeWeight: 4.0
+            //     })
+            //   }
+            // }
           })
+
+          // tile.addListener('mouseup', function(event) {
 
           tile.addListener('mouseout', function(event) {
             let thisTileCen = this.getBounds().getCenter()
