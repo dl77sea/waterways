@@ -494,12 +494,12 @@ function contentGraphService(commonService) {
       //return tbd
       let failureYears = []
       for (i = 0; i < valueLines.length; i++) {
-        console.log("i: ", i)
+        // console.log("i: ", i)
         for (j = 0; j < vm.numYears; j++) {
           //should this be >= ? does it fail if val is equal to thresh?
           //it's ok that vm.gThreshProb is always one? should it ever be multiplied by anything?
           if (valueLines[i][j].val > vm.gThreshProb) {
-            console.log("fail val: ", valueLines[i][j].val)
+            // console.log("fail val: ", valueLines[i][j].val)
             failureYears.push(valueLines[i][j].year)
             break;
           }
