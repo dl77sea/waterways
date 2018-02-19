@@ -362,19 +362,20 @@ a:visited,
 /*a:hover,*/
 a:active,
 a {
-  font-weight: lighter;
+  /*font-weight: lighter;*/
   text-decoration: none;
-  color: white;
+  color: #004a4d;
   margin-bottom: 4px;
   cursor: pointer;
 }
 
 a:hover {
   text-decoration: none;
+  color: white;
   /*text-decoration: underline;*/
-  border-style: solid;
-  border-bottom: 1px solid white;
-  margin-bottom: 4px;
+  /*border-style: solid;*/
+  /*border-bottom: 1px solid white;*/
+  /*margin-bottom: 4px;*/
 }
 .foot li:nth-child(1n+2) {
   padding-left: 1.5rem;
