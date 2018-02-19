@@ -25,7 +25,7 @@ function contentGraphService(commonService) {
     vm.margin = {
         top: 5,
         right: 20,
-        bottom: 40,
+        bottom: 30,
         left: 50
       },
       vm.width = 900 - vm.margin.left - vm.margin.right,
@@ -278,8 +278,8 @@ function contentGraphService(commonService) {
             .attr("transform", "translate(8)")
             .attr("y", 27)
             // .attr("dy", "0.71em")
-            .style("font-sccize", "0.75rem")
-            // .attr("fill", "#000")
+            .style("font-size", "0.75rem")
+            .attr("fill", "#000")
             .text("Year");
 
 
@@ -290,7 +290,7 @@ function contentGraphService(commonService) {
             // .call(d3.axisLeft(vm.y).ticks(20).tickSize(0).tickPadding(5))
             .call(d3.axisLeft(vm.y).tickSize(0).tickPadding(5).tickValues(d3.range(rangeMin, rangeMax, 0.5)))
             .append("text")
-            .attr("transform", "translate(-28) rotate(-90)")
+            .attr("transform", "translate(-32) rotate(-90)")
             .attr("y", 0)
             // .attr("dy", "-1.75rem")
             .style("font-size", "0.75rem")
@@ -595,7 +595,7 @@ function contentGraphService(commonService) {
     vm.svgProbability.append("g")
       .call(d3.axisLeft(vm.yProb).ticks(10).tickSize(0).tickPadding(5))
       .append("text")
-      .attr("transform", "translate(-28) rotate(-90)")
+      .attr("transform", "translate(-32) rotate(-90)")
       .attr("y", 0)
       // .attr("dy", "-1.75rem")
       .style("font-size", "0.75rem")

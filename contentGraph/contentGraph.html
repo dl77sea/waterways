@@ -1,15 +1,17 @@
 <div class="contain" style="align-items: center">
-  <div class="push-content-top"></div>
+  <div class="push-content-top" style="flex: 1 0 auto"></div>
 
   <div style="display: flex; flex-direction: row; height: 100%; width: 100%">
     <!-- <div style="display: flex; flex-direction: column; background-color: purple; width: 20rem; height: 100%"> -->
-    <div style="display: flex; flex-direction: column; width: 30rem; height: 100%; background-color: #eeeeee;">
-      <div style="margin-top: 1.75rem">
-        <form ng-submit="$ctrl.updateGraphs()">
+    <!-- <div style="display: flex; flex-grow: 1"> -->
+    <div style="display: flex; flex-direction: column; width: 30rem; background-color: #eeeeee;">
+      <!-- <div style="justify-content: space-between"> -->
+      <div style="height: 65%; display: flex; flex-direction: column; justify-content: center; align-items: center">
+        <form ng-submit="$ctrl.updateGraphs();">
           <!-- <ul ng-show="$ctrl.editMode.mode=='graph'"> -->
           <ul>
             <li class="color-form-input-bg" style="text-align: center;">
-              <div style="padding-top: 2rem;">
+              <div style="padding-top: 0rem;">
                 <label class="color-form-input-text" for="current-bfw">Current Bankfull Width (ft)</label>
               </div>
               <div style="padding-bottom: 1rem; padding-top: 0.25rem">
@@ -38,11 +40,11 @@
           <div style="display: flex; justify-content: center; align-items: center; margin-top: 0.75rem;">
             <button type="input">Update Graphs</button>
           </div>
-
         </form>
+        <!-- </div> -->
       </div>
 
-      <div class="color-prob-fail-background" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 225px; margin-top: auto">
+      <div class="color-prob-fail-background" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 35%">
         <div style="text-align: center; margin-bottom: 0.5rem">Probability of Failure Over<br>Design Lifetime</div>
         <div id="prob-ind" style="font-size: 4rem">{{ $ctrl.prob }}</div>
 
@@ -53,18 +55,20 @@
         </div>
 
       </div>
-
     </div>
-    <div style="margin-left: 1rem; display: flex; flex-direction: column; width: 100%; justify-content: center; align-items: center; background: white">
-      <div style="margin-top: 1rem">
-        <div class="graph-title color-title-graph" style="margin-top: 0.5rem">Bankfull Width</div>
-        <div id="d3ratios"></div>
+    <!-- </div> -->
+    <div style="margin-left: 1rem; display: flex; flex-direction: column; width: 100%; justify-content: center; align-items: center; background: white; ">
+      <div style="display: flex; height: 65%; align-items: center;">
+        <div style="">
+          <div class="graph-title color-title-graph" style="margin-top: 1rem">Bankfull Width</div>
+          <div id="d3ratios"></div>
+        </div>
       </div>
-      <div>
+      <div style="height: 35%">
         <div class="graph-title color-title-graph">Probability of Exceeding Design Bankfull Width</div>
         <div id="d3probability"></div>
       </div>
     </div>
   </div>
-  <div class="push-content-bottom"></div>
+  <div class="push-content-bottom" style="flex: 1 0 auto"></div>
 </div>
