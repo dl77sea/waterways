@@ -357,7 +357,7 @@ g .tick text {
   /*color: #01579b;*/
 }
 .color-axis-line-bottom {
-  fill: #fff;
+  stroke: #fff;
 }
 a:link,
 a:visited,
