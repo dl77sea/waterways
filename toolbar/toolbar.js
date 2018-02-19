@@ -15,11 +15,11 @@ angular.module('app').component('toolbar', {
   templateUrl: './toolbar/toolbar.html',
   controller: Toolbar,
   bindings: {
-    lattt: '=',
-    editMode: '=',
-    coords: '=',
-    getStartEndDates: '&',
-    // ccontinueInit: '&',
+    // lattt: '=',
+    // editMode: '=',
+    // coords: '=',
+    // getStartEndDates: '&',
+    // continueInit: '&',
     startYear: '=',
     endYear: '='
   }

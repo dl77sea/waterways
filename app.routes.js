@@ -46,7 +46,8 @@
       })
       .state('common-top.content-graph', {
         // url: 'graph',
-        url: '/graph.html?lat&lng&startYear&endYear&currentBfw&designLifetime&bfwDesign',
+        // url: '/graph.html?lat&lng&startYear&endYear&currentBfw&designLifetime&bfwDesign',
+        url: '/graph?lat&lng&startYear&endYear&currentBfw&designLifetime&bfwDesign',
         component: 'contentGraph'
       }
       // $urlRouterProvider.otherwise('/');
