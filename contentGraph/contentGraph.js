@@ -24,16 +24,26 @@ angular.module('app').component('contentGraph', {
     }
   };
 });
+
 ContentGraph.$inject = ['contentGraphService', '$state', '$stateParams', 'commonService', '$scope']
 
 function ContentGraph(contentGraphService, $state, $stateParams, commonService, $scope) {
   var ctrl = this
 
   ctrl.$onInit = function() {
+
     console.log("content graph init")
     ctrl.prob = "-"
     ctrl.firstFailYear = contentGraphService.firstFailYear
+    commonService.editMode.mode = "graph"
     commonService.setLatLngHeader($stateParams.lat, $stateParams.lng)
+
+
+    //create an instance of the map tile in commonService so exists when user hits back when deep linked
+    if(commonService.selectedTile === null) {
+      console.log("it is null")
+    }
+
 
     //&startYear&endYear&threshold&designLifetime&bfwDesign
     if ($stateParams.currentBfw === undefined) {
@@ -61,10 +71,8 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
     ctrl.designLifetimeMin = 0
 
     ctrl.updateGraphsOnInit()
-
-
-
   }
+
   // $state.go('common-top.content-graph', {
   //   lat: 123,
   //   lng: 345,

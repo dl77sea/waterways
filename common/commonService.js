@@ -21,6 +21,10 @@ function commonService() {
   vm.startYear = null
   vm.endYear = null
 
+  vm.editMode = {
+    mode: "map"
+  }
+  
   vm.setLatLngHeader = function(cenLat, cenLng) {
     document.getElementById('coord-display').innerHTML = "&nbsp;&nbsp;LAT " + cenLat + ",&nbsp;&nbsp;" + "LNG&nbsp;&nbsp;" + cenLng
   }

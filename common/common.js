@@ -33,12 +33,6 @@ function Common(contentGraphService, $state, commonService, $scope) {
       lng: ctrl.defaultLng
     }
 
-    //footer needs edit mode
-    ctrl.mode = {
-      mode: "map"
-    }
-    ctrl.editMode = ctrl.mode
-
     //graph will need threshold from toolbar (so bind this to graph and toolbar)
     ctrl.threshold = 1.0
 

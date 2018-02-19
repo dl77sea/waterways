@@ -1,7 +1,22 @@
 <div class="foot color-footer">
-
+  <div class="links" style="position: absolute; right: 3rem; top: 1rem;">
+    <ul>
+      <li style="display: inline">
+        <a href="https://cig.uw.edu/our-work/decision-support/culvert-phase-2/">about</a>
+      </li>
+      <li style="display: inline">
+        <a href="http://warm.atmos.washington.edu/2860/">source</a>
+      </li>
+      <li ng-show="$ctrl.editMode.mode=='graph'" style="display: inline">
+        <a href="">download data</a>
+      </li>
+      <li ng-show="$ctrl.editMode.mode=='graph'" style="display: inline">
+        <a ui-sref="common-top.content-map">back to map</a>
+      </li>
+    </ul>
+  </div>
   <!-- <div ng-show="$ctrl.editMode.mode=='graph'" style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%"> -->
-    <!-- <button ng-click="$ctrl.clickBackToMap()">Back To Map</button> -->
+  <!-- <button ng-click="$ctrl.clickBackToMap()">Back To Map</button> -->
   <!-- </div> -->
 
 </div>

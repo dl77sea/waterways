@@ -85,7 +85,7 @@ body {
 .foot {
   /*background-color: transparent;*/
   width: 100%;
-  pointer-events: none;
+  /*pointer-events: none;*/
   height: 4rem;
   position: fixed;
   bottom: 0;
@@ -107,18 +107,20 @@ body {
   height: 4rem;
 }
 
-
+/*
 .foot ul,
 .nav ul {
   display: inline;
   list-style: none;
 }
+*/
 
 .nav-left {
   float: left;
   margin-left: 3rem;
 }
 
+/*
 .foot ul li,
 .nav ul li {
   display: inline-block;
@@ -126,10 +128,12 @@ body {
   padding-bottom: 1rem;
 }
 
+
 .foot ul li a,
 .nav ul li a {
   text-align: center;
 }
+*/
 
 .nav-right {
   float: right;
@@ -146,9 +150,11 @@ body {
   /*background-color: orange;*/
 }
 
+/*
 li:nth-child(1n+2) {
   padding-left: 0.5rem;
 }
+*/
 
 #input-years {
   padding-left: 3rem;
@@ -197,21 +203,12 @@ li:nth-child(1n+2) {
 }
 
 
-a:link,
-a:visited,
-a:hover,
-a:active,
-a {
-  text-decoration: none;
-  color: black;
-  cursor: default;
-}
-
+/*
 li .click {
   cursor: pointer;
   text-decoration: underline;
 }
-
+*/
 /*.label {
   display: inline;
   margin-right: 0.25rem;
@@ -360,6 +357,28 @@ g .tick text {
   /*color: #01579b;*/
 }
 
+a:link,
+a:visited,
+/*a:hover,*/
+a:active,
+a {
+  font-weight: lighter;
+  text-decoration: none;
+  color: white;
+  margin-bottom: 4px;
+  cursor: pointer;
+}
+
+a:hover {
+  text-decoration: none;
+  /*text-decoration: underline;*/
+  border-style: solid;
+  border-bottom: 1px solid white;
+  margin-bottom: 4px;
+}
+.foot li:nth-child(1n+2) {
+  padding-left: 1.5rem;
+}
 input {
   font-size: 1rem;
   height: 1.25rem;

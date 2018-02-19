@@ -19,7 +19,7 @@ angular.module('app').component('toolbar', {
     editMode: '=',
     coords: '=',
     getStartEndDates: '&',
-    // continueInit: '&',
+    // ccontinueInit: '&',
     startYear: '=',
     endYear: '='
   }

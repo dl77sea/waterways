@@ -20,6 +20,9 @@
 
   function ContentMap($scope, contentGraphService, $state, $stateParams, commonService) {
     var ctrl = this
+
+    commonService.editMode.mode = "map"
+
     ctrl.startYear = 2014
     ctrl.endYear = 2090
     ctrl.defaultLat = 48.71875
@@ -305,7 +308,7 @@
               // map.panTo({lat: commonService.selectedTile.getBounds().getCenter().lat(), lng: commonService.selectedTile.getBounds().getCenter().lng()});
               // map.setZoom(10);
 
-
+              commonService.editMode.mode = "graph"
               $state.go('common-top.content-graph', {
                 lat: commonService.selectedTile.getBounds().getCenter().lat(),
                 lng: commonService.selectedTile.getBounds().getCenter().lng(),

@@ -2,7 +2,6 @@
 <!-- <content-map ng-show="$ctrl.editMode.mode=='map'" edit-mode="$ctrl.editMode" coords="$ctrl.coords" gen-graph="$ctrl.genGraph()"></content-map> -->
 <!-- <content-map edit-mode="$ctrl.editMode" coords="$ctrl.coords" gen-graph="$ctrl.genGraph()"></content-map> -->
 <ui-view></ui-view>
-<toolbar edit-mode="$ctrl.editMode" start-year="$ctrl.startYear" end-year="$ctrl.endYear" coords="$ctrl.coords" continue-init="$ctrl.continueInit()" get-start-end-dates="$ctrl.getStartEndDates()"></toolbar>
-
+<toolbar start-year="$ctrl.startYear" end-year="$ctrl.endYear" coords="$ctrl.coords" continue-init="$ctrl.continueInit()" get-start-end-dates="$ctrl.getStartEndDates()"></toolbar>
 <!-- <content-graph ng-show="$ctrl.editMode.mode=='graph'" edit-mode="$ctrl.editMode"  gen-graph="$ctrl.genGraph()" bfw-design="$ctrl.defaultBfwDesign" design-lifetime="$ctrl.defaultDesignLifetime" current-bfw="$ctrl.defaultBfw" start-year="$ctrl.defaultYearFrom" end-year="$ctrl.defaultYearTo"></content-graph> -->
-<footer coords="$ctrl.coords" edit-mode="$ctrl.editMode" ></footer>
+<footer coords="$ctrl.coords"></footer>
