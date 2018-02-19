@@ -586,6 +586,7 @@ function contentGraphService(commonService) {
       .attr("transform", "translate(8)")
       .attr("y", 27)
       // .attr("dy", "0.71em")
+      .style("class", "color-axis-line-bottom")
       .style("font-size", "0.75rem")
       .attr("fill", "#000")
       .text("Year");

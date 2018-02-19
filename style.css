@@ -356,7 +356,9 @@ g .tick text {
   color: #616161;
   /*color: #01579b;*/
 }
-
+.color-axis-line-bottom {
+  fill: #fff;
+}
 a:link,
 a:visited,
 /*a:hover,*/
