@@ -181,6 +181,48 @@
 
       });
 
+      //are we comming from a deep linked graph?
+      if (commonService.tileFromGraph !== null) {
+        let gridInc = 0.0625 / 2
+        let latStartCen = commonService.tileFromGraph.lat
+        let lonStartCen = commonService.tileFromGraph.lng
+
+        let swCornerLat = (latStartCen - gridInc)
+        let swCornerLng = (lonStartCen - gridInc)
+
+        let neCornerLat = (latStartCen + gridInc)
+        let neCornerLng = (lonStartCen + gridInc)
+
+        let swCorner = {
+          lat: swCornerLat,
+          lng: swCornerLng
+        }
+
+        let neCorner = {
+          lat: neCornerLat,
+          lng: neCornerLng
+        }
+
+        let square = new google.maps.LatLngBounds(swCorner, neCorner)
+
+        let tileOpts = {
+          strokeColor: ctrl.colorUnsel,
+          strokeOpacity: 1.0,
+          strokeWeight: 1.0,
+          fillColor: '#FFFFFF',
+          fillOpacity: 0.0,
+          zIndex: -1,
+          map: map,
+          bounds: square
+        }
+
+        // let cenLat = square.getCenter().lat()
+        // let cenLng = square.getCenter().lng()
+        let tile = new google.maps.Rectangle(tileOpts);
+
+        commonService.selectedTile = tile
+      }
+
       if (commonService.selectedTile !== null) {
         map.panTo({
           lat: commonService.selectedTile.getBounds().getCenter().lat(),
@@ -266,8 +308,8 @@
               tile = new google.maps.Rectangle(tileOpts);
             } else {
               tileOpts.strokeColor = ctrl.colorSel,
-              tileOpts.zIndex = 99999,
-              tileOpts.strokeWeight = 4.0
+                tileOpts.zIndex = 99999,
+                tileOpts.strokeWeight = 4.0
 
               //replace existing commonService.selectedTile with reference to newly generated equivelant
               tile = new google.maps.Rectangle(tileOpts);

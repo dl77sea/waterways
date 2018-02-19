@@ -38,12 +38,13 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
     commonService.editMode.mode = "graph"
     commonService.setLatLngHeader($stateParams.lat, $stateParams.lng)
 
-
     //create an instance of the map tile in commonService so exists when user hits back when deep linked
     if(commonService.selectedTile === null) {
-      console.log("it is null")
+      commonService.tileFromGraph = {lat: parseFloat($stateParams.lat), lng: parseFloat($stateParams.lng)};
+    } else {
+      //clear from service so it's not re-used
+      commonService.tileFromGraph = null;
     }
-
 
     //&startYear&endYear&threshold&designLifetime&bfwDesign
     if ($stateParams.currentBfw === undefined) {

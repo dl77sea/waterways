@@ -11,6 +11,9 @@ function commonService() {
   // vm.currentYear = (new Date()).getFullYear()
   vm.selectedTile = null
 
+  // vm.buildSelectedTile = false;
+  vm.tileFromGraph = null;
+
   vm.defaultCurrentBfw = 5
   vm.defaultBfwDesign = 6
   vm.defaultDesignLifetime = 50
@@ -24,7 +27,7 @@ function commonService() {
   vm.editMode = {
     mode: "map"
   }
-  
+
   vm.setLatLngHeader = function(cenLat, cenLng) {
     document.getElementById('coord-display').innerHTML = "&nbsp;&nbsp;LAT " + cenLat + ",&nbsp;&nbsp;" + "LNG&nbsp;&nbsp;" + cenLng
   }
