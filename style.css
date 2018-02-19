@@ -72,23 +72,41 @@ body {
 }
 
 .nav {
-  background-color: transparent;
+  /*background-color: transparent;*/
   pointer-events: none;
   width: 100%;
-  margin-top: 1.5rem;
+  /*margin-top: 3rem;*/
   text-align: center;
   position: fixed;
   top: 0;
+  height: 4rem
 }
 
 .foot {
-  background-color: transparent;
+  /*background-color: transparent;*/
   width: 100%;
   pointer-events: none;
-  /*height: 5rem;*/
+  height: 4rem;
   position: fixed;
   bottom: 0;
 }
+
+.push-content-top {
+  /*display: block;*/
+  /*flex-direction: column;*/
+  background-color: white;
+  width: 100%;
+  height: 4rem;
+}
+
+.push-content-bottom {
+  /*display: block;*/
+  /*flex-direction: column;*/
+  background-color: white;
+  width: 100%;
+  height: 4rem;
+}
+
 
 .foot ul,
 .nav ul {
@@ -149,7 +167,6 @@ li:nth-child(1n+2) {
 }
 
 .lifetime-fill {
-
   fill: rgba(224,247,250,0.25);
 }
 
@@ -179,21 +196,6 @@ li:nth-child(1n+2) {
   margin-bottom: 0.25rem;
 }
 
-.push-content-top {
-  /*display: block;*/
-  /*flex-direction: column;*/
-  background-color: white;
-  width: 100%;
-  height: 5rem;
-}
-
-.push-content-bottom {
-  /*display: block;*/
-  /*flex-direction: column;*/
-  background-color: transparent;
-  width: 100%;
-  height: 5rem;
-}
 
 a:link,
 a:visited,
@@ -276,11 +278,41 @@ g .tick text {
   fill: black;
 }
 .color-graph-fill {
-    fill: #e0f7fa;
+    fill: #d3f3f8;
+    /*#e0f7fa;*/
+    /*#d3f3f8;*/
+    /*#b2ebf2;*/
+    /*#e0f7fa;*/
+    /*#b2ebf2*/
 }
 
 .grid .tick line {
   stroke: #aaaaaa;
+}
+
+.color-header-bg {
+  background-color: #0097a7;
+  /*#00838f;*/
+  /*#006064;*/
+  /*#00838f;*/
+  /*#0097a7;*/
+  /*#00e5ff;*/
+}
+
+.color-header-title {
+  font-size: 2rem;
+  color: #fff;
+}
+
+.color-footer {
+  background-color: #0097a7;
+  /*#00838f;*/
+  /*#006064;*/
+  /*#0097a7;*/
+}
+
+.color-header-footer-text {
+  color: white;
 }
 
 .color-title-main {

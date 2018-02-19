@@ -197,7 +197,7 @@
       let tile;
 
       ctrl.colorUnsel = "#A0A0A0"
-      ctrl.colorSel = "#00FFFF"
+      ctrl.colorSel = "#0097a7" //"#00FFFF"
       ctrl.colorDown = "#00FFFF"
       ctrl.colorOver = "#FFF"
 
@@ -333,7 +333,7 @@
                 console.log("!!!!!!!!!!!!was selected")
                 this.setOptions({
                   strokeColor: ctrl.colorSel,
-                  zIndex: 9999,
+                  zIndex: 999999,
                   strokeOpacity: 1.0,
                   strokeWeight: 4.0
                 })
@@ -341,7 +341,7 @@
                 console.log("!!!!!!!!!!!!was not selected: ", commonService.selectedTile.getBounds().getCenter().lat(), thisTileCen.lat())
                 this.setOptions({
                   strokeColor: ctrl.colorOver,
-                  zIndex: 100,
+                  zIndex: 999999,
                   strokeOpacity: 1.0,
                   strokeWeight: 2.0
                 })
@@ -350,7 +350,7 @@
               console.log("!! else happened")
               this.setOptions({
                 strokeColor: ctrl.colorOver,
-                zIndex: 100,
+                zIndex: 999999,
                 strokeOpacity: 1.0,
                 strokeWeight: 2.0
               })

@@ -285,9 +285,10 @@ function contentGraphService(commonService) {
 
 
           // Add the Y Axis
+          console.log("add ratios left axis: rangemin, rangeMax: ", rangeMin, rangeMax)
           vm.svgRatios.append("g")
             // .call(d3.axisLeft(vm.y).ticks(20).tickSize(0).tickPadding(5))
-            .call(d3.axisLeft(vm.y).tickSize(0).tickPadding(5).tickValues(d3.range(rangeMin, rangeMax, 1)))
+            .call(d3.axisLeft(vm.y).tickSize(0).tickPadding(5).tickValues(d3.range(rangeMin, rangeMax, 0.5)))
             .append("text")
             .attr("transform", "translate(-28) rotate(-90)")
             .attr("y", 0)
