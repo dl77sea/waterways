@@ -488,8 +488,6 @@
                 strokeWeight: 1.0
               })
             }
-
-
           })
         } //end for each tile
       }

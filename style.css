@@ -88,7 +88,7 @@ body {
   width: 100%;
   flex: 1 0 auto;
   /*pointer-events: none;*/
-  height: 2.5rem;
+  height: 3rem;
   position: fixed;
   bottom: 0;
 }
@@ -106,7 +106,7 @@ body {
   /*flex-direction: column;*/
   background-color: white;
   width: 100%;
-  height: 2.5rem;
+  height: 3rem;
 }
 
 /*
@@ -193,7 +193,7 @@ li:nth-child(1n+2) {
 .coords {
   text-align: center;
   font-weight: bold;
-  /*font-size: 1.25rem;  */
+  /*font-size: 1.25rem;*/
 }
 
 .graph-title {
@@ -240,7 +240,7 @@ button {
      padding-bottom: 1rem;
      padding-left: 2rem;
      padding-right: 2rem;
-     background-color: #00b8d4;
+     background-color: #0097a7;
      color: white;
      text-decoration: none!important;
      outline: none;
@@ -254,13 +254,14 @@ button {
 button:hover {
   background-color: #00acc1;
 }
-
+/*
 .color-button {
   background-color: #40c4ff;
 }
 .color-button-hover {
   background-color: #00b0ff;
 }
+*/
 
 
 
@@ -290,7 +291,7 @@ g .tick text {
 }
 
 .color-header-bg {
-  background-color: #0097a7;
+  background-color: #00b8d4;
   /*#00838f;*/
   /*#006064;*/
   /*#00838f;*/
@@ -315,13 +316,13 @@ g .tick text {
 }
 
 .color-title-main {
-  color: #0097a7;
+  color: #00b8d4;
   /*#00838f;*/
    /*#00838f;*/
 }
 
 .color-title-graph {
-  color: #0097a7;
+  color: #00b8d4;
   /*#80d8ff;*/
 }
 
@@ -368,19 +369,19 @@ a:active,
 a {
   /*font-weight: lighter;*/
   text-decoration: none;
-  color: #004a4d;
+  color: white;
   margin-bottom: 4px;
   cursor: pointer;
 }
 
-a:hover {
-  text-decoration: none;
-  color: white;
+/*a:hover {*/
+  /*text-decoration: none;*/
+  /*color: white;*/
   /*text-decoration: underline;*/
   /*border-style: solid;*/
   /*border-bottom: 1px solid white;*/
   /*margin-bottom: 4px;*/
-}
+/*}*/
 .foot li:nth-child(1n+2) {
   padding-left: 1.5rem;
 }
