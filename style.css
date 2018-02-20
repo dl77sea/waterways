@@ -240,7 +240,7 @@ button {
      padding-bottom: 1rem;
      padding-left: 2rem;
      padding-right: 2rem;
-     background-color: #0097a7;
+     background-color: #00838f;
      color: white;
      text-decoration: none!important;
      outline: none;
@@ -305,7 +305,7 @@ g .tick text {
 }
 
 .color-footer {
-  background-color: #0097a7;
+  background-color: #00838f;
   /*#00838f;*/
   /*#006064;*/
   /*#0097a7;*/
