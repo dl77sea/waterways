@@ -13,12 +13,14 @@ function contentGraphService(commonService) {
   vm.firstFailYear = "-"
   vm.prob = "-"
 
-  vm.initRatiosGraph = function(lat, lng, currentBfw, designLifetime, threshold) {
+  // vm.initRatiosGraph = function(lat, lng, currentBfw, designLifetime, threshold) {
+  vm.initRatiosGraph = function() {
     console.log("hello from initRatiosGraph")
-    vm.threshold = threshold
-    vm.designLifetime = vm.getDesignEndYear(designLifetime)
+    // vm.threshold = threshold
+    // vm.designLifetime = vm.getDesignEndYear(designLifetime)
+    // vm.currentBfw = currentBfw
+
     // vm.designLifetime = commonService.getDesignEndYear(designLifetime)
-    vm.currentBfw = currentBfw
     // commonService.startYear = startYear
     // commonService.endYear = endYear
 
@@ -74,7 +76,7 @@ function contentGraphService(commonService) {
   }
 
 
-  vm.updateRatiosGraph = function(cb) {
+  vm.updateRatiosGraph = function(currentBfw, designLifetime, threshold, cb) {
     //createRatiosGraph(newSvg)
     //showRatiosGraph()
     //  if exist:
@@ -83,6 +85,10 @@ function contentGraphService(commonService) {
     //  else:
     //    set existing graph to visible
     //
+    console.log("+++from updateRatiosGraph: ", currentBfw, designLifetime, threshold)
+    vm.threshold = threshold
+    vm.designLifetime = vm.getDesignEndYear(designLifetime)
+    vm.currentBfw = currentBfw
 
     vm.clearGraphs()
     // vm.updateRatioGraphYaxis()
