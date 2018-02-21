@@ -106,16 +106,17 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
     ctrl.firstFailYear = contentGraphService.firstFailYear
     console.log("all done")
 
-    // $state.go('common-top.content-graph', {
-    //     lat: ctrl.lat,
-    //     lng: ctrl.lng,
-    //     currentBfw: ctrl.currentBfw,
-    //     designLifetime: ctrl.designLifetime,
-    //     bfwDesign: ctrl.bfwDesign
-    //   }, {
-    //     reload: false
-    //     // notify: false
-    //   })
+    $state.go('common-top.content-graph', {
+        lat: ctrl.lat,
+        lng: ctrl.lng,
+        currentBfw: ctrl.currentBfw,
+        designLifetime: ctrl.designLifetime,
+        bfwDesign: ctrl.bfwDesign
+      }, {
+        reloadOnSearch: false
+        // reload: false,
+        // notify: false
+      })
     }
 
     ctrl.updateRatiosGraphCb = function() {
