@@ -69,9 +69,26 @@ function contentGraphService(commonService) {
     return designEndYear
   }
 
+  vm.updateRatioGraphYaxis = function() {
+
+  }
+
 
   vm.updateRatiosGraph = function(cb) {
+    //createRatiosGraph(newSvg)
+    //showRatiosGraph()
+    //  if exist:
+    //    set existing graph to display none
+    //    set newly created graph to visible
+    //  else:
+    //    set existing graph to visible
+    //
+
     vm.clearGraphs()
+    // vm.updateRatioGraphYaxis()
+    // vm.updateRatioGraphLifeSpan()
+    // vm.updateRatioGraphThresh()
+    //-----------------
     vm.gMinMax;
     vm.gThresh = vm.threshold
 
@@ -120,8 +137,6 @@ function contentGraphService(commonService) {
           d.val = parseFloat(d.val) * vm.currentBfw;
         });
       }
-
-
 
       //figure out min and max at each year for all value lines
       //(used for shading and eventually, range setting)
@@ -462,6 +477,7 @@ function contentGraphService(commonService) {
 
     vm.gMinMaxProb;
 
+    //note; vm.theshold is value from form input PCS as-is
     // vm.gThreshProb = vm.threshold / vm.currentBfw //verify this division with AM: ask why subtracting 2 and not adding?
     vm.gThreshProb = ((vm.threshold-2)/1.2) / vm.currentBfw
     console.log("---vm.threshold ", vm.threshold)
