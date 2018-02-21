@@ -58,7 +58,6 @@ function Common(contentGraphService, $state, commonService, $scope) {
   //   })
   // }
 
-
   //inherited by contentMap and contentGraph components
   ctrl.genGraph = function() {
     console.log("hello from inherited genGraph")

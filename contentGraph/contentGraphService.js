@@ -65,7 +65,7 @@ function contentGraphService(commonService) {
   }
 
   vm.getDesignEndYear = function(designLifetime) {
-    let designEndYear = (new Date()).getFullYear() + parseInt(designLifetime)
+    let designEndYear = (new Date()).getFullYear()+1 + parseInt(designLifetime)
     return designEndYear
   }
 
@@ -95,7 +95,8 @@ function contentGraphService(commonService) {
     // vm.y.domain([0.65 * vm.currentBfw, 1.35 * vm.currentBfw]);
 
     var areaPath = []
-    d3.csv("./contentGraph/ratio00.csv", function(error, data) {
+    // d3.csv("./contentGraph/ratio00.csv", function(error, data) {
+    d3.csv("./testcsv/A1B45.65625-120.96875ratio.csv", function(error, data) {
       if (error) throw error;
       var rangeMin
       var rangeMax
@@ -239,7 +240,9 @@ function contentGraphService(commonService) {
     //mean line
     vm.genMeanLine = function(rangeMin, rangeMax, area) {
       let meanLine = []
-      d3.csv("./contentGraph/ratiomean.csv", function(error, data) {
+      // d3.csv("./contentGraph/ratiomean.csv", function(error, data) {
+      d3.csv("./testcsv/A1B45.65625-120.96875avgratio.csv", function(error, data) {
+
         if (error) throw error;
 
         //build mean line
@@ -451,9 +454,13 @@ function contentGraphService(commonService) {
     vm.gMinMaxProb;
 
     vm.gThreshProb = vm.threshold / vm.currentBfw //verify this division with AM
+    // vm.gThreshProb = ((vm.threshold-2)/1.2) / vm.currentBfw
     console.log("---vm.threshold ", vm.threshold)
     console.log("---vm.currentBfw ", vm.currentBfw)
     console.log("---vm.gThreshProb ", vm.gThreshProb)
+    /*
+    ((vm.threshold-2)/1.2))/vm.currentBfw
+    */
 
     // commonService.startYear = 2014
     // commonService.endYear = 2090
@@ -472,7 +479,8 @@ function contentGraphService(commonService) {
     })
 
     vm.yProb.domain([0.0, 1.0]);
-    d3.csv("./contentGraph/ratio00.csv", function(error, data) {
+    // d3.csv("./contentGraph/ratio00.csv", function(error, data) {
+    d3.csv("./testcsv/A1B45.65625-120.96875ratio.csv", function(error, data) {
       if (error) throw error;
 
       //for each object, make it an array as above for each value line
