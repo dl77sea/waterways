@@ -90,6 +90,7 @@ function contentGraphService(commonService) {
     vm.threshold = threshold
     vm.designLifetime = vm.getDesignEndYear(designLifetime)
     vm.currentBfw = currentBfw
+    vm.culvertSize = (vm.currentBfw * 1.2) + 2
 
     vm.clearGraphs()
     // vm.updateRatioGraphYaxis()
@@ -141,7 +142,8 @@ function contentGraphService(commonService) {
       for (let i = 0; i < valueLines.length; i++) {
         valueLines[i].forEach(function(d) {
           d.year = vm.parseTime(d.year);
-          d.val = parseFloat(d.val) * vm.currentBfw;
+          // d.val = parseFloat(d.val) * vm.currentBfw;
+          d.val = parseFloat(d.val) * vm.culvertSize
         });
       }
 
@@ -287,7 +289,7 @@ function contentGraphService(commonService) {
         //format values in valueLine
         for (obj of meanLine) {
           obj.year = vm.parseTime(obj.year)
-          obj.val = parseFloat(obj.val) * vm.currentBfw
+          obj.val = parseFloat(obj.val) * vm.culvertSize //vm.currentBfw
         }
 
         //plot mean line
@@ -330,7 +332,7 @@ function contentGraphService(commonService) {
             .style("font-size", "0.75rem")
             // .style("padding", "0.5rem")
             .attr("fill", "#000")
-            .text("Bankfull Width (ft)");
+            .text("Culvert Size (ft)");
 
           // add the Y gridlines
           vm.svgRatios.append("g")
@@ -487,7 +489,7 @@ function contentGraphService(commonService) {
     //note; vm.theshold is value from form input PCS as-is
     // vm.gThreshProb = vm.threshold / vm.currentBfw //verify this division with AM: ask why subtracting 2 and not adding?
     // vm.gThreshProb = vm.threshold / vm.currentBfw
-    vm.gThreshProb = vm.threshold / (vm.currentBfw * 1.2) + 2
+    vm.gThreshProb = vm.threshold / vm.culvertSize
     console.log("---vm.threshold ", vm.threshold)
     console.log("---vm.currentBfw ", vm.currentBfw)
     console.log("---vm.gThreshProb ", vm.gThreshProb)
