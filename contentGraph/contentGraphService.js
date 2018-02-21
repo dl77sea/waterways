@@ -462,8 +462,8 @@ function contentGraphService(commonService) {
 
     vm.gMinMaxProb;
 
-    vm.gThreshProb = vm.threshold / vm.currentBfw //verify this division with AM
-    // vm.gThreshProb = ((vm.threshold-2)/1.2) / vm.currentBfw
+    // vm.gThreshProb = vm.threshold / vm.currentBfw //verify this division with AM: ask why subtracting 2 and not adding?
+    vm.gThreshProb = ((vm.threshold-2)/1.2) / vm.currentBfw
     console.log("---vm.threshold ", vm.threshold)
     console.log("---vm.currentBfw ", vm.currentBfw)
     console.log("---vm.gThreshProb ", vm.gThreshProb)
@@ -514,7 +514,7 @@ function contentGraphService(commonService) {
         // console.log("i: ", i)
         for (j = 0; j < vm.numYears; j++) {
           //should this be >= ? does it fail if val is equal to thresh?
-          //it's ok that vm.gThreshProb is always one? should it ever be multiplied by anything?
+          
           if (valueLines[i][j].val > vm.gThreshProb) {
             // console.log("fail val: ", valueLines[i][j].val)
             failureYears.push(valueLines[i][j].year)
