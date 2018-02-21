@@ -514,7 +514,7 @@ function contentGraphService(commonService) {
         // console.log("i: ", i)
         for (j = 0; j < vm.numYears; j++) {
           //should this be >= ? does it fail if val is equal to thresh?
-          
+
           if (valueLines[i][j].val > vm.gThreshProb) {
             // console.log("fail val: ", valueLines[i][j].val)
             failureYears.push(valueLines[i][j].year)
