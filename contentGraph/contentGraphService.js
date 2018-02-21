@@ -86,7 +86,7 @@ function contentGraphService(commonService) {
     //    set existing graph to visible
     //
     console.log("+++from updateRatiosGraph: ", currentBfw, designLifetime, threshold)
-    vm.threshold = threshold //((vm.threshold-2)/1.2)
+    vm.threshold = ((vm.threshold-2)/1.2) // threshold //((vm.threshold-2)/1.2)
     vm.designLifetime = vm.getDesignEndYear(designLifetime)
     vm.currentBfw = currentBfw
 
