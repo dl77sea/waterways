@@ -246,12 +246,21 @@ function contentGraphService(commonService) {
         if (error) throw error;
 
         //build mean line
-        for (obj of data) {
+        for (let i=0; i < data.length; i++) {
+          console.log("%%%%%%: ", data[i][0])
+          console.log("%%%%%%: ", data[i][""])
           meanLine.push({
-            year: obj[""],
-            val: obj[0]
+            year: data[i][""],
+            val: data[i][0]
           })
         }
+        // for (obj of data) {
+        //   console.log("%%%%%%: ", data[i])
+        //   meanLine.push({
+        //     year: obj[""],
+        //     val: obj[0]
+        //   })
+        // }
 
         //format values in valueLine
         for (obj of meanLine) {
@@ -376,9 +385,9 @@ function contentGraphService(commonService) {
           let lifetimeStartX = vm.x(vm.parseTime(commonService.currentYear))
           let lifetimeEndX = vm.x(vm.parseTime(vm.designLifetime))
           let paddingVal = 7
-          let lifetimeStartTxt = "Begin lifespan, " + commonService.currentYear
+          // let lifetimeStartTxt = "Begin lifespan, " + commonService.currentYear
           let lifetimeEndTxt = "End lifespan, " + vm.designLifetime
-          vm.appendLifeSpanLabel(lifetimeStartTxt, lifetimeStartX, paddingVal)
+          // vm.appendLifeSpanLabel(lifetimeStartTxt, lifetimeStartX, paddingVal)
           vm.appendLifeSpanLabel(lifetimeEndTxt, lifetimeEndX, paddingVal)
 
 
