@@ -86,7 +86,7 @@ function contentGraphService(commonService) {
     //    set existing graph to visible
     //
     console.log("+++from updateRatiosGraph: ", currentBfw, designLifetime, threshold)
-    vm.threshold = threshold
+    vm.threshold = ((vm.threshold-2)/1.2) / vm.currentBfw //threshold
     vm.designLifetime = vm.getDesignEndYear(designLifetime)
     vm.currentBfw = currentBfw
 
@@ -485,7 +485,7 @@ function contentGraphService(commonService) {
 
     //note; vm.theshold is value from form input PCS as-is
     // vm.gThreshProb = vm.threshold / vm.currentBfw //verify this division with AM: ask why subtracting 2 and not adding?
-    vm.gThreshProb = ((vm.threshold-2)/1.2) / vm.currentBfw
+    vm.gThreshProb = vm.threshold //((vm.threshold-2)/1.2) / vm.currentBfw
     console.log("---vm.threshold ", vm.threshold)
     console.log("---vm.currentBfw ", vm.currentBfw)
     console.log("---vm.gThreshProb ", vm.gThreshProb)
