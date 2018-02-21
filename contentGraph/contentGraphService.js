@@ -86,7 +86,8 @@ function contentGraphService(commonService) {
     //    set existing graph to visible
     //
     console.log("+++from updateRatiosGraph: ", currentBfw, designLifetime, threshold)
-    vm.threshold = ((threshold-2)/1.2) // threshold //((vm.threshold-2)/1.2)
+    // vm.threshold = ((threshold-2)/1.2) // threshold //((vm.threshold-2)/1.2)
+    vm.threshold = threshold
     vm.designLifetime = vm.getDesignEndYear(designLifetime)
     vm.currentBfw = currentBfw
 
@@ -485,7 +486,8 @@ function contentGraphService(commonService) {
 
     //note; vm.theshold is value from form input PCS as-is
     // vm.gThreshProb = vm.threshold / vm.currentBfw //verify this division with AM: ask why subtracting 2 and not adding?
-    vm.gThreshProb = vm.threshold / vm.currentBfw
+    // vm.gThreshProb = vm.threshold / vm.currentBfw
+    vm.gThreshProb = vm.threshold / (vm.currentBfw * 1.2) + 2
     console.log("---vm.threshold ", vm.threshold)
     console.log("---vm.currentBfw ", vm.currentBfw)
     console.log("---vm.gThreshProb ", vm.gThreshProb)
@@ -536,7 +538,6 @@ function contentGraphService(commonService) {
         // console.log("i: ", i)
         for (j = 0; j < vm.numYears; j++) {
           //should this be >= ? does it fail if val is equal to thresh?
-
           if (valueLines[i][j].val > vm.gThreshProb) {
             // console.log("fail val: ", valueLines[i][j].val)
             failureYears.push(valueLines[i][j].year)
