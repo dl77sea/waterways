@@ -556,6 +556,7 @@ function contentGraphService(commonService) {
             val: valueLineObj[key]
           })
         }
+        vm.doFirst(valueLine)
         valueLines.push(valueLine)
       }
       console.log("updateProbabilityGraph valueLines: ", valueLines)
