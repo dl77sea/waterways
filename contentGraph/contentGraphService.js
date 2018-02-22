@@ -220,7 +220,7 @@ function contentGraphService(commonService) {
       }
 
       var area = d3.area()
-        .curve(d3.curveBasis)
+        // .curve(d3.curveBasis)
         .x(function(d) {
           return vm.x(d.year);
         })
@@ -258,7 +258,7 @@ function contentGraphService(commonService) {
 
     vm.doFirst = function(valueLine) {
       // console.log("from doFirst: ", valueLines)
-      valueLine[0].val = valueLine[1].val
+      // valueLine[0].val = valueLine[1].val
     }
 
     vm.appendLifeSpanLabel = function(label, x, padding) {
