@@ -136,8 +136,12 @@ function contentGraphService(commonService) {
             val: valueLineObj[key]
           })
         }
+        //make value on 2018 same as 2019
+        vm.doFirst(valueLine)
+
         valueLines.push(valueLine)
       }
+
 
       //format data in value lines (do bankfull width mult here)
       for (let i = 0; i < valueLines.length; i++) {
@@ -216,7 +220,7 @@ function contentGraphService(commonService) {
       }
 
       var area = d3.area()
-        // .curve(d3.curveBasis)
+        .curve(d3.curveBasis)
         .x(function(d) {
           return vm.x(d.year);
         })
@@ -251,6 +255,11 @@ function contentGraphService(commonService) {
 
 
     });
+
+    vm.doFirst = function(valueLine) {
+      // console.log("from doFirst: ", valueLines)
+      valueLine[0].val = valueLine[1].val
+    }
 
     vm.appendLifeSpanLabel = function(label, x, padding) {
       vm.svgRatios.append("text")
@@ -291,7 +300,7 @@ function contentGraphService(commonService) {
         // })
 
         console.log("avg line: ", meanLine)
-
+        vm.doFirst(meanLine)
 
         // for (obj of data) {
         //   console.log("%%%%%%: ", data[i])

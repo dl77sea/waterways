@@ -14,8 +14,8 @@ function commonService() {
   // vm.buildSelectedTile = false;
   vm.tileFromGraph = null;
 
-  vm.defaultCurrentBfw = 5
-  vm.defaultBfwDesign = 6
+  vm.defaultCurrentBfw = 8
+  vm.defaultBfwDesign = 12
   vm.defaultDesignLifetime = 50
 
   vm.currentYear = (new Date()).getFullYear()
