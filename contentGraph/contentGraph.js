@@ -1,29 +1,29 @@
 angular.module('app').component('contentGraph', {
-  templateUrl: './contentGraph/contentGraph.html',
-  controller: ContentGraph
-  // bindings: {
-  //   editMode: '=',
-  //   startYear: '=',
-  //   endYear: '=',
-  //   currentBfw: '=',
-  //   designLifetime: '=',
-  //   bfwDesign: '=',
-  //   genGraph: '&'
-  // }
-})
-.directive('stringToNumber', function() {
-  return {
-    require: 'ngModel',
-    link: function(scope, element, attrs, ngModel) {
-      ngModel.$parsers.push(function(value) {
-        return '' + value;
-      });
-      ngModel.$formatters.push(function(value) {
-        return parseFloat(value);
-      });
-    }
-  };
-});
+    templateUrl: './contentGraph/contentGraph.html',
+    controller: ContentGraph
+    // bindings: {
+    //   editMode: '=',
+    //   startYear: '=',
+    //   endYear: '=',
+    //   currentBfw: '=',
+    //   designLifetime: '=',
+    //   bfwDesign: '=',
+    //   genGraph: '&'
+    // }
+  })
+  .directive('stringToNumber', function() {
+    return {
+      require: 'ngModel',
+      link: function(scope, element, attrs, ngModel) {
+        ngModel.$parsers.push(function(value) {
+          return '' + value;
+        });
+        ngModel.$formatters.push(function(value) {
+          return parseFloat(value);
+        });
+      }
+    };
+  });
 
 ContentGraph.$inject = ['contentGraphService', '$state', '$stateParams', 'commonService', '$scope']
 
@@ -39,8 +39,11 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
     commonService.setLatLngHeader($stateParams.lat, $stateParams.lng)
 
     //create an instance of the map tile in commonService so exists when user hits back when deep linked
-    if(commonService.selectedTile === null) {
-      commonService.tileFromGraph = {lat: parseFloat($stateParams.lat), lng: parseFloat($stateParams.lng)};
+    if (commonService.selectedTile === null) {
+      commonService.tileFromGraph = {
+        lat: parseFloat($stateParams.lat),
+        lng: parseFloat($stateParams.lng)
+      };
     } else {
       //clear from service so it's not re-used
       commonService.tileFromGraph = null;
@@ -86,8 +89,9 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
 
   ctrl.updateGraphsOnInit = function() {
     console.log("hello from ctrl.updateGraphsOnInit")
-    contentGraphService.initRatiosGraph(ctrl.lat, ctrl.lng, ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign)
-    contentGraphService.updateRatiosGraph(() => {
+    // contentGraphService.initRatiosGraph(ctrl.lat, ctrl.lng, ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign)
+    contentGraphService.initRatiosGraph()
+    contentGraphService.updateRatiosGraph(ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign, () => {
       contentGraphService.updateProbabilityGraph(() => {
         ctrl.prob = contentGraphService.prob
         ctrl.firstFailYear = contentGraphService.firstFailYear
@@ -97,35 +101,38 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
     })
   }
 
+  ctrl.cb = function() {
+    ctrl.prob = contentGraphService.prob
+    ctrl.firstFailYear = contentGraphService.firstFailYear
+    console.log("all done")
 
-  ctrl.updateGraphs = function() {
-    console.log("hello from ctrl.updateGraphs")
-
-    contentGraphService.updateRatiosGraph(() => {
-      contentGraphService.updateProbabilityGraph(() => {
-        ctrl.prob = contentGraphService.prob
-        ctrl.firstFailYear = contentGraphService.firstFailYear
-        console.log("all done")
-
-        $state.go('common-top.content-graph', {
-          lat: ctrl.lat,
-          lng: ctrl.lng,
-          currentBfw: ctrl.currentBfw,
-          designLifetime: ctrl.designLifetime,
-          bfwDesign: ctrl.bfwDesign
-        }, {
-          reload: false
-          // notify: false
-        })
-
-        // $scope.$apply()
+    $state.go('common-top.content-graph', {
+        lat: ctrl.lat,
+        lng: ctrl.lng,
+        currentBfw: ctrl.currentBfw,
+        designLifetime: ctrl.designLifetime,
+        bfwDesign: ctrl.bfwDesign
+      }, {
+        reloadOnSearch: false
+        // reload: false,
+        // notify: false
       })
-    })
+    }
+
+    ctrl.updateRatiosGraphCb = function() {
+      contentGraphService.updateProbabilityGraph(ctrl.cb)
+    }
+
+    ctrl.updateGraphs = function() {
+      console.log("hello from ctrl.updateGraphs")
+      // contentGraphService.initRatiosGraph(ctrl.lat, ctrl.lng, ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign)
+      contentGraphService.updateRatiosGraph(ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign, ctrl.updateRatiosGraphCb)
 
 
-    // contentGraphService.updateRatiosGraph()
-    // contentGraphService.updateProbabilityGraph()
+
+      // contentGraphService.updateRatiosGraph()
+      // contentGraphService.updateProbabilityGraph()
 
 
+    }
   }
-}

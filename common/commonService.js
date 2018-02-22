@@ -14,8 +14,8 @@ function commonService() {
   // vm.buildSelectedTile = false;
   vm.tileFromGraph = null;
 
-  vm.defaultCurrentBfw = 5
-  vm.defaultBfwDesign = 6
+  vm.defaultCurrentBfw = 8
+  vm.defaultBfwDesign = 12
   vm.defaultDesignLifetime = 50
 
   vm.currentYear = (new Date()).getFullYear()
@@ -33,7 +33,7 @@ function commonService() {
   }
 
   vm.getStartEndDates = function(cb) {
-    d3.csv("./contentGraph/ratio00.csv", function(error, data) {
+    d3.csv("./testcsv/A1B45.65625-120.96875ratio.csv", function(error, data) {
       if (error) throw error;
       let keys = Object.keys(data[0])
       // ctrl.startYear = parseInt(keys[0])            //2014

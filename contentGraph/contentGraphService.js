@@ -13,12 +13,15 @@ function contentGraphService(commonService) {
   vm.firstFailYear = "-"
   vm.prob = "-"
 
-  vm.initRatiosGraph = function(lat, lng, currentBfw, designLifetime, threshold) {
+  // vm.initRatiosGraph = function(lat, lng, currentBfw, designLifetime, threshold) {
+  vm.initRatiosGraph = function() {
     console.log("hello from initRatiosGraph")
-    vm.threshold = threshold
-    vm.designLifetime = vm.getDesignEndYear(designLifetime)
+
+    // vm.threshold = threshold
+    // vm.designLifetime = vm.getDesignEndYear(designLifetime)
+    // vm.currentBfw = currentBfw
+
     // vm.designLifetime = commonService.getDesignEndYear(designLifetime)
-    vm.currentBfw = currentBfw
     // commonService.startYear = startYear
     // commonService.endYear = endYear
 
@@ -69,9 +72,32 @@ function contentGraphService(commonService) {
     return designEndYear
   }
 
+  vm.updateRatioGraphYaxis = function() {
 
-  vm.updateRatiosGraph = function(cb) {
+  }
+
+
+  vm.updateRatiosGraph = function(currentBfw, designLifetime, threshold, cb) {
+    //createRatiosGraph(newSvg)
+    //showRatiosGraph()
+    //  if exist:
+    //    set existing graph to display none
+    //    set newly created graph to visible
+    //  else:
+    //    set existing graph to visible
+    //
+    console.log("+++from updateRatiosGraph: ", currentBfw, designLifetime, threshold)
+    // vm.threshold = ((threshold-2)/1.2) // threshold //((vm.threshold-2)/1.2)
+    vm.threshold = threshold
+    vm.designLifetime = vm.getDesignEndYear(designLifetime)
+    vm.currentBfw = currentBfw
+    vm.culvertSize = (vm.currentBfw * 1.2) + 2
+
     vm.clearGraphs()
+    // vm.updateRatioGraphYaxis()
+    // vm.updateRatioGraphLifeSpan()
+    // vm.updateRatioGraphThresh()
+    //-----------------
     vm.gMinMax;
     vm.gThresh = vm.threshold
 
@@ -95,7 +121,8 @@ function contentGraphService(commonService) {
     // vm.y.domain([0.65 * vm.currentBfw, 1.35 * vm.currentBfw]);
 
     var areaPath = []
-    d3.csv("./contentGraph/ratio00.csv", function(error, data) {
+    // d3.csv("./contentGraph/ratio00.csv", function(error, data) {
+    d3.csv("./testcsv/A1B45.65625-120.96875ratio.csv", function(error, data) {
       if (error) throw error;
       var rangeMin
       var rangeMax
@@ -109,18 +136,21 @@ function contentGraphService(commonService) {
             val: valueLineObj[key]
           })
         }
+        //make value on 2018 same as 2019
+        vm.doFirst(valueLine)
+
         valueLines.push(valueLine)
       }
+
 
       //format data in value lines (do bankfull width mult here)
       for (let i = 0; i < valueLines.length; i++) {
         valueLines[i].forEach(function(d) {
           d.year = vm.parseTime(d.year);
-          d.val = parseFloat(d.val) * vm.currentBfw;
+          // d.val = parseFloat(d.val) * vm.currentBfw;
+          d.val = parseFloat(d.val) * vm.culvertSize
         });
       }
-
-
 
       //figure out min and max at each year for all value lines
       //(used for shading and eventually, range setting)
@@ -226,6 +256,11 @@ function contentGraphService(commonService) {
 
     });
 
+    vm.doFirst = function(valueLine) {
+      // console.log("from doFirst: ", valueLines)
+      valueLine[0].val = valueLine[1].val
+    }
+
     vm.appendLifeSpanLabel = function(label, x, padding) {
       vm.svgRatios.append("text")
         .attr("text-anchor", "end")
@@ -239,25 +274,54 @@ function contentGraphService(commonService) {
     //mean line
     vm.genMeanLine = function(rangeMin, rangeMax, area) {
       let meanLine = []
-      d3.csv("./contentGraph/ratiomean.csv", function(error, data) {
-        if (error) throw error;
+      // d3.csv("./contentGraph/ratiomean.csv", function(error, data) {
+      d3.csv("./testcsv/A1B45.65625-120.96875avgratio.csv", function(error, data) {
 
+        if (error) throw error;
+        console.log("avg data: ", data)
+        // let dataKey = Object.keys(data)
+        console.log("csv avg datakeys: ", data[11]["1.0"] )
+        // console.log("csv avg data: ", data[0]["1.0"])
         //build mean line
-        for (obj of data) {
-          meanLine.push({
-            year: obj[""],
-            val: obj[0]
-          })
+        for (let i=0; i < data.length; i++) {
+          // console.log("%%%%%%: ", (data[i][0]))
+          // console.log("%%%%%%: ", data[i][""])
+          let v = data[i]["1.0"]
+          let d = data[i][2018]
+
+          let obj = {year: d, val: v}
+          // console.log(obj)
+          meanLine.push(obj)
         }
+        meanLine.unshift({year: "2018", val: 1.0})
+        // meanLine.unshift({
+        //   year: "2018",
+        //   val: "1.0"
+        // })
+
+        console.log("avg line: ", meanLine)
+        vm.doFirst(meanLine)
+
+        // for (obj of data) {
+        //   console.log("%%%%%%: ", data[i])
+        //   meanLine.push({
+        //     year: obj[""],
+        //     val: obj[0]
+        //   })
+        // }
 
         //format values in valueLine
+
         for (obj of meanLine) {
           obj.year = vm.parseTime(obj.year)
-          obj.val = parseFloat(obj.val) * vm.currentBfw
+          obj.val = parseFloat(obj.val) * vm.culvertSize //vm.currentBfw
         }
+
+
 
         //plot mean line
         data = meanLine
+
         vm.svgRatios.append("path")
           .data([data])
           .attr("class", "color-graph-ratio-line")
@@ -288,7 +352,7 @@ function contentGraphService(commonService) {
           console.log("add ratios left axis: rangemin, rangeMax: ", rangeMin, rangeMax)
           vm.svgRatios.append("g")
             // .call(d3.axisLeft(vm.y).ticks(20).tickSize(0).tickPadding(5))
-            .call(d3.axisLeft(vm.y).tickSize(0).tickPadding(5).tickValues(d3.range(rangeMin, rangeMax, 0.5)))
+            .call(d3.axisLeft(vm.y).tickSize(0).tickPadding(5).tickValues(d3.range(rangeMin, rangeMax, 1.0)))
             .append("text")
             .attr("transform", "translate(-32) rotate(-90)")
             .attr("y", 0)
@@ -296,7 +360,7 @@ function contentGraphService(commonService) {
             .style("font-size", "0.75rem")
             // .style("padding", "0.5rem")
             .attr("fill", "#000")
-            .text("Bankfull Width (ft)");
+            .text("Culvert Size (ft)");
 
           // add the Y gridlines
           vm.svgRatios.append("g")
@@ -373,9 +437,9 @@ function contentGraphService(commonService) {
           let lifetimeStartX = vm.x(vm.parseTime(commonService.currentYear))
           let lifetimeEndX = vm.x(vm.parseTime(vm.designLifetime))
           let paddingVal = 7
-          let lifetimeStartTxt = "Begin lifespan, " + commonService.currentYear
+          // let lifetimeStartTxt = "Begin lifespan, " + commonService.currentYear
           let lifetimeEndTxt = "End lifespan, " + vm.designLifetime
-          vm.appendLifeSpanLabel(lifetimeStartTxt, lifetimeStartX, paddingVal)
+          // vm.appendLifeSpanLabel(lifetimeStartTxt, lifetimeStartX, paddingVal)
           vm.appendLifeSpanLabel(lifetimeEndTxt, lifetimeEndX, paddingVal)
 
 
@@ -450,10 +514,16 @@ function contentGraphService(commonService) {
 
     vm.gMinMaxProb;
 
-    vm.gThreshProb = vm.threshold / vm.currentBfw //verify this division with AM
+    //note; vm.theshold is value from form input PCS as-is
+    // vm.gThreshProb = vm.threshold / vm.currentBfw //verify this division with AM: ask why subtracting 2 and not adding?
+    // vm.gThreshProb = vm.threshold / vm.currentBfw
+    vm.gThreshProb = vm.threshold / vm.culvertSize
     console.log("---vm.threshold ", vm.threshold)
     console.log("---vm.currentBfw ", vm.currentBfw)
     console.log("---vm.gThreshProb ", vm.gThreshProb)
+    /*
+    ((vm.threshold-2)/1.2))/vm.currentBfw
+    */
 
     // commonService.startYear = 2014
     // commonService.endYear = 2090
@@ -472,9 +542,10 @@ function contentGraphService(commonService) {
     })
 
     vm.yProb.domain([0.0, 1.0]);
-    d3.csv("./contentGraph/ratio00.csv", function(error, data) {
+    // d3.csv("./contentGraph/ratio00.csv", function(error, data) {
+    d3.csv("./testcsv/A1B45.65625-120.96875ratio.csv", function(error, data) {
       if (error) throw error;
-
+      console.log("ratio data: ", data)
       //for each object, make it an array as above for each value line
       let valueLines = []
       for (valueLineObj of data) {
@@ -485,6 +556,7 @@ function contentGraphService(commonService) {
             val: valueLineObj[key]
           })
         }
+        vm.doFirst(valueLine)
         valueLines.push(valueLine)
       }
       console.log("updateProbabilityGraph valueLines: ", valueLines)
@@ -497,7 +569,6 @@ function contentGraphService(commonService) {
         // console.log("i: ", i)
         for (j = 0; j < vm.numYears; j++) {
           //should this be >= ? does it fail if val is equal to thresh?
-          //it's ok that vm.gThreshProb is always one? should it ever be multiplied by anything?
           if (valueLines[i][j].val > vm.gThreshProb) {
             // console.log("fail val: ", valueLines[i][j].val)
             failureYears.push(valueLines[i][j].year)

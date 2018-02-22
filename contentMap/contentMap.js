@@ -23,8 +23,8 @@
 
     commonService.editMode.mode = "map"
 
-    ctrl.startYear = 2014
-    ctrl.endYear = 2090
+    // ctrl.startYear = 2014
+    // ctrl.endYear = 2090
     ctrl.defaultLat = 48.71875
     ctrl.defaultLng = -122.09375
     ctrl.coords = {
