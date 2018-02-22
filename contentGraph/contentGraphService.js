@@ -16,6 +16,7 @@ function contentGraphService(commonService) {
   // vm.initRatiosGraph = function(lat, lng, currentBfw, designLifetime, threshold) {
   vm.initRatiosGraph = function() {
     console.log("hello from initRatiosGraph")
+
     // vm.threshold = threshold
     // vm.designLifetime = vm.getDesignEndYear(designLifetime)
     // vm.currentBfw = currentBfw
@@ -67,7 +68,7 @@ function contentGraphService(commonService) {
   }
 
   vm.getDesignEndYear = function(designLifetime) {
-    let designEndYear = (new Date()).getFullYear()+1 + parseInt(designLifetime)
+    let designEndYear = (new Date()).getFullYear() + parseInt(designLifetime)
     return designEndYear
   }
 
@@ -215,7 +216,7 @@ function contentGraphService(commonService) {
       }
 
       var area = d3.area()
-        .curve(d3.curveBasis)
+        // .curve(d3.curveBasis)
         .x(function(d) {
           return vm.x(d.year);
         })
@@ -268,16 +269,30 @@ function contentGraphService(commonService) {
       d3.csv("./testcsv/A1B45.65625-120.96875avgratio.csv", function(error, data) {
 
         if (error) throw error;
-
+        console.log("avg data: ", data)
+        // let dataKey = Object.keys(data)
+        console.log("csv avg datakeys: ", data[11]["1.0"] )
+        // console.log("csv avg data: ", data[0]["1.0"])
         //build mean line
         for (let i=0; i < data.length; i++) {
-          console.log("%%%%%%: ", data[i][0])
-          console.log("%%%%%%: ", data[i][""])
-          meanLine.push({
-            year: data[i][""],
-            val: data[i][0]
-          })
+          // console.log("%%%%%%: ", (data[i][0]))
+          // console.log("%%%%%%: ", data[i][""])
+          let v = data[i]["1.0"]
+          let d = data[i][2018]
+
+          let obj = {year: d, val: v}
+          // console.log(obj)
+          meanLine.push(obj)
         }
+        meanLine.unshift({year: "2018", val: 1.0})
+        // meanLine.unshift({
+        //   year: "2018",
+        //   val: "1.0"
+        // })
+
+        console.log("avg line: ", meanLine)
+
+
         // for (obj of data) {
         //   console.log("%%%%%%: ", data[i])
         //   meanLine.push({
@@ -287,13 +302,17 @@ function contentGraphService(commonService) {
         // }
 
         //format values in valueLine
+
         for (obj of meanLine) {
           obj.year = vm.parseTime(obj.year)
           obj.val = parseFloat(obj.val) * vm.culvertSize //vm.currentBfw
         }
 
+
+
         //plot mean line
         data = meanLine
+
         vm.svgRatios.append("path")
           .data([data])
           .attr("class", "color-graph-ratio-line")
@@ -324,7 +343,7 @@ function contentGraphService(commonService) {
           console.log("add ratios left axis: rangemin, rangeMax: ", rangeMin, rangeMax)
           vm.svgRatios.append("g")
             // .call(d3.axisLeft(vm.y).ticks(20).tickSize(0).tickPadding(5))
-            .call(d3.axisLeft(vm.y).tickSize(0).tickPadding(5).tickValues(d3.range(rangeMin, rangeMax, 0.5)))
+            .call(d3.axisLeft(vm.y).tickSize(0).tickPadding(5).tickValues(d3.range(rangeMin, rangeMax, 1.0)))
             .append("text")
             .attr("transform", "translate(-32) rotate(-90)")
             .attr("y", 0)
@@ -517,7 +536,7 @@ function contentGraphService(commonService) {
     // d3.csv("./contentGraph/ratio00.csv", function(error, data) {
     d3.csv("./testcsv/A1B45.65625-120.96875ratio.csv", function(error, data) {
       if (error) throw error;
-
+      console.log("ratio data: ", data)
       //for each object, make it an array as above for each value line
       let valueLines = []
       for (valueLineObj of data) {
