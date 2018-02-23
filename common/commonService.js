@@ -29,7 +29,7 @@ function commonService() {
   }
 
   vm.setLatLngHeader = function(cenLat, cenLng) {
-    document.getElementById('coord-display').innerHTML = "&nbsp;&nbsp;LAT " + cenLat + ",&nbsp;&nbsp;" + "LNG&nbsp;&nbsp;" + cenLng
+    document.getElementById('coord-display').innerHTML = "&nbsp;&nbsp;LAT " + cenLat + ",&nbsp;&nbsp;" + "LONG&nbsp;&nbsp;" + cenLng
   }
 
   /* figure out correct way to do this at 02/22 meeting */
