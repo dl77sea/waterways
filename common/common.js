@@ -8,8 +8,8 @@ Common.$inject = ['contentGraphService', '$state', 'commonService', '$scope']
 function Common(contentGraphService, $state, commonService, $scope) {
   var ctrl = this
 
-  ctrl.defaultLat = 48.71875
-  ctrl.defaultLng = -122.09375
+  ctrl.defaultLat = 45.65625
+  ctrl.defaultLng = -121.09375
 
   // ctrl.getStartEndDates = commonService.getStartEndDates(ctrl.continueInit)
 

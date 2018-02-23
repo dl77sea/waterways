@@ -21,8 +21,8 @@
 
     commonService.editMode.mode = "map"
 
-    ctrl.defaultLat = 48.71875
-    ctrl.defaultLng = -122.09375
+    ctrl.defaultLat = 45.65625
+    ctrl.defaultLng = -121.09375
     ctrl.coords = {
       lat: ctrl.defaultLat,
       lng: ctrl.defaultLng
