@@ -13,10 +13,14 @@ function contentGraphService(commonService) {
   vm.firstFailYear = "-"
   vm.prob = "-"
 
+  vm.filePrefix = ""
+
   // vm.initRatiosGraph = function(lat, lng, currentBfw, designLifetime, threshold) {
-  vm.initRatiosGraph = function() {
+  vm.initRatiosGraph = function(lat, lng) {
     console.log("hello from initRatiosGraph")
 
+    vm.filePrefix = lat+lng
+    console.log("vm.filePrefix",vm.filePrefix)
     // vm.threshold = threshold
     // vm.designLifetime = vm.getDesignEndYear(designLifetime)
     // vm.currentBfw = currentBfw
@@ -122,7 +126,7 @@ function contentGraphService(commonService) {
 
     var areaPath = []
     // d3.csv("./contentGraph/ratio00.csv", function(error, data) {
-    d3.csv("./testcsv/A1B45.65625-120.96875ratio.csv", function(error, data) {
+    d3.csv("./testcsv/"+vm.filePrefix+"/"+vm.filePrefix+"ratio.csv", function(error, data) {
       if (error) throw error;
       var rangeMin
       var rangeMax
@@ -275,8 +279,8 @@ function contentGraphService(commonService) {
     vm.genMeanLine = function(rangeMin, rangeMax, area) {
       let meanLine = []
       // d3.csv("./contentGraph/ratiomean.csv", function(error, data) {
-      d3.csv("./testcsv/A1B45.65625-120.96875avgratio.csv", function(error, data) {
-
+      // d3.csv("./testcsv/A1B45.65625-120.96875avgratio.csv", function(error, data) {
+      d3.csv("./testcsv/"+vm.filePrefix+"/"+vm.filePrefix+"avgratio.csv", function(error, data) {
         if (error) throw error;
         console.log("avg data: ", data)
         // let dataKey = Object.keys(data)
@@ -543,7 +547,8 @@ function contentGraphService(commonService) {
 
     vm.yProb.domain([0.0, 1.0]);
     // d3.csv("./contentGraph/ratio00.csv", function(error, data) {
-    d3.csv("./testcsv/A1B45.65625-120.96875ratio.csv", function(error, data) {
+    // d3.csv("./testcsv/A1B45.65625-120.96875ratio.csv", function(error, data) {
+    d3.csv("./testcsv/"+vm.filePrefix+"/"+vm.filePrefix+"ratio.csv", function(error, data) {
       if (error) throw error;
       console.log("ratio data: ", data)
       //for each object, make it an array as above for each value line
@@ -699,6 +704,5 @@ function contentGraphService(commonService) {
       vm.svgProbability._groups[0][0].removeChild(vm.svgProbability._groups[0][0].lastChild);
     }
   }
-
 
 }

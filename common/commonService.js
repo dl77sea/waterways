@@ -32,8 +32,10 @@ function commonService() {
     document.getElementById('coord-display').innerHTML = "&nbsp;&nbsp;LAT " + cenLat + ",&nbsp;&nbsp;" + "LNG&nbsp;&nbsp;" + cenLng
   }
 
+  /* figure out correct way to do this at 02/22 meeting */
   vm.getStartEndDates = function(cb) {
     d3.csv("./testcsv/A1B45.65625-120.96875ratio.csv", function(error, data) {
+    // d3.csv("./testcsv/"+vm.filePrefix+"/"+vm.filePrefix+"ratio.csv", function(error, data) {
       if (error) throw error;
       let keys = Object.keys(data[0])
       // ctrl.startYear = parseInt(keys[0])            //2014

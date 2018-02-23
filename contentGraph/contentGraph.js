@@ -93,7 +93,7 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
   ctrl.updateGraphsOnInit = function() {
     console.log("hello from ctrl.updateGraphsOnInit")
     // contentGraphService.initRatiosGraph(ctrl.lat, ctrl.lng, ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign)
-    contentGraphService.initRatiosGraph()
+    contentGraphService.initRatiosGraph(ctrl.lat, ctrl.lng)
     contentGraphService.updateRatiosGraph(ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign, () => {
       contentGraphService.updateProbabilityGraph(() => {
         ctrl.prob = contentGraphService.prob
