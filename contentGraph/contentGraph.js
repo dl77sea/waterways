@@ -39,12 +39,15 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
     commonService.setLatLngHeader($stateParams.lat, $stateParams.lng)
 
     //create an instance of the map tile in commonService so exists when user hits back when deep linked
+
     if (commonService.selectedTile === null) {
+      console.log("AA")
       commonService.tileFromGraph = {
         lat: parseFloat($stateParams.lat),
         lng: parseFloat($stateParams.lng)
       };
     } else {
+      console.log("BB")
       //clear from service so it's not re-used
       commonService.tileFromGraph = null;
     }

@@ -1,8 +1,6 @@
 (function() {
   'use strict';
 
-
-
   angular.module('app').component('contentMap', {
     templateUrl: './contentMap/contentMap.html',
     controller: ContentMap
@@ -23,8 +21,6 @@
 
     commonService.editMode.mode = "map"
 
-    // ctrl.startYear = 2014
-    // ctrl.endYear = 2090
     ctrl.defaultLat = 48.71875
     ctrl.defaultLng = -122.09375
     ctrl.coords = {
@@ -32,15 +28,10 @@
       lng: ctrl.defaultLng
     }
 
-
-
-
     ctrl.gridInc = 0.0625 / 2
 
     ctrl.$onInit = function() {
       console.log("map onInit")
-
-
 
       let map = new google.maps.Map(document.getElementById('map'), {
         center: {
@@ -181,17 +172,18 @@
 
       });
 
-      //are we comming from a deep linked graph?
+
+      // ---are we comming from a deep linked graph?
       if (commonService.tileFromGraph !== null) {
-        let gridInc = 0.0625 / 2
+
         let latStartCen = commonService.tileFromGraph.lat
         let lonStartCen = commonService.tileFromGraph.lng
 
-        let swCornerLat = (latStartCen - gridInc)
-        let swCornerLng = (lonStartCen - gridInc)
+        let swCornerLat = (latStartCen - ctrl.gridInc)
+        let swCornerLng = (lonStartCen - ctrl.gridInc)
 
-        let neCornerLat = (latStartCen + gridInc)
-        let neCornerLng = (lonStartCen + gridInc)
+        let neCornerLat = (latStartCen + ctrl.gridInc)
+        let neCornerLng = (lonStartCen + ctrl.gridInc)
 
         let swCorner = {
           lat: swCornerLat,
@@ -223,6 +215,7 @@
         commonService.selectedTile = tile
       }
 
+      //if comming back from graph page
       if (commonService.selectedTile !== null) {
         map.panTo({
           lat: commonService.selectedTile.getBounds().getCenter().lat(),
@@ -231,7 +224,7 @@
         // map.setZoom(10);
       }
 
-
+      //---begin populating grid squares from regions csv---
       let gridX = 18
       let gridY = 18
       let gridInc = ctrl.gridInc
@@ -242,10 +235,95 @@
       let tile;
 
       ctrl.colorUnsel = "#A0A0A0"
-      ctrl.colorSel = "#0097a7" //"#00FFFF"
+      ctrl.colorSel = "#0097a7"
       ctrl.colorDown = "#00FFFF"
       ctrl.colorOver = "#FFF"
 
+      // read in tiles center locations from csv
+      d3.csv("./Test_Regions.csv", function(error, data) {
+        if (error) throw error;
+        console.log("Test_Regions.csv: ", data)
+
+        //build grid square tiles from csv regions data
+        for (let obj of data) {
+          let latStartCen = parseFloat(obj.lat)
+          let lonStartCen = parseFloat(obj.lng)
+          console.log("latStartCen, lonStartCen: ", latStartCen, lonStartCen)
+          let swCornerLat = (latStartCen - ctrl.gridInc)
+          let swCornerLng = (lonStartCen - ctrl.gridInc)
+
+          let neCornerLat = (latStartCen + ctrl.gridInc)
+          let neCornerLng = (lonStartCen + ctrl.gridInc)
+
+          let swCorner = {
+            lat: swCornerLat,
+            lng: swCornerLng
+          }
+
+          let neCorner = {
+            lat: neCornerLat,
+            lng: neCornerLng
+          }
+
+          let square = new google.maps.LatLngBounds(swCorner, neCorner)
+
+          let cenLat = square.getCenter().lat()
+          let cenLng = square.getCenter().lng()
+
+          tileOpts = {
+            strokeColor: ctrl.colorUnsel,
+            strokeOpacity: 1.0,
+            strokeWeight: 1.0,
+            fillColor: '#FFFFFF',
+            fillOpacity: 0.0,
+            zIndex: -1,
+            map: map,
+            bounds: square
+          }
+          //do all this so that correct tile is highlighted when user switched back to map from graph
+          if (commonService.selectedTile !== null) {
+            console.log("snarf selectedTile lat and lng: ", commonService.selectedTile.getBounds().getCenter().lat(), commonService.selectedTile.getBounds().getCenter().lng())
+            console.log("snarf cenLat and cenLng: ", cenLat, cenLng)
+            if (
+              commonService.selectedTile.getBounds().getCenter().lat() !== cenLat ||
+              commonService.selectedTile.getBounds().getCenter().lng() !== cenLng
+            ) {
+              console.log("snarf unsel")
+              tileOpts.strokeColor = ctrl.colorUnsel
+              tile = new google.maps.Rectangle(tileOpts);
+            } else {
+              console.log("snarf sel")
+              tileOpts.strokeColor = ctrl.colorSel,
+                tileOpts.zIndex = 99999,
+                tileOpts.strokeWeight = 4.0
+
+              //replace existing commonService.selectedTile with reference to newly generated equivelant
+              tile = new google.maps.Rectangle(tileOpts);
+              commonService.selectedTile = tile
+            }
+          } else {
+            tileOpts.strokeColor = ctrl.colorUnsel
+            tile = new google.maps.Rectangle(tileOpts);
+          }
+
+          // let tile = new google.maps.Rectangle(tileOpts);
+
+          //assign event handlers to new tile
+          ctrl.addDown(tile)
+          ctrl.addClick(tile)
+          ctrl.addOver(tile)
+          ctrl.addUp(tile)
+        }
+
+
+
+      })
+
+
+
+
+
+      /*
       //row
       for (let i = 0; i < gridY; i++) {
         //square
@@ -491,6 +569,128 @@
           })
         } //end for each tile
       }
+      */
+    }
+
+    ctrl.addClick = function(tile) {
+      tile.addListener('click',
+        function(event) {
+          // clear previous selected
+          if (commonService.selectedTile !== null) {
+            commonService.selectedTile.setOptions({
+              strokeColor: ctrl.colorUnsel
+            })
+          }
+          // set this selected tile
+          commonService.selectedTile = this
+          ctrl.selectedLat = this.getBounds().getCenter().lat()
+          ctrl.selectedLat = this.getBounds().getCenter().lng()
+
+          //format long value (ok for WA)
+          // let formattedLng = -ctrl.defaultLng
+          // console.log("formattedLng", formattedLng)
+          commonService.editMode.mode = "graph"
+          $state.go('common-top.content-graph', {
+            lat: commonService.selectedTile.getBounds().getCenter().lat(),
+            lng: commonService.selectedTile.getBounds().getCenter().lng(),
+            currentBfw: commonService.defaultCurrentBfw,
+            designLifetime: commonService.defaultDesignLifetime,
+            bfwDesign: commonService.defaultBfwDesign
+          })
+        }
+      );
+    }
+
+    ctrl.addOver = function(tile) {
+      tile.addListener('mouseover', function(event) {
+        let thisTileCen = this.getBounds().getCenter()
+
+        if (commonService.selectedTile !== null) {
+          if (
+            thisTileCen.lat() === commonService.selectedTile.getBounds().getCenter().lat() &&
+            thisTileCen.lng() === commonService.selectedTile.getBounds().getCenter().lng()
+          ) {
+            this.setOptions({
+              strokeColor: ctrl.colorSel,
+              zIndex: 999999,
+              strokeOpacity: 1.0,
+              strokeWeight: 4.0
+            })
+          } else {
+            this.setOptions({
+              strokeColor: ctrl.colorOver,
+              zIndex: 999999,
+              strokeOpacity: 1.0,
+              strokeWeight: 2.0
+            })
+          }
+        } else {
+          this.setOptions({
+            strokeColor: ctrl.colorOver,
+            zIndex: 999999,
+            strokeOpacity: 1.0,
+            strokeWeight: 2.0
+          })
+        }
+        commonService.setLatLngHeader(thisTileCen.lat(), thisTileCen.lng())
+      })
+    }
+
+    ctrl.addDown = function(tile) {
+      tile.addListener('mousedown', function(event) {
+        let thisTileCen = this.getBounds().getCenter()
+        console.log("down enter")
+        if (commonService.selectedTile !== null) {
+          console.log("down if")
+          commonService.selectedTile.setOptions({
+            strokeColor: ctrl.colorUnsel,
+            zIndex: 999999,
+            strokeWeight: 1.0
+          })
+        } //else {
+          console.log("down else")
+          this.setOptions({
+
+            strokeColor: ctrl.colorSel,
+            zIndex: 99999,
+            strokeWeight: 4.0
+          })
+        // }
+      })
+    }
+
+    ctrl.addUp = function(tile) {
+      tile.addListener('mouseout', function(event) {
+        let thisTileCen = this.getBounds().getCenter()
+
+        if (commonService.selectedTile !== null) {
+          if (
+            thisTileCen.lat() === commonService.selectedTile.getBounds().getCenter().lat() &&
+            thisTileCen.lng() === commonService.selectedTile.getBounds().getCenter().lng()
+          ) {
+            this.setOptions({
+              strokeColor: ctrl.colorSel,
+              zIndex: 9999,
+              strokeOpacity: 1.0,
+              strokeWeight: 4.0
+            })
+          } else {
+            this.setOptions({
+              strokeColor: ctrl.colorUnsel,
+              zIndex: 100,
+              strokeOpacity: 1.0,
+              strokeWeight: 1.0
+            })
+          }
+        } else {
+          this.setOptions({
+            strokeColor: ctrl.colorUnsel,
+            zIndex: 100,
+            strokeOpacity: 1.0,
+            strokeWeight: 1.0
+          })
+        }
+      })
     }
 
   }
