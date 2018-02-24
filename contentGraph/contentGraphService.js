@@ -252,7 +252,7 @@ function contentGraphService(commonService) {
       //     .attr("d", vm.valueline);
       // }
 
-      vm.genMeanLine(rangeMin, rangeMax, area)
+      vm.genAvereageLine(rangeMin, rangeMax, area)
 
 
       cb()
@@ -276,7 +276,7 @@ function contentGraphService(commonService) {
 
 
     //mean line
-    vm.genMeanLine = function(rangeMin, rangeMax, area) {
+    vm.genAvereageLine = function(rangeMin, rangeMax, area) {
       let meanLine = []
       // d3.csv("./contentGraph/ratiomean.csv", function(error, data) {
       // d3.csv("./testcsv/A1B45.65625-120.96875avgratio.csv", function(error, data) {
@@ -662,10 +662,13 @@ function contentGraphService(commonService) {
       .attr("transform", "translate(8)")
       .attr("y", 27)
       // .attr("dy", "0.71em")
-      .style("class", "color-axis-line-bottom")
-      .style("font-size", "0.75rem")
-      .attr("fill", "#000")
-      .text("Year");
+      // .style("class", "color-axis-line-bottom")
+      // .style("font-size", "0.75rem")
+      // .attr("fill", "#000")
+      // .text("Year");
+
+      // d3.selectAll('path.domain').attr('color', 'red')
+
 
     // Add the Y Axis
     vm.svgProbability.append("g")
