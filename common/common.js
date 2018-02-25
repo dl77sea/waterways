@@ -17,11 +17,12 @@ function Common(contentGraphService, $state, commonService, $scope) {
     console.log("common init")
     /*2 way bindings*/
     //graph, will need these from toolbar
-    commonService.getStartEndDates(ctrl.continueInit)
-    // commonService.getStartEndDates(ctrl.continueInit)
-  }
+    commonService.getStartEndDates()
 
-  ctrl.continueInit = function() {
+    // commonService.getStartEndDates(ctrl.continueInit)
+    // }
+
+    // ctrl.continueInit = function() {
     console.log("continueInit start")
     // ctrl.defaultBfw = 30
     // ctrl.defaultDesignLifetime = 2050
@@ -40,7 +41,7 @@ function Common(contentGraphService, $state, commonService, $scope) {
     ctrl.startYear = commonService.startYear
     ctrl.endYear = commonService.endYear
     console.log("just before apply in cb from commonService.getStartEndDates, ", commonService.startYear, commonService.endYear)
-    $scope.$apply()
+    // $scope.$apply()
   }
 
   // ctrl.getStartEndDates = function(cb) {
