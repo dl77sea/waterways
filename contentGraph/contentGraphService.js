@@ -109,10 +109,11 @@ function contentGraphService(commonService) {
     commonService.endYear = commonService.endYear
 
     vm.arrYears = []
-    for (let i = commonService.startYear; i <= commonService.endYear; i++) {
+    //this will control x axis year range of ratios graph
+    for (let i = commonService.startYear+1; i <= commonService.endYear; i++) {
       vm.arrYears.push(vm.parseTime(i))
     }
-
+    console.log("arrYears: ", vm.arrYears)
     vm.x.domain(d3.extent(vm.arrYears, function(d) {
       return d;
     }));
@@ -133,15 +134,19 @@ function contentGraphService(commonService) {
       //for each object, make it an array per value line
       let valueLines = []
       for (valueLineObj of data) {
+        console.log("valueLineObj: ", valueLineObj)
         let valueLine = []
         for (key in valueLineObj) {
-          if (key !== "") valueLine.push({
+          // if (key !== "") valueLine.push({
+          if (key !== "" && key > commonService.startYear) valueLine.push({
             year: key,
             val: valueLineObj[key]
           })
         }
         //make value on 2018 same as 2019
-        vm.doFirst(valueLine)
+        // vm.doFirst(valueLine)
+
+
 
         valueLines.push(valueLine)
       }
@@ -297,25 +302,12 @@ function contentGraphService(commonService) {
           // console.log(obj)
           meanLine.push(obj)
         }
-        meanLine.unshift({year: "2018", val: 1.0})
-        // meanLine.unshift({
-        //   year: "2018",
-        //   val: "1.0"
-        // })
+        // meanLine.unshift({year: "2018", val: 1.0})
 
         console.log("avg line: ", meanLine)
         vm.doFirst(meanLine)
 
-        // for (obj of data) {
-        //   console.log("%%%%%%: ", data[i])
-        //   meanLine.push({
-        //     year: obj[""],
-        //     val: obj[0]
-        //   })
-        // }
-
         //format values in valueLine
-
         for (obj of meanLine) {
           obj.year = vm.parseTime(obj.year)
           obj.val = parseFloat(obj.val) * vm.culvertSize //vm.currentBfw
@@ -413,14 +405,14 @@ function contentGraphService(commonService) {
 
           vm.svgRatios.append("line")
             .attr("class", "start-of-lifetime-line")
-            .attr("x1", vm.x(vm.parseTime(commonService.currentYear)))
+            .attr("x1", vm.x(vm.parseTime(commonService.startYear+1)))
             .attr("y1", vm.y(vm.y.domain()[0]))
-            .attr("x2", vm.x(vm.parseTime(commonService.currentYear)))
+            .attr("x2", vm.x(vm.parseTime(commonService.startYear+1)))
             .attr("y2", vm.y(vm.y.domain()[1]))
 
           //build area path from start and end lines
           let lifetimeAreaPath = [{
-              year: vm.parseTime(commonService.currentYear),
+              year: vm.parseTime(commonService.startYear+1),
               val0: vm.y.domain()[0],
               val1: vm.y.domain()[1]
             },
@@ -438,7 +430,7 @@ function contentGraphService(commonService) {
             });
 
           //append liftime labels
-          let lifetimeStartX = vm.x(vm.parseTime(commonService.currentYear))
+          let lifetimeStartX = vm.x(vm.parseTime(commonService.startYear+1))
           let lifetimeEndX = vm.x(vm.parseTime(vm.designLifetime))
           let paddingVal = 7
           // let lifetimeStartTxt = "Begin lifespan, " + commonService.currentYear
@@ -531,9 +523,11 @@ function contentGraphService(commonService) {
 
     // commonService.startYear = 2014
     // commonService.endYear = 2090
-    vm.numYears = (commonService.endYear + 1) - commonService.startYear
+    vm.numYears = (commonService.endYear) - (commonService.startYear)
     vm.arrYearsProb = []
-    for (let i = commonService.startYear; i <= commonService.endYear; i++) {
+
+    //this will control x axis year range of prob graph
+    for (let i = commonService.startYear+1; i <= commonService.endYear; i++) {
       vm.arrYearsProb.push(vm.parseTimeProb(i))
     }
 
@@ -554,9 +548,13 @@ function contentGraphService(commonService) {
       //for each object, make it an array as above for each value line
       let valueLines = []
       for (valueLineObj of data) {
+        // console.log("valueLineObj from prob : ", valueLineObj)
         let valueLine = []
         for (key in valueLineObj) {
-          if (key !== "") valueLine.push({
+          // console.log("key in valueLineObj prob: ", parseInt(key) > 2018)
+          // if(!(key > 2018)) console.log("this was the key: ", key)
+          // if (key !== "") valueLine.push({
+          if (key !== "" && key > commonService.startYear) valueLine.push({
             year: key,
             val: valueLineObj[key]
           })
@@ -572,8 +570,8 @@ function contentGraphService(commonService) {
       let failureYears = []
       for (i = 0; i < valueLines.length; i++) {
         // console.log("i: ", i)
+        // console.log("this is numYears: ", vm.numYears)
         for (j = 0; j < vm.numYears; j++) {
-          //should this be >= ? does it fail if val is equal to thresh?
           if (valueLines[i][j].val > vm.gThreshProb) {
             // console.log("fail val: ", valueLines[i][j].val)
             failureYears.push(valueLines[i][j].year)

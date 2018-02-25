@@ -38,7 +38,7 @@ function Common(contentGraphService, $state, commonService, $scope) {
     ctrl.threshold = 1.0
 
     // this needed to update display in child component toolbare
-    ctrl.startYear = commonService.startYear
+    ctrl.startYear = commonService.startYear+1
     ctrl.endYear = commonService.endYear
     console.log("just before apply in cb from commonService.getStartEndDates, ", commonService.startYear, commonService.endYear)
     // $scope.$apply()
