@@ -389,3 +389,7 @@ input {
   font-size: 1rem;
   height: 1.25rem;
 }
+
+path.domain {
+  stroke: rgba(0,0,0,0);
+}
