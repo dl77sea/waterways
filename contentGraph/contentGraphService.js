@@ -343,7 +343,7 @@ function contentGraphService(commonService) {
           // .attr("dy", "0.71em")
           .style("font-size", "0.75rem")
           .attr("fill", "#000");
-          // .text("Year");
+        // .text("Year");
 
 
 
@@ -582,12 +582,20 @@ function contentGraphService(commonService) {
         }
       }
       console.log("failureYears: ", failureYears)
+      vm.nModels = failureYears.length
       //get averge of years recorded:
       let failureYearsSum = 0
       for (year of failureYears) {
         failureYearsSum += parseInt(year)
       }
-      vm.firstFailYear = (failureYearsSum / failureYears.length).toFixed(0)
+
+      //set failure year value for contentGraph component
+
+      if (failureYears.length > 0) {
+        vm.firstFailYear = (failureYearsSum / failureYears.length).toFixed(0)
+      } else {
+        vm.firstFailYear = "N/A"
+      }
       console.log("vm.firstFailYear: ", vm.firstFailYear)
       //------------------------------------------------
 
@@ -729,7 +737,7 @@ function contentGraphService(commonService) {
     // let lifetimeStartTxt = "Begin lifespan, " + commonService.currentYear
     // let lifetimeEndTxt = "End lifespan, " + vm.designLifetime
 
-    vm.appendLifeSpanLabel(vm.svgProbability, lifetimeEndTxt, lifetimeEndX, paddingVal)
+    // vm.appendLifeSpanLabel(vm.svgProbability, lifetimeEndTxt, lifetimeEndX, paddingVal)
 
 
 

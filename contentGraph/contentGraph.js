@@ -98,6 +98,7 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
       contentGraphService.updateProbabilityGraph(() => {
         ctrl.prob = contentGraphService.prob
         ctrl.firstFailYear = contentGraphService.firstFailYear
+        ctrl.nModels = contentGraphService.nModels
         console.log("all done")
         $scope.$apply()
       })
@@ -130,12 +131,8 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
       console.log("hello from ctrl.updateGraphs")
       // contentGraphService.initRatiosGraph(ctrl.lat, ctrl.lng, ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign)
       contentGraphService.updateRatiosGraph(ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign, ctrl.updateRatiosGraphCb)
-
-
-
       // contentGraphService.updateRatiosGraph()
       // contentGraphService.updateProbabilityGraph()
-
-
     }
+
   }
