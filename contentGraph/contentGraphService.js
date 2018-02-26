@@ -516,9 +516,11 @@ function contentGraphService(commonService) {
     // vm.gThreshProb = vm.threshold / vm.currentBfw //verify this division with AM: ask why subtracting 2 and not adding?
     // vm.gThreshProb = vm.threshold / vm.currentBfw
     vm.gThreshProb = vm.threshold / vm.culvertSize
+    console.log("---vm.culvertSize ", vm.culvertSize)    
     console.log("---vm.threshold ", vm.threshold)
     console.log("---vm.currentBfw ", vm.currentBfw)
     console.log("---vm.gThreshProb ", vm.gThreshProb)
+
     /*
     ((vm.threshold-2)/1.2))/vm.currentBfw
     */
