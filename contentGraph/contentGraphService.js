@@ -216,7 +216,8 @@ function contentGraphService(commonService) {
       console.log("rangemin, max: ", rangeMin, rangeMax)
       // vm.y.domain([0.65 * vm.currentBfw, 1.35 * vm.currentBfw]);
       // vm.y.domain([rangeMin, rangeMax]);
-      vm.y.domain([rangeMin, rangeMax]);
+      vm.y.domain([rangeMin, rangeMax])//.range([vm.height,0]);
+
 
 
       //build areaPath from minVals and maxVals
@@ -280,7 +281,7 @@ function contentGraphService(commonService) {
     }
 
 
-    //mean line
+    //average line
     vm.genAvereageLine = function(rangeMin, rangeMax, area) {
       let meanLine = []
       // d3.csv("./contentGraph/ratiomean.csv", function(error, data) {
@@ -325,7 +326,8 @@ function contentGraphService(commonService) {
           .data([data])
           .attr("class", "color-graph-ratio-line")
           .attr("d", vm.valueline);
-        // Add thereshold line
+        // Add threshold line
+        console.log("adding threshold line, vm.gTresh: ", vm.gThresh)
         vm.svgRatios.append("line")
           .attr("class", "color-graph-ratio-thresh")
           .attr("x1", vm.x(vm.gMinMax[0]))
@@ -351,7 +353,8 @@ function contentGraphService(commonService) {
         console.log("add ratios left axis: rangemin, rangeMax: ", rangeMin, rangeMax)
         vm.svgRatios.append("g")
           // .call(d3.axisLeft(vm.y).ticks(20).tickSize(0).tickPadding(5))
-          .call(d3.axisLeft(vm.y).tickSize(0).tickPadding(5).tickValues(d3.range(rangeMin, rangeMax, 1.0)))
+          // .call(d3.axisLeft(vm.y).tickSize(0).tickPadding(5).tickValues(d3.range(rangeMin, rangeMax, 1.0)))
+          .call(d3.axisLeft(vm.y).tickSize(0).tickPadding(5)) //.tickValues(d3.range(1, 10000, 1.0)))
           .append("text")
           .attr("transform", "translate(-32) rotate(-90)")
           .attr("y", 0)
