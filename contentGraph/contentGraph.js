@@ -16,10 +16,12 @@ angular.module('app').component('contentGraph', {
       require: 'ngModel',
       link: function(scope, element, attrs, ngModel) {
         ngModel.$parsers.push(function(value) {
+          // return '' + parseFloat(value);
           return '' + value;
         });
         ngModel.$formatters.push(function(value) {
           return parseFloat(value);
+
         });
       }
     };
@@ -91,7 +93,7 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
   // })
 
   ctrl.updateGraphsOnInit = function() {
-    console.log("hello from ctrl.updateGraphsOnInit")
+    console.log("hello from ctrl.updateGraphsOnInit", ctrl.designLifetime, ctrl.bfwDesign, ctrl.currentBfw)
     // contentGraphService.initRatiosGraph(ctrl.lat, ctrl.lng, ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign)
     contentGraphService.initRatiosGraph(ctrl.lat, ctrl.lng)
     contentGraphService.updateRatiosGraph(ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign, () => {

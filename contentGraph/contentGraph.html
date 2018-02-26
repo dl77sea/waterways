@@ -15,7 +15,7 @@
                 <label class="color-form-input-text" for="current-bfw">Current Bankfull Width (ft)</label>
               </div>
               <div style="padding-bottom: 1rem; padding-top: 0.25rem">
-                <input name="current-bfw" ng-model="$ctrl.currentBfw" maxlength="4" size="4" required></input>
+                <input name="current-bfw" type="number" ng-model="$ctrl.currentBfw" string-to-number maxlength="2" size="2" min="1" max="99" required></input>
               </div>
             </li>
             <li class="color-form-input-bg" style="text-align: center; margin-top: 0.0rem">
@@ -23,16 +23,15 @@
                 <label class="color-form-input-text" for="design-lifetime">Design Lifetime</label>
               </div>
               <div style="padding-bottom: 1rem; padding-top: 0.25rem">
-                <input name="design-lifetime" type="number" ng-model="$ctrl.designLifetime" string-to-number ng-value="{{$ctrl.designLifetime}}" maxlength="2" size="2" min="{{$ctrl.designLifetimeMin}}" max="{{$ctrl.designLifetimeMax}}" required></input>
-                <!-- <input name="design-lifetime" ng-model="$ctrl.designLifetime" type="number" ng-value="40" size="2" min="0" max="10" required></input> -->
+                <input name="design-lifetime" type="number" ng-model="$ctrl.designLifetime" string-to-number maxlength="2" size="2" min="{{$ctrl.designLifetimeMin}}" max="{{$ctrl.designLifetimeMax}}" required></input>
               </div>
             </li>
             <li class="color-form-input-bg" style="text-align: center; margin-top: 0.25rem">
               <div style="padding-top: 1rem;">
-                <label class="color-form-input-text" for="size_1">Proposed Culvert Size (ft)</label>
+                <label class="color-form-input-text" for="threshold">Proposed Culvert Size (ft)</label>
               </div>
               <div style="padding-bottom: 1rem; padding-top: 0.25rem">
-                <input name="threshold" ng-model="$ctrl.bfwDesign" maxlength="4" size="4" required></input>
+                <input type="number" name="threshold" ng-model="$ctrl.bfwDesign" string-to-number maxlength="2" size="2" min="1" max="50" required></input>
               </div>
             </li>
           </ul>
