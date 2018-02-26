@@ -19,8 +19,8 @@ function contentGraphService(commonService) {
   vm.initRatiosGraph = function(lat, lng) {
     console.log("hello from initRatiosGraph")
 
-    vm.filePrefix = lat+lng
-    console.log("vm.filePrefix",vm.filePrefix)
+    vm.filePrefix = lat + lng
+    console.log("vm.filePrefix", vm.filePrefix)
     // vm.threshold = threshold
     // vm.designLifetime = vm.getDesignEndYear(designLifetime)
     // vm.currentBfw = currentBfw
@@ -110,7 +110,7 @@ function contentGraphService(commonService) {
 
     vm.arrYears = []
     //this will control x axis year range of ratios graph
-    for (let i = commonService.startYear+1; i <= commonService.endYear; i++) {
+    for (let i = commonService.startYear + 1; i <= commonService.endYear; i++) {
       vm.arrYears.push(vm.parseTime(i))
     }
     console.log("arrYears: ", vm.arrYears)
@@ -127,7 +127,7 @@ function contentGraphService(commonService) {
 
     var areaPath = []
     // d3.csv("./contentGraph/ratio00.csv", function(error, data) {
-    d3.csv("./testcsv/"+vm.filePrefix+"/"+vm.filePrefix+"ratio.csv", function(error, data) {
+    d3.csv("./testcsv/" + vm.filePrefix + "/" + vm.filePrefix + "ratio.csv", function(error, data) {
       if (error) throw error;
       var rangeMin
       var rangeMax
@@ -270,8 +270,8 @@ function contentGraphService(commonService) {
       // valueLine[0].val = valueLine[1].val
     }
 
-    vm.appendLifeSpanLabel = function(label, x, padding) {
-      vm.svgRatios.append("text")
+    vm.appendLifeSpanLabel = function(svgCanvas, label, x, padding) {
+      svgCanvas.append("text")
         .attr("text-anchor", "end")
         .attr("transform", "translate(" + (x - padding) + "," + 4 + ") rotate(-90)")
         .style("font-size", "0.75rem")
@@ -285,20 +285,23 @@ function contentGraphService(commonService) {
       let meanLine = []
       // d3.csv("./contentGraph/ratiomean.csv", function(error, data) {
       // d3.csv("./testcsv/A1B45.65625-120.96875avgratio.csv", function(error, data) {
-      d3.csv("./testcsv/"+vm.filePrefix+"/"+vm.filePrefix+"avgratio.csv", function(error, data) {
+      d3.csv("./testcsv/" + vm.filePrefix + "/" + vm.filePrefix + "avgratio.csv", function(error, data) {
         if (error) throw error;
         console.log("avg data: ", data)
         // let dataKey = Object.keys(data)
-        console.log("csv avg datakeys: ", data[11]["1.0"] )
+        console.log("csv avg datakeys: ", data[11]["1.0"])
         // console.log("csv avg data: ", data[0]["1.0"])
         //build mean line
-        for (let i=0; i < data.length; i++) {
+        for (let i = 0; i < data.length; i++) {
           // console.log("%%%%%%: ", (data[i][0]))
           // console.log("%%%%%%: ", data[i][""])
           let v = data[i]["1.0"]
           let d = data[i][2018]
 
-          let obj = {year: d, val: v}
+          let obj = {
+            year: d,
+            val: v
+          }
           // console.log(obj)
           meanLine.push(obj)
         }
@@ -330,113 +333,112 @@ function contentGraphService(commonService) {
           .attr("x2", vm.x(vm.gMinMax[1]))
           .attr("y2", vm.y(vm.gThresh))
 
-          // Add the X Axis
-          vm.svgRatios.append("g")
-            .attr("transform", "translate(0," + vm.height + ")")
-            .call(d3.axisBottom(vm.x).ticks(20).tickSize(0).tickPadding(5))
-            .append("text")
-            .attr("transform", "translate(8)")
-            .attr("y", 27)
-            // .attr("dy", "0.71em")
-            .style("font-size", "0.75rem")
-            .attr("fill", "#000")
-            .text("Year");
+        // Add the X Axis
+        vm.svgRatios.append("g")
+          .attr("transform", "translate(0," + vm.height + ")")
+          .call(d3.axisBottom(vm.x).ticks(20).tickSize(0).tickPadding(5))
+          .append("text")
+          .attr("transform", "translate(8)")
+          .attr("y", 27)
+          // .attr("dy", "0.71em")
+          .style("font-size", "0.75rem")
+          .attr("fill", "#000");
+          // .text("Year");
 
 
 
-          // Add the Y Axis
-          console.log("add ratios left axis: rangemin, rangeMax: ", rangeMin, rangeMax)
-          vm.svgRatios.append("g")
-            // .call(d3.axisLeft(vm.y).ticks(20).tickSize(0).tickPadding(5))
-            .call(d3.axisLeft(vm.y).tickSize(0).tickPadding(5).tickValues(d3.range(rangeMin, rangeMax, 1.0)))
-            .append("text")
-            .attr("transform", "translate(-32) rotate(-90)")
-            .attr("y", 0)
-            // .attr("dy", "-1.75rem")
-            .style("font-size", "0.75rem")
-            // .style("padding", "0.5rem")
-            .attr("fill", "#000")
-            .text("Culvert Size (ft)");
+        // Add the Y Axis
+        console.log("add ratios left axis: rangemin, rangeMax: ", rangeMin, rangeMax)
+        vm.svgRatios.append("g")
+          // .call(d3.axisLeft(vm.y).ticks(20).tickSize(0).tickPadding(5))
+          .call(d3.axisLeft(vm.y).tickSize(0).tickPadding(5).tickValues(d3.range(rangeMin, rangeMax, 1.0)))
+          .append("text")
+          .attr("transform", "translate(-32) rotate(-90)")
+          .attr("y", 0)
+          // .attr("dy", "-1.75rem")
+          .style("font-size", "0.75rem")
+          // .style("padding", "0.5rem")
+          .attr("fill", "#000")
+          .text("Culvert Size (ft)");
 
-          // add the Y gridlines
-          vm.svgRatios.append("g")
-            .attr("class", "grid")
-            .attr("transform", "translate(0," + vm.height + ")")
-            .call(make_x_gridlines(vm.x)
-              .tickSize(-vm.height)
-              .tickFormat("")
-            )
+        // add the Y gridlines
+        vm.svgRatios.append("g")
+          .attr("class", "grid")
+          .attr("transform", "translate(0," + vm.height + ")")
+          .call(make_x_gridlines(vm.x)
+            .tickSize(-vm.height)
+            .tickFormat("")
+          )
 
-          // Add axis-left and axis-right lines
+        // Add axis-left and axis-right lines
 
-          //left
-          vm.svgRatios.append("line")
-            .attr("class", "axis-line")
-            .attr("x1", vm.x(vm.gMinMax[0]))
-            .attr("y1", vm.y(vm.y.domain()[0]))
-            .attr("x2", vm.x(vm.gMinMax[0]))
-            .attr("y2", vm.y(vm.y.domain()[1]))
+        //left
+        vm.svgRatios.append("line")
+          .attr("class", "axis-line")
+          .attr("x1", vm.x(vm.gMinMax[0]))
+          .attr("y1", vm.y(vm.y.domain()[0]))
+          .attr("x2", vm.x(vm.gMinMax[0]))
+          .attr("y2", vm.y(vm.y.domain()[1]))
 
-          //right
-          vm.svgRatios.append("line")
-            .attr("class", "axis-line")
-            .attr("x1", vm.x(vm.gMinMax[1]))
-            .attr("y1", vm.y(vm.y.domain()[0]))
-            .attr("x2", vm.x(vm.gMinMax[1]))
-            .attr("y2", vm.y(vm.y.domain()[1]))
+        //right
+        vm.svgRatios.append("line")
+          .attr("class", "axis-line")
+          .attr("x1", vm.x(vm.gMinMax[1]))
+          .attr("y1", vm.y(vm.y.domain()[0]))
+          .attr("x2", vm.x(vm.gMinMax[1]))
+          .attr("y2", vm.y(vm.y.domain()[1]))
 
-          //add start and end of lifetime lines
-          //(note x is in form of date timestamp)
-          //(note vm.y.domain() returns "world coordinates" on svg canvas)
+        //add start and end of lifetime lines
+        //(note x is in form of date timestamp)
+        //(note vm.y.domain() returns "world coordinates" on svg canvas)
 
-          console.log("vm.gMinMax: ", vm.gMinMax)
-          console.log("vm.designLifetime: ", vm.designLifetime)
-          console.log("vm.parseTime(vm.designLifetime): ", vm.parseTime(vm.designLifetime))
-          console.log("y.domain(): ", vm.y.domain())
-          console.log(commonService.currentYear)
+        console.log("vm.gMinMax: ", vm.gMinMax)
+        console.log("vm.designLifetime: ", vm.designLifetime)
+        console.log("vm.parseTime(vm.designLifetime): ", vm.parseTime(vm.designLifetime))
+        console.log("y.domain(): ", vm.y.domain())
+        console.log(commonService.currentYear)
 
 
-          vm.svgRatios.append("line")
-            .attr("class", "end-of-lifetime-line")
-            .attr("x1", vm.x(vm.parseTime(vm.designLifetime)))
-            .attr("y1", vm.y(vm.y.domain()[0]))
-            .attr("x2", vm.x(vm.parseTime(vm.designLifetime)))
-            .attr("y2", vm.y(vm.y.domain()[1]))
+        vm.svgRatios.append("line")
+          .attr("class", "end-of-lifetime-line")
+          .attr("x1", vm.x(vm.parseTime(vm.designLifetime)))
+          .attr("y1", vm.y(vm.y.domain()[0]))
+          .attr("x2", vm.x(vm.parseTime(vm.designLifetime)))
+          .attr("y2", vm.y(vm.y.domain()[1]))
 
-          vm.svgRatios.append("line")
-            .attr("class", "start-of-lifetime-line")
-            .attr("x1", vm.x(vm.parseTime(commonService.startYear+1)))
-            .attr("y1", vm.y(vm.y.domain()[0]))
-            .attr("x2", vm.x(vm.parseTime(commonService.startYear+1)))
-            .attr("y2", vm.y(vm.y.domain()[1]))
+        // vm.svgRatios.append("line")
+        //   .attr("class", "start-of-lifetime-line")
+        //   .attr("x1", vm.x(vm.parseTime(commonService.startYear + 1)))
+        //   .attr("y1", vm.y(vm.y.domain()[0]))
+        //   .attr("x2", vm.x(vm.parseTime(commonService.startYear + 1)))
+        //   .attr("y2", vm.y(vm.y.domain()[1]))
 
-          //build area path from start and end lines
-          let lifetimeAreaPath = [{
-              year: vm.parseTime(commonService.startYear+1),
-              val0: vm.y.domain()[0],
-              val1: vm.y.domain()[1]
-            },
-            {
-              year: vm.parseTime(vm.designLifetime),
-              val0: vm.y.domain()[0],
-              val1: vm.y.domain()[1]
-            }
-          ]
+        //build area path from start and end lines
+        let lifetimeAreaPath = [{
+            year: vm.parseTime(commonService.startYear + 1),
+            val0: vm.y.domain()[0],
+            val1: vm.y.domain()[1]
+          },
+          {
+            year: vm.parseTime(vm.designLifetime),
+            val0: vm.y.domain()[0],
+            val1: vm.y.domain()[1]
+          }
+        ]
 
-          vm.svgRatios.append("path")
-            .attr("class", "lifetime-fill")
-            .attr("d", function(d) {
-              return area(lifetimeAreaPath);
-            });
+        vm.svgRatios.append("path")
+          .attr("class", "lifetime-fill")
+          .attr("d", function(d) {
+            return area(lifetimeAreaPath);
+          });
 
-          //append liftime labels
-          let lifetimeStartX = vm.x(vm.parseTime(commonService.startYear+1))
-          let lifetimeEndX = vm.x(vm.parseTime(vm.designLifetime))
-          let paddingVal = 7
-          // let lifetimeStartTxt = "Begin lifespan, " + commonService.currentYear
-          let lifetimeEndTxt = "End lifespan, " + vm.designLifetime
-          // vm.appendLifeSpanLabel(lifetimeStartTxt, lifetimeStartX, paddingVal)
-          vm.appendLifeSpanLabel(lifetimeEndTxt, lifetimeEndX, paddingVal)
+        //append liftime labels
+        let lifetimeStartX = vm.x(vm.parseTime(commonService.startYear + 1))
+        let lifetimeEndX = vm.x(vm.parseTime(vm.designLifetime))
+        let paddingVal = 7
+        // let lifetimeStartTxt = "Begin lifespan, " + commonService.currentYear
+        let lifetimeEndTxt = "End lifespan, " + vm.designLifetime
+        vm.appendLifeSpanLabel(vm.svgRatios, lifetimeEndTxt, lifetimeEndX, paddingVal)
 
 
       })
@@ -527,7 +529,7 @@ function contentGraphService(commonService) {
     vm.arrYearsProb = []
 
     //this will control x axis year range of prob graph
-    for (let i = commonService.startYear+1; i <= commonService.endYear; i++) {
+    for (let i = commonService.startYear + 1; i <= commonService.endYear; i++) {
       vm.arrYearsProb.push(vm.parseTimeProb(i))
     }
 
@@ -542,7 +544,7 @@ function contentGraphService(commonService) {
     vm.yProb.domain([0.0, 1.0]);
     // d3.csv("./contentGraph/ratio00.csv", function(error, data) {
     // d3.csv("./testcsv/A1B45.65625-120.96875ratio.csv", function(error, data) {
-    d3.csv("./testcsv/"+vm.filePrefix+"/"+vm.filePrefix+"ratio.csv", function(error, data) {
+    d3.csv("./testcsv/" + vm.filePrefix + "/" + vm.filePrefix + "ratio.csv", function(error, data) {
       if (error) throw error;
       console.log("ratio data: ", data)
       //for each object, make it an array as above for each value line
@@ -658,14 +660,13 @@ function contentGraphService(commonService) {
       .call(d3.axisBottom(vm.xProb).ticks(20).tickSize(0).tickPadding(5))
       .append("text")
       .attr("transform", "translate(8)")
-      .attr("y", 27)
-      // .attr("dy", "0.71em")
-      // .style("class", "color-axis-line-bottom")
-      // .style("font-size", "0.75rem")
-      // .attr("fill", "#000")
-      // .text("Year");
-
-      // d3.selectAll('path.domain').attr('color', 'red')
+      .attr("y", 20)
+      .attr("dy", "0.71em")
+      .style("class", "color-axis-line-bottom")
+      .style("font-size", "0.75rem")
+      .attr("fill", "#000")
+      .text("Year");
+    // d3.selectAll('path.domain').attr('color', 'red')
 
 
     // Add the Y Axis
@@ -680,7 +681,57 @@ function contentGraphService(commonService) {
       .text("Probability");
 
     d3.selectAll('text').attr('font-family', 'Roboto')
-    // font-family: 'Roboto', sans-serif;
+
+    //build area path from start and end lines
+    let lifetimeAreaPath = [{
+        year: vm.parseTime(commonService.startYear + 1),
+        val0: vm.yProb.domain()[0],
+        val1: vm.yProb.domain()[1]
+      },
+      {
+        year: vm.parseTime(vm.designLifetime),
+        val0: vm.yProb.domain()[0],
+        val1: vm.yProb.domain()[1]
+      }
+    ]
+
+    var area = d3.area()
+      // .curve(d3.curveBasis)
+      .x(function(d) {
+        return vm.x(d.year);
+      })
+      .y0(function(d) {
+        return vm.yProb(d.val0);
+      })
+      .y1(function(d) {
+        return vm.yProb(d.val1);
+      });
+
+
+    vm.svgProbability.append("path")
+      .attr("class", "lifetime-fill")
+      .attr("d", function(d) {
+        return area(lifetimeAreaPath);
+      });
+
+
+    vm.svgProbability.append("line")
+      .attr("class", "end-of-lifetime-line")
+      .attr("x1", vm.x(vm.parseTime(vm.designLifetime)))
+      .attr("y1", vm.yProb(vm.yProb.domain()[0]))
+      .attr("x2", vm.x(vm.parseTime(vm.designLifetime)))
+      .attr("y2", vm.yProb(vm.yProb.domain()[1]))
+
+    //append liftime labels
+    let lifetimeStartX = vm.x(vm.parseTime(commonService.startYear + 1))
+    let lifetimeEndX = vm.x(vm.parseTime(vm.designLifetime))
+    let paddingVal = 7
+    // let lifetimeStartTxt = "Begin lifespan, " + commonService.currentYear
+    // let lifetimeEndTxt = "End lifespan, " + vm.designLifetime
+
+    vm.appendLifeSpanLabel(vm.svgProbability, lifetimeEndTxt, lifetimeEndX, paddingVal)
+
+
 
   }
   // gridlines in y axis function
