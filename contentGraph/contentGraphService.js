@@ -271,10 +271,10 @@ function contentGraphService(commonService) {
       // valueLine[0].val = valueLine[1].val
     }
 
-    vm.appendLifeSpanLabel = function(svgCanvas, label, x, padding) {
+    vm.appendLifeSpanLabel = function(svgCanvas, label, x, y, padding, rotation) {
       svgCanvas.append("text")
         .attr("text-anchor", "end")
-        .attr("transform", "translate(" + (x - padding) + "," + 4 + ") rotate(-90)")
+        .attr("transform", "translate(" + (x - padding) + "," + y + ") rotate(" + rotation + ")")
         .style("font-size", "0.75rem")
         .attr("fill", "#000")
         .text(label);
@@ -334,6 +334,23 @@ function contentGraphService(commonService) {
           .attr("y1", vm.y(vm.gThresh))
           .attr("x2", vm.x(vm.gMinMax[1]))
           .attr("y2", vm.y(vm.gThresh))
+
+        //add threshold label
+        // paddingVal = 7 //figure out why this is undefined but won't permit being declared
+        let pcsTxt = "Proposed Culvert Size (ft)"
+        let pcsEndX = vm.x(vm.parseTime(commonService.endYear))
+        let padding = 7
+        let rotation = 0
+        let pcsTxtY = vm.y(vm.threshold) - padding
+        vm.appendLifeSpanLabel(vm.svgRatios, pcsTxt, pcsEndX, pcsTxtY, padding, rotation)
+        // svgCanvas.append("text")
+        //   .attr("text-anchor", "end")
+        //   .attr("transform", "translate(" + (x - padding) + "," + 4 + ") rotate(-90)")
+        //   .style("font-size", "0.75rem")
+        //   .attr("fill", "#000")
+        //   .text(label);
+
+
 
         // Add the X Axis
         vm.svgRatios.append("g")
@@ -441,9 +458,7 @@ function contentGraphService(commonService) {
         let paddingVal = 7
         // let lifetimeStartTxt = "Begin lifespan, " + commonService.currentYear
         let lifetimeEndTxt = "End lifespan, " + vm.designLifetime
-        vm.appendLifeSpanLabel(vm.svgRatios, lifetimeEndTxt, lifetimeEndX, paddingVal)
-
-
+        vm.appendLifeSpanLabel(vm.svgRatios, lifetimeEndTxt, lifetimeEndX, 4, paddingVal, -90)
       })
     }
 
