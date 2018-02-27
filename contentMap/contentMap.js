@@ -240,8 +240,8 @@
       ctrl.colorOver = "#FFF"
 
       // read in tiles center locations from csv
-      // d3.csv("./VIC_Castro_Regions.csv", function(error, data) {
-      d3.csv("./Test_Regions.csv", function(error, data) {
+      d3.csv("./VIC_Castro_Regions.csv", function(error, data) {
+      // d3.csv("./Test_Regions.csv", function(error, data) {
         if (error) throw error;
         console.log("Test_Regions.csv: ", data)
 
