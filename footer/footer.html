@@ -7,8 +7,8 @@
       <li style="display: inline">
         <a href="http://warm.atmos.washington.edu/2860/">source</a>
       </li>
-      <li ng-show="$ctrl.editMode.mode=='graph'" style="display: inline">
-        <a href="">download data</a>
+      <li ng-show="$ctrl.editMode.mode=='graph'" ng-click="$ctrl.download()" style="display: inline">
+        <a href="">download CSV</a>
       </li>
       <li ng-show="$ctrl.editMode.mode=='graph'" style="display: inline">
         <a ui-sref="common-top.content-map">back to map</a>
