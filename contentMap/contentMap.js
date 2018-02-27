@@ -21,8 +21,8 @@
 
     commonService.editMode.mode = "map"
 
-    ctrl.defaultLat = 45.65625
-    ctrl.defaultLng = -121.09375
+    ctrl.defaultLat = 47.34375
+    ctrl.defaultLng = -120.78125
     ctrl.coords = {
       lat: ctrl.defaultLat,
       lng: ctrl.defaultLng
@@ -38,7 +38,7 @@
           lat: ctrl.coords.lat,
           lng: ctrl.coords.lng
         },
-        zoom: 12,
+        zoom: 7.5,
         styles: [{
             "elementType": "geometry",
             "stylers": [{

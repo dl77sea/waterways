@@ -650,6 +650,8 @@ function contentGraphService(commonService) {
         .attr("class", "color-graph-prob-line")
         .attr("d", vm.valuelineProb);
 
+
+
       // add the Y gridlines
       vm.svgProbability.append("g")
         .attr("class", "grid")
@@ -678,6 +680,51 @@ function contentGraphService(commonService) {
         .attr("x2", vm.x(vm.gMinMaxProb[1]))
         .attr("y2", vm.yProb(vm.yProb.domain()[1]))
 
+        //lifespan fill area and lines
+        //build area path from start and end lines
+        let lifetimeAreaPath = [{
+            year: vm.parseTime(commonService.startYear + 1),
+            val0: vm.yProb.domain()[0],
+            val1: vm.yProb.domain()[1]
+          },
+          {
+            year: vm.parseTime(vm.designLifetime),
+            val0: vm.yProb.domain()[0],
+            val1: vm.yProb.domain()[1]
+          }
+        ]
+
+        var area = d3.area()
+          // .curve(d3.curveBasis)
+          .x(function(d) {
+            return vm.x(d.year);
+          })
+          .y0(function(d) {
+            return vm.yProb(d.val0);
+          })
+          .y1(function(d) {
+            return vm.yProb(d.val1);
+          });
+
+
+        vm.svgProbability.append("path")
+          .attr("class", "lifetime-fill")
+          .attr("d", function(d) {
+            return area(lifetimeAreaPath);
+          });
+
+
+        vm.svgProbability.append("line")
+          .attr("class", "end-of-lifetime-line")
+          .attr("x1", vm.x(vm.parseTime(vm.designLifetime)))
+          .attr("y1", vm.yProb(vm.yProb.domain()[0]))
+          .attr("x2", vm.x(vm.parseTime(vm.designLifetime)))
+          .attr("y2", vm.yProb(vm.yProb.domain()[1]))
+
+        // //append liftime labels
+        // let lifetimeStartX = vm.x(vm.parseTime(commonService.startYear + 1))
+        // let lifetimeEndX = vm.x(vm.parseTime(vm.designLifetime))
+        // let paddingVal = 7
 
       cb()
 
@@ -710,56 +757,6 @@ function contentGraphService(commonService) {
       .text("Probability");
 
     d3.selectAll('text').attr('font-family', 'Roboto')
-
-    //build area path from start and end lines
-    let lifetimeAreaPath = [{
-        year: vm.parseTime(commonService.startYear + 1),
-        val0: vm.yProb.domain()[0],
-        val1: vm.yProb.domain()[1]
-      },
-      {
-        year: vm.parseTime(vm.designLifetime),
-        val0: vm.yProb.domain()[0],
-        val1: vm.yProb.domain()[1]
-      }
-    ]
-
-    var area = d3.area()
-      // .curve(d3.curveBasis)
-      .x(function(d) {
-        return vm.x(d.year);
-      })
-      .y0(function(d) {
-        return vm.yProb(d.val0);
-      })
-      .y1(function(d) {
-        return vm.yProb(d.val1);
-      });
-
-
-    vm.svgProbability.append("path")
-      .attr("class", "lifetime-fill")
-      .attr("d", function(d) {
-        return area(lifetimeAreaPath);
-      });
-
-
-    vm.svgProbability.append("line")
-      .attr("class", "end-of-lifetime-line")
-      .attr("x1", vm.x(vm.parseTime(vm.designLifetime)))
-      .attr("y1", vm.yProb(vm.yProb.domain()[0]))
-      .attr("x2", vm.x(vm.parseTime(vm.designLifetime)))
-      .attr("y2", vm.yProb(vm.yProb.domain()[1]))
-
-    //append liftime labels
-    let lifetimeStartX = vm.x(vm.parseTime(commonService.startYear + 1))
-    let lifetimeEndX = vm.x(vm.parseTime(vm.designLifetime))
-    let paddingVal = 7
-    // let lifetimeStartTxt = "Begin lifespan, " + commonService.currentYear
-    // let lifetimeEndTxt = "End lifespan, " + vm.designLifetime
-
-    // vm.appendLifeSpanLabel(vm.svgProbability, lifetimeEndTxt, lifetimeEndX, paddingVal)
-
 
 
   }
