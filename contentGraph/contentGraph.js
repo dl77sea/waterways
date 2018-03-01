@@ -21,7 +21,6 @@ angular.module('app').component('contentGraph', {
         });
         ngModel.$formatters.push(function(value) {
           return parseFloat(value);
-
         });
       }
     };
@@ -131,6 +130,7 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
 
     ctrl.updateGraphs = function() {
       console.log("hello from ctrl.updateGraphs")
+      console.log("from contentGraph ctrl.currentBfw ctrl.bfwDesign", ctrl.currentBfw, ctrl.bfwDesign)
       // contentGraphService.initRatiosGraph(ctrl.lat, ctrl.lng, ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign)
       contentGraphService.updateRatiosGraph(ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign, ctrl.updateRatiosGraphCb)
       // contentGraphService.updateRatiosGraph()
