@@ -562,6 +562,11 @@ function contentGraphService(commonService) {
       return d;
     })
 
+    /*
+    open csv,
+    generate value lines (one for each model) each valueLine goes into an array valueLines,
+
+    */
     vm.yProb.domain([0.0, 1.0]);
     // d3.csv("./contentGraph/ratio00.csv", function(error, data) {
     // d3.csv("./testcsv/A1B45.65625-120.96875ratio.csv", function(error, data) {
@@ -620,9 +625,10 @@ function contentGraphService(commonService) {
       console.log("vm.firstFailYear: ", vm.firstFailYear)
       //------------------------------------------------
 
-      // get probability (for each date, in each line,
+      // build probability value line (for each date, in each line,
       // count how many values are above thresh and divide by total valuelines to get y for that date)
-      //for each "year slot" check all values in all lines for that year
+      // for each "year slot" check all values in all lines for that year
+      console.log("before valueLines.length: ",valueLines.length)
       let probLine = []
       for (i = 0; i < vm.numYears; i++) {
 
@@ -639,6 +645,8 @@ function contentGraphService(commonService) {
           val: valsAbove / valueLines.length
         })
       }
+
+      console.log("after valueLines.length: ",valueLines.length)
 
       vm.getProbFailureNum(probLine)
 
