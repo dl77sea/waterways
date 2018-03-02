@@ -35,7 +35,7 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
 
     console.log("content graph init")
     ctrl.prob = "-"
-    ctrl.firstFailYear = contentGraphService.firstFailYear
+    ctrl.avgFirstFailYear = contentGraphService.avgFirstFailYear
     commonService.editMode.mode = "graph"
     commonService.setLatLngHeader($stateParams.lat, $stateParams.lng)
 
@@ -98,7 +98,7 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
     contentGraphService.updateRatiosGraph(ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign, () => {
       contentGraphService.updateProbabilityGraph(() => {
         ctrl.prob = contentGraphService.prob
-        ctrl.firstFailYear = contentGraphService.firstFailYear
+        ctrl.avgFirstFailYear = contentGraphService.avgFirstFailYear
         ctrl.nModels = contentGraphService.nModels
         console.log("all done")
         $scope.$apply()
@@ -108,7 +108,7 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
 
   ctrl.cb = function() {
     ctrl.prob = contentGraphService.prob
-    ctrl.firstFailYear = contentGraphService.firstFailYear
+    ctrl.avgFirstFailYear = contentGraphService.avgFirstFailYear
     console.log("all done")
 
     $state.go('common-top.content-graph', {
@@ -130,7 +130,7 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
 
     ctrl.updateGraphs = function() {
       console.log("hello from ctrl.updateGraphs")
-      console.log("from contentGraph ctrl.currentBfw ctrl.bfwDesign", ctrl.currentBfw, ctrl.bfwDesign)
+      console.log("from contentGraph ctrl.currentBfw ctrl.bfwDesign",ctrl.currentBfw, ctrl.bfwDesign)
       // contentGraphService.initRatiosGraph(ctrl.lat, ctrl.lng, ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign)
       contentGraphService.updateRatiosGraph(ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign, ctrl.updateRatiosGraphCb)
       // contentGraphService.updateRatiosGraph()

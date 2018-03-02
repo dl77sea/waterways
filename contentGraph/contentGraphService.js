@@ -10,7 +10,7 @@ function contentGraphService(commonService) {
   // vm.bfwDesign = null;
   vm.designLifetime = commonService.defaultDesignLifetime;
 
-  vm.firstFailYear = "-"
+  vm.avgFirstFailYear = "-"
   vm.prob = "-"
 
   vm.filePrefix = ""
@@ -20,7 +20,7 @@ function contentGraphService(commonService) {
     console.log("hello from initRatiosGraph")
 
     vm.filePrefix = lat + lng
-    console.log("vm.filePrefix", vm.filePrefix)
+    // console.log("vm.filePrefix", vm.filePrefix)
     // vm.threshold = threshold
     // vm.designLifetime = vm.getDesignEndYear(designLifetime)
     // vm.currentBfw = currentBfw
@@ -134,7 +134,7 @@ function contentGraphService(commonService) {
       //for each object, make it an array per value line
       let valueLines = []
       for (valueLineObj of data) {
-        console.log("valueLineObj: ", valueLineObj)
+        console.log("model value line unmodified from ratios csv: ", valueLineObj)
         let valueLine = []
         for (key in valueLineObj) {
           // if (key !== "") valueLine.push({
@@ -143,13 +143,9 @@ function contentGraphService(commonService) {
             val: valueLineObj[key]
           })
         }
-        //make value on 2018 same as 2019
-        // vm.doFirst(valueLine)
-
-
-
         valueLines.push(valueLine)
       }
+
 
 
       //format data in value lines (do bankfull width mult here)
@@ -160,6 +156,7 @@ function contentGraphService(commonService) {
           d.val = parseFloat(d.val) * vm.culvertSize
         });
       }
+      console.log("value lines from ratios csv after modification: ", valueLines)
 
       //figure out min and max at each year for all value lines
       //(used for shading and eventually, range setting)
@@ -206,6 +203,9 @@ function contentGraphService(commonService) {
         minValsJustValues.push(minVals[i].val)
         maxValsJustValues.push(maxVals[i].val)
       }
+      console.log("minline: ", minVals)
+      console.log("maxline: ", maxVals)
+
       console.log("min: ", minValsJustValues)
       console.log("max: ", maxValsJustValues)
 
@@ -283,14 +283,14 @@ function contentGraphService(commonService) {
 
     //average line
     vm.genAvereageLine = function(rangeMin, rangeMax, area) {
-      let meanLine = []
+      let avgLine = []
       // d3.csv("./contentGraph/ratiomean.csv", function(error, data) {
       // d3.csv("./testcsv/A1B45.65625-120.96875avgratio.csv", function(error, data) {
       d3.csv("./testcsv/" + vm.filePrefix + "/" + vm.filePrefix + "avgratio.csv", function(error, data) {
         if (error) throw error;
-        console.log("avg data: ", data)
+        console.log("avg line unmodified from avgratio csv: ", data)
         // let dataKey = Object.keys(data)
-        console.log("csv avg datakeys: ", data[11]["1.0"])
+        // console.log("csv avg datakeys: ", data[11]["1.0"])
         // console.log("csv avg data: ", data[0]["1.0"])
         //build mean line
         for (let i = 0; i < data.length; i++) {
@@ -304,23 +304,23 @@ function contentGraphService(commonService) {
             val: v
           }
           // console.log(obj)
-          meanLine.push(obj)
+          avgLine.push(obj)
         }
-        // meanLine.unshift({year: "2018", val: 1.0})
+        // avgLine.unshift({year: "2018", val: 1.0})
 
-        console.log("avg line: ", meanLine)
-        vm.doFirst(meanLine)
+        vm.doFirst(avgLine)
 
-        //format values in valueLine
-        for (obj of meanLine) {
+        //format values in averages valueLine
+        for (obj of avgLine) {
           obj.year = vm.parseTime(obj.year)
           obj.val = parseFloat(obj.val) * vm.culvertSize //vm.currentBfw
         }
+        console.log("avg line from avgratio csv after modification: ", avgLine)
 
 
 
-        //plot mean line
-        data = meanLine
+        //plot averages line
+        data = avgLine
 
         vm.svgRatios.append("path")
           .data([data])
@@ -530,9 +530,10 @@ function contentGraphService(commonService) {
 
     vm.gMinMaxProb;
 
-    //note; vm.theshold is value from form input PCS as-is
     // vm.gThreshProb = vm.threshold / vm.currentBfw //verify this division with AM: ask why subtracting 2 and not adding?
     // vm.gThreshProb = vm.threshold / vm.currentBfw
+
+    //note; vm.theshold is value from form input PCS as-is
     vm.gThreshProb = vm.threshold / vm.culvertSize
 
     console.log("---vm.culvertSize ", vm.culvertSize)
@@ -616,19 +617,18 @@ function contentGraphService(commonService) {
       }
 
       //set failure year value for contentGraph component
-
       if (failureYears.length > 0) {
-        vm.firstFailYear = (failureYearsSum / failureYears.length).toFixed(0)
+        vm.avgFirstFailYear = (failureYearsSum / failureYears.length).toFixed(0)
       } else {
-        vm.firstFailYear = "N/A"
+        vm.avgFirstFailYear = "N/A"
       }
-      console.log("vm.firstFailYear: ", vm.firstFailYear)
+      console.log("vm.avgFirstFailYear: ", vm.avgFirstFailYear)
       //------------------------------------------------
 
       // build probability value line (for each date, in each line,
       // count how many values are above thresh and divide by total valuelines to get y for that date)
       // for each "year slot" check all values in all lines for that year
-      console.log("before valueLines.length: ",valueLines.length)
+      // console.log("before valueLines.length: ",valueLines.length)
       let probLine = []
       for (i = 0; i < vm.numYears; i++) {
 
@@ -646,7 +646,7 @@ function contentGraphService(commonService) {
         })
       }
 
-      console.log("after valueLines.length: ",valueLines.length)
+      // console.log("after valueLines.length: ",valueLines.length)
 
       vm.getProbFailureNum(probLine)
 
@@ -657,8 +657,6 @@ function contentGraphService(commonService) {
         .data([data])
         .attr("class", "color-graph-prob-line")
         .attr("d", vm.valuelineProb);
-
-
 
       // add the Y gridlines
       vm.svgProbability.append("g")
