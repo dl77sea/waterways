@@ -38,7 +38,7 @@
           lat: ctrl.coords.lat,
           lng: ctrl.coords.lng
         },
-        zoom: 7.5,
+        zoom: 7,
         styles: [{
             "elementType": "geometry",
             "stylers": [{
@@ -217,11 +217,11 @@
 
       //if comming back from graph page
       if (commonService.selectedTile !== null) {
-        map.panTo({
+        map.setCenter({
           lat: commonService.selectedTile.getBounds().getCenter().lat(),
           lng: commonService.selectedTile.getBounds().getCenter().lng()
         });
-        // map.setZoom(10);
+        map.setZoom(10);
       }
 
       //---begin populating grid squares from regions csv---
@@ -315,262 +315,7 @@
           ctrl.addOver(tile)
           ctrl.addUp(tile)
         }
-
-
-
       })
-
-
-
-
-
-      /*
-      //row
-      for (let i = 0; i < gridY; i++) {
-        //square
-        for (let j = 0; j < gridX; j++) {
-          //lon decreases to east
-          //lat decreases to south
-
-          // let swCornerLat = latStartCen - gridInc
-          // let swCornerLng = lonStartCen - gridInc
-          // let neCornerLat = latStartCen + gridInc
-          // let neCornerLng = lonStartCen + gridInc
-
-          //this block produces a correct grid square
-          // let swCornerLat = (latStartCen - gridInc) + (i*(gridInc*2))
-          // let swCornerLng = (lonStartCen - gridInc) + (j*(gridInc*2))
-          // let neCornerLat = (latStartCen + gridInc) + (i*(gridInc*2))
-          // let neCornerLng = (lonStartCen + gridInc) + (j*(gridInc*2))
-          //
-          // let swCorner = {lat: swCornerLat, lng: swCornerLng}
-          // let neCorner = {lat: neCornerLat, lng: neCornerLng}
-
-          let swCornerLat = (latStartCen - gridInc) - (i * (gridInc * 2))
-          let swCornerLng = (lonStartCen - gridInc) + (j * (gridInc * 2))
-
-          let neCornerLat = (latStartCen + gridInc) - (i * (gridInc * 2))
-          let neCornerLng = (lonStartCen + gridInc) + (j * (gridInc * 2))
-
-          let swCorner = {
-            lat: swCornerLat,
-            lng: swCornerLng
-          }
-          let neCorner = {
-            lat: neCornerLat,
-            lng: neCornerLng
-          }
-
-          let square = new google.maps.LatLngBounds(swCorner, neCorner)
-
-          let cenLat = square.getCenter().lat()
-          let cenLng = square.getCenter().lng()
-
-          tileOpts = {
-            strokeColor: ctrl.colorUnsel,
-            strokeOpacity: 1.0,
-            strokeWeight: 1.0,
-            fillColor: '#FFFFFF',
-            fillOpacity: 0.0,
-            zIndex: -1,
-            map: map,
-            bounds: square
-          }
-
-          //do all this so that correct tile is highlighted when user switched back to map from graph
-          if (commonService.selectedTile !== null) {
-            if (
-              commonService.selectedTile.getBounds().getCenter().lat() !== cenLat ||
-              commonService.selectedTile.getBounds().getCenter().lng() !== cenLng
-            ) {
-              tileOpts.strokeColor = ctrl.colorUnsel
-              tile = new google.maps.Rectangle(tileOpts);
-            } else {
-              tileOpts.strokeColor = ctrl.colorSel,
-                tileOpts.zIndex = 99999,
-                tileOpts.strokeWeight = 4.0
-
-              //replace existing commonService.selectedTile with reference to newly generated equivelant
-              tile = new google.maps.Rectangle(tileOpts);
-              commonService.selectedTile = tile
-            }
-          } else {
-            tileOpts.strokeColor = ctrl.colorUnsel
-            tile = new google.maps.Rectangle(tileOpts);
-          }
-
-          // tile = new google.maps.Rectangle(tileOpts);
-
-          tile.addListener('click',
-
-            function(event) {
-              // clear previous selected
-              if (commonService.selectedTile !== null) {
-                commonService.selectedTile.setOptions({
-                  strokeColor: ctrl.colorUnsel
-                })
-              }
-              // set this selected tile
-              commonService.selectedTile = this
-              // commonService.selectedTile.setOptions({
-              //   strokeColor: ctrl.colorSel,
-              //   zIndex: 99999,
-              //   strokeWeight: 4.0
-              // })
-
-              ctrl.selectedLat = this.getBounds().getCenter().lat()
-              ctrl.selectedLat = this.getBounds().getCenter().lng()
-
-
-              //format long value (ok for WA)
-              let formattedLng = -ctrl.defaultLng
-              console.log("formattedLng", formattedLng)
-
-              // map.panTo({lat: commonService.selectedTile.getBounds().getCenter().lat(), lng: commonService.selectedTile.getBounds().getCenter().lng()});
-              // map.setZoom(10);
-
-              commonService.editMode.mode = "graph"
-              $state.go('common-top.content-graph', {
-                lat: commonService.selectedTile.getBounds().getCenter().lat(),
-                lng: commonService.selectedTile.getBounds().getCenter().lng(),
-                currentBfw: commonService.defaultCurrentBfw,
-                designLifetime: commonService.defaultDesignLifetime,
-                bfwDesign: commonService.defaultBfwDesign
-                // notify: false
-                // reloadOnSearch: false
-              })
-
-            }
-
-
-
-          );
-
-          tile.addListener('mouseover', function(event) {
-            let thisTileCen = this.getBounds().getCenter()
-
-            if (commonService.selectedTile !== null) {
-              if (
-                thisTileCen.lat() === commonService.selectedTile.getBounds().getCenter().lat() &&
-                thisTileCen.lng() === commonService.selectedTile.getBounds().getCenter().lng()
-              ) {
-                console.log("!!!!!!!!!!!!was selected")
-                this.setOptions({
-                  strokeColor: ctrl.colorSel,
-                  zIndex: 999999,
-                  strokeOpacity: 1.0,
-                  strokeWeight: 4.0
-                })
-              } else {
-                console.log("!!!!!!!!!!!!was not selected: ", commonService.selectedTile.getBounds().getCenter().lat(), thisTileCen.lat())
-                this.setOptions({
-                  strokeColor: ctrl.colorOver,
-                  zIndex: 999999,
-                  strokeOpacity: 1.0,
-                  strokeWeight: 2.0
-                })
-              }
-            } else {
-              console.log("!! else happened")
-              this.setOptions({
-                strokeColor: ctrl.colorOver,
-                zIndex: 999999,
-                strokeOpacity: 1.0,
-                strokeWeight: 2.0
-              })
-            }
-            commonService.setLatLngHeader(thisTileCen.lat(), thisTileCen.lng())
-          })
-
-          tile.addListener('mousedown', function(event) {
-            let thisTileCen = this.getBounds().getCenter()
-
-            if (commonService.selectedTile !== null) {
-              console.log("selectedTile exists")
-              commonService.selectedTile.setOptions({
-                strokeColor: ctrl.colorUnsel,
-                zIndex: 999999,
-                strokeWeight: 1.0
-              })
-            }
-            this.setOptions({
-              strokeColor: ctrl.colorSel,
-              zIndex: 99999,
-              strokeWeight: 4.0
-            })
-
-            // if (commonService.selectedTile !== null) {
-            //   console.log("mousedown there is a selectedTile")
-            //   if (
-            //     thisTileCen.lat() === commonService.selectedTile.getBounds().getCenter().lat() &&
-            //     thisTileCen.lng() === commonService.selectedTile.getBounds().getCenter().lng()
-            //   ) {
-            //     console.log("mousedown on selected tile")
-            //     commonService.selectedTile.setOptions({
-            //       strokeColor: ctrl.colorUnsel,
-            //       zIndex: 0,
-            //       strokeWeight: 1.0
-            //     })
-            //     this.setOptions({
-            //       strokeColor: ctrl.colorSel,
-            //       zIndex: 99999,
-            //       strokeWeight: 4.0
-            //     })
-            //   } else {
-            //     console.log("mousedown not on selected tile")
-            //     commonService.selectedTile.setOptions({
-            //       strokeColor: ctrl.colorUnsel,
-            //       zIndex: 0,
-            //       strokeWeight: 1.0
-            //     })
-            //     this.setOptions({
-            //       strokeColor: ctrl.colorSel,
-            //       zIndex: 99999,
-            //       strokeWeight: 4.0
-            //     })
-            //   }
-            // }
-          })
-
-          // tile.addListener('mouseup', function(event) {
-
-          tile.addListener('mouseout', function(event) {
-            let thisTileCen = this.getBounds().getCenter()
-
-            if (commonService.selectedTile !== null) {
-              if (
-                thisTileCen.lat() === commonService.selectedTile.getBounds().getCenter().lat() &&
-                thisTileCen.lng() === commonService.selectedTile.getBounds().getCenter().lng()
-              ) {
-                console.log("!!!!!!!!!!!!was selected")
-                this.setOptions({
-                  strokeColor: ctrl.colorSel,
-                  zIndex: 9999,
-                  strokeOpacity: 1.0,
-                  strokeWeight: 4.0
-                })
-              } else {
-                console.log("!!!!!!!!!!!!was not selected: ", commonService.selectedTile.getBounds().getCenter().lat(), thisTileCen.lat())
-                this.setOptions({
-                  strokeColor: ctrl.colorUnsel,
-                  zIndex: 100,
-                  strokeOpacity: 1.0,
-                  strokeWeight: 1.0
-                })
-              }
-            } else {
-              console.log("!! else happened")
-              this.setOptions({
-                strokeColor: ctrl.colorUnsel,
-                zIndex: 100,
-                strokeOpacity: 1.0,
-                strokeWeight: 1.0
-              })
-            }
-          })
-        } //end for each tile
-      }
-      */
     }
 
     ctrl.addClick = function(tile) {
@@ -587,9 +332,6 @@
           ctrl.selectedLat = this.getBounds().getCenter().lat()
           ctrl.selectedLat = this.getBounds().getCenter().lng()
 
-          //format long value (ok for WA)
-          // let formattedLng = -ctrl.defaultLng
-          // console.log("formattedLng", formattedLng)
           commonService.editMode.mode = "graph"
           $state.go('common-top.content-graph', {
             lat: commonService.selectedTile.getBounds().getCenter().lat(),

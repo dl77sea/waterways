@@ -80,7 +80,7 @@ body {
   text-align: center;
   position: fixed;
   top: 0;
-  height: 4rem
+  height: 9%;
 }
 
 .foot {
@@ -88,7 +88,7 @@ body {
   width: 100%;
   flex: 1 0 auto;
   /*pointer-events: none;*/
-  height: 3rem;
+  height: 7%;
   position: fixed;
   bottom: 0;
 }
@@ -98,7 +98,7 @@ body {
   /*flex-direction: column;*/
   background-color: red;
   width: 100%;
-  height: 4rem;
+  height: 9%;
 }
 
 .push-content-bottom {
@@ -106,7 +106,7 @@ body {
   /*flex-direction: column;*/
   background-color: red;
   width: 100%;
-  height: 3rem;
+  height: 7%;
 }
 
 /*
@@ -301,6 +301,7 @@ g .tick text {
 
 .color-header-title {
   font-size: 2rem;
+  font-weight: medium;
   color: #fff;
 }
 
@@ -323,6 +324,7 @@ g .tick text {
 
 .color-title-graph {
   color: #00b8d4;
+  font-weight: normal;
   /*#80d8ff;*/
 }
 
