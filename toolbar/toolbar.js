@@ -2,11 +2,6 @@ function Toolbar(contentGraphService, commonService) {
   var ctrl = this
 
   ctrl.$onInit = function() {
-    console.log("toolbar init")
-
-
-    //from common
-    // ctrl.threshold = 1.0
   }
 
 }

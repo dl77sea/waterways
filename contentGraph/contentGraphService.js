@@ -4,10 +4,8 @@ contentGraphService.$inject = ['commonService']
 function contentGraphService(commonService) {
   var vm = this
 
-  // vm.prob = "-"
   vm.threshold = null;
   vm.currentBfw = null;
-  // vm.bfwDesign = null;
   vm.designLifetime = commonService.defaultDesignLifetime;
 
   vm.avgFirstFailYear = "-"
@@ -15,19 +13,10 @@ function contentGraphService(commonService) {
 
   vm.filePrefix = ""
 
-  // vm.initRatiosGraph = function(lat, lng, currentBfw, designLifetime, threshold) {
   vm.initRatiosGraph = function(lat, lng) {
-    console.log("hello from initRatiosGraph")
+    //console.log("hello from initRatiosGraph")
 
     vm.filePrefix = lat + lng
-    // console.log("vm.filePrefix", vm.filePrefix)
-    // vm.threshold = threshold
-    // vm.designLifetime = vm.getDesignEndYear(designLifetime)
-    // vm.currentBfw = currentBfw
-
-    // vm.designLifetime = commonService.getDesignEndYear(designLifetime)
-    // commonService.startYear = startYear
-    // commonService.endYear = endYear
 
     vm.margin = {
         top: 5,
@@ -41,13 +30,13 @@ function contentGraphService(commonService) {
     vm.widthProb = 900 - vm.margin.left - vm.margin.right,
       vm.heightProb = 175 - vm.margin.top - vm.margin.bottom;
 
-    // parse the date / time
     vm.parseTime = d3.timeParse("%Y");
+
     // define x and y plot scale
     vm.x = d3.scaleTime().range([0, vm.width]);
     vm.y = d3.scaleLinear().range([vm.height, 0]);
 
-    // define the line
+    //define the line
     vm.valueline = d3.line()
       .x(function(d) {
         return vm.x(d.year);
@@ -82,15 +71,6 @@ function contentGraphService(commonService) {
 
 
   vm.updateRatiosGraph = function(currentBfw, designLifetime, threshold, cb) {
-    //createRatiosGraph(newSvg)
-    //showRatiosGraph()
-    //  if exist:
-    //    set existing graph to display none
-    //    set newly created graph to visible
-    //  else:
-    //    set existing graph to visible
-    //
-    console.log("+++from updateRatiosGraph: ", currentBfw, designLifetime, threshold)
     // vm.threshold = ((threshold-2)/1.2) // threshold //((vm.threshold-2)/1.2)
     vm.threshold = threshold
     vm.designLifetime = vm.getDesignEndYear(designLifetime)
@@ -98,10 +78,6 @@ function contentGraphService(commonService) {
     vm.culvertSize = (vm.currentBfw * 1.2) + 2
 
     vm.clearGraphs()
-    // vm.updateRatioGraphYaxis()
-    // vm.updateRatioGraphLifeSpan()
-    // vm.updateRatioGraphThresh()
-    //-----------------
     vm.gMinMax;
     vm.gThresh = vm.threshold
 
@@ -113,7 +89,8 @@ function contentGraphService(commonService) {
     for (let i = commonService.startYear + 1; i <= commonService.endYear; i++) {
       vm.arrYears.push(vm.parseTime(i))
     }
-    console.log("arrYears: ", vm.arrYears)
+    //console.log("arrYears: ", vm.arrYears)
+
     vm.x.domain(d3.extent(vm.arrYears, function(d) {
       return d;
     }));
@@ -122,11 +99,7 @@ function contentGraphService(commonService) {
       return d;
     })
 
-    // vm.y.domain([0.65, 1.35]);
-    // vm.y.domain([0.65 * vm.currentBfw, 1.35 * vm.currentBfw]);
-
     var areaPath = []
-    // d3.csv("./contentGraph/ratio00.csv", function(error, data) {
     d3.csv("./testcsv/" + vm.filePrefix + "/" + vm.filePrefix + "ratio.csv", function(error, data) {
       if (error) throw error;
       var rangeMin
@@ -134,10 +107,9 @@ function contentGraphService(commonService) {
       //for each object, make it an array per value line
       let valueLines = []
       for (valueLineObj of data) {
-        console.log("model value line unmodified from ratios csv: ", valueLineObj)
+        //console.log("model value line unmodified from ratios csv: ", valueLineObj)
         let valueLine = []
         for (key in valueLineObj) {
-          // if (key !== "") valueLine.push({
           if (key !== "" && key > commonService.startYear) valueLine.push({
             year: key,
             val: valueLineObj[key]
@@ -146,20 +118,16 @@ function contentGraphService(commonService) {
         valueLines.push(valueLine)
       }
 
-
-
       //format data in value lines (do bankfull width mult here)
       for (let i = 0; i < valueLines.length; i++) {
         valueLines[i].forEach(function(d) {
           d.year = vm.parseTime(d.year);
-          // d.val = parseFloat(d.val) * vm.currentBfw;
           d.val = parseFloat(d.val) * vm.culvertSize
         });
       }
-      console.log("value lines from ratios csv after modification: ", valueLines)
+      //console.log("value lines from ratios csv after modification: ", valueLines)
 
       //figure out min and max at each year for all value lines
-      //(used for shading and eventually, range setting)
       let valsEachYear = []
       let valsAllYears = []
 
@@ -203,22 +171,17 @@ function contentGraphService(commonService) {
         minValsJustValues.push(minVals[i].val)
         maxValsJustValues.push(maxVals[i].val)
       }
-      console.log("minline: ", minVals)
-      console.log("maxline: ", maxVals)
+      //console.log("minline: ", minVals)
+      //console.log("maxline: ", maxVals)
 
-      console.log("min: ", minValsJustValues)
-      console.log("max: ", maxValsJustValues)
+      //console.log("min: ", minValsJustValues)
+      //console.log("max: ", maxValsJustValues)
 
       rangeMin = Math.min(...minValsJustValues)
       rangeMax = Math.max(...maxValsJustValues)
-      // vm.y.domain([0.65, 1.35]);
-      // console.log("min max vals: ", minVals, maxVals)
-      console.log("rangemin, max: ", rangeMin, rangeMax)
-      // vm.y.domain([0.65 * vm.currentBfw, 1.35 * vm.currentBfw]);
-      // vm.y.domain([rangeMin, rangeMax]);
-      vm.y.domain([rangeMin, rangeMax])//.range([vm.height,0]);
 
-
+      //console.log("rangemin, max: ", rangeMin, rangeMax)
+      vm.y.domain([rangeMin, rangeMax])
 
       //build areaPath from minVals and maxVals
       for (let i = 0; i < minVals.length; i++) {
@@ -244,7 +207,6 @@ function contentGraphService(commonService) {
       //add area
       vm.svgRatios.append("g")
         .append("path")
-        // .datum(areaPath)
         .attr("class", "color-graph-fill")
         .attr("d", function(d) {
           return area(areaPath);
@@ -260,14 +222,13 @@ function contentGraphService(commonService) {
 
       vm.genAvereageLine(rangeMin, rangeMax, area)
 
-
       cb()
-
 
     });
 
+    //this function is a placeholder to be used as a post processor for modifying valuelines (not used in production)
     vm.doFirst = function(valueLine) {
-      // console.log("from doFirst: ", valueLines)
+      // //console.log("from doFirst: ", valueLines)
       // valueLine[0].val = valueLine[1].val
     }
 
@@ -280,22 +241,14 @@ function contentGraphService(commonService) {
         .text(label);
     }
 
-
     //average line
     vm.genAvereageLine = function(rangeMin, rangeMax, area) {
       let avgLine = []
-      // d3.csv("./contentGraph/ratiomean.csv", function(error, data) {
-      // d3.csv("./testcsv/A1B45.65625-120.96875avgratio.csv", function(error, data) {
       d3.csv("./testcsv/" + vm.filePrefix + "/" + vm.filePrefix + "avgratio.csv", function(error, data) {
         if (error) throw error;
-        console.log("avg line unmodified from avgratio csv: ", data)
-        // let dataKey = Object.keys(data)
-        // console.log("csv avg datakeys: ", data[11]["1.0"])
-        // console.log("csv avg data: ", data[0]["1.0"])
-        //build mean line
+        //console.log("avg line unmodified from avgratio csv: ", data)
+        //build avg line
         for (let i = 0; i < data.length; i++) {
-          // console.log("%%%%%%: ", (data[i][0]))
-          // console.log("%%%%%%: ", data[i][""])
           let v = data[i]["1.0"]
           let d = data[i][2018]
 
@@ -303,10 +256,8 @@ function contentGraphService(commonService) {
             year: d,
             val: v
           }
-          // console.log(obj)
           avgLine.push(obj)
         }
-        // avgLine.unshift({year: "2018", val: 1.0})
 
         vm.doFirst(avgLine)
 
@@ -315,9 +266,7 @@ function contentGraphService(commonService) {
           obj.year = vm.parseTime(obj.year)
           obj.val = parseFloat(obj.val) * vm.culvertSize //vm.currentBfw
         }
-        console.log("avg line from avgratio csv after modification: ", avgLine)
-
-
+        //console.log("avg line from avgratio csv after modification: ", avgLine)
 
         //plot averages line
         data = avgLine
@@ -326,8 +275,9 @@ function contentGraphService(commonService) {
           .data([data])
           .attr("class", "color-graph-ratio-line")
           .attr("d", vm.valueline);
+
         // Add threshold line
-        console.log("adding threshold line, vm.gTresh: ", vm.gThresh)
+        //console.log("adding threshold line, vm.gTresh: ", vm.gThresh)
         vm.svgRatios.append("line")
           .attr("class", "color-graph-ratio-thresh")
           .attr("x1", vm.x(vm.gMinMax[0]))
@@ -336,21 +286,12 @@ function contentGraphService(commonService) {
           .attr("y2", vm.y(vm.gThresh))
 
         //add threshold label
-        // paddingVal = 7 //figure out why this is undefined but won't permit being declared
         let pcsTxt = "Proposed Culvert Size (ft)"
         let pcsEndX = vm.x(vm.parseTime(commonService.endYear))
         let padding = 7
         let rotation = 0
         let pcsTxtY = vm.y(vm.threshold) - padding
         vm.appendLifeSpanLabel(vm.svgRatios, pcsTxt, pcsEndX, pcsTxtY, padding, rotation)
-        // svgCanvas.append("text")
-        //   .attr("text-anchor", "end")
-        //   .attr("transform", "translate(" + (x - padding) + "," + 4 + ") rotate(-90)")
-        //   .style("font-size", "0.75rem")
-        //   .attr("fill", "#000")
-        //   .text(label);
-
-
 
         // Add the X Axis
         vm.svgRatios.append("g")
@@ -359,25 +300,19 @@ function contentGraphService(commonService) {
           .append("text")
           .attr("transform", "translate(8)")
           .attr("y", 27)
-          // .attr("dy", "0.71em")
           .style("font-size", "0.75rem")
           .attr("fill", "#000");
-        // .text("Year");
 
 
 
         // Add the Y Axis
-        console.log("add ratios left axis: rangemin, rangeMax: ", rangeMin, rangeMax)
+        //console.log("add ratios left axis: rangemin, rangeMax: ", rangeMin, rangeMax)
         vm.svgRatios.append("g")
-          // .call(d3.axisLeft(vm.y).ticks(20).tickSize(0).tickPadding(5))
-          // .call(d3.axisLeft(vm.y).tickSize(0).tickPadding(5).tickValues(d3.range(rangeMin, rangeMax, 1.0)))
-          .call(d3.axisLeft(vm.y).tickSize(0).tickPadding(5)) //.tickValues(d3.range(1, 10000, 1.0)))
+          .call(d3.axisLeft(vm.y).tickSize(0).tickPadding(5))
           .append("text")
           .attr("transform", "translate(-32) rotate(-90)")
           .attr("y", 0)
-          // .attr("dy", "-1.75rem")
           .style("font-size", "0.75rem")
-          // .style("padding", "0.5rem")
           .attr("fill", "#000")
           .text("Culvert Size (ft)");
 
@@ -412,11 +347,11 @@ function contentGraphService(commonService) {
         //(note x is in form of date timestamp)
         //(note vm.y.domain() returns "world coordinates" on svg canvas)
 
-        console.log("vm.gMinMax: ", vm.gMinMax)
-        console.log("vm.designLifetime: ", vm.designLifetime)
-        console.log("vm.parseTime(vm.designLifetime): ", vm.parseTime(vm.designLifetime))
-        console.log("y.domain(): ", vm.y.domain())
-        console.log(commonService.currentYear)
+        //console.log("vm.gMinMax: ", vm.gMinMax)
+        //console.log("vm.designLifetime: ", vm.designLifetime)
+        //console.log("vm.parseTime(vm.designLifetime): ", vm.parseTime(vm.designLifetime))
+        //console.log("y.domain(): ", vm.y.domain())
+        //console.log(commonService.currentYear)
 
 
         vm.svgRatios.append("line")
@@ -425,13 +360,6 @@ function contentGraphService(commonService) {
           .attr("y1", vm.y(vm.y.domain()[0]))
           .attr("x2", vm.x(vm.parseTime(vm.designLifetime)))
           .attr("y2", vm.y(vm.y.domain()[1]))
-
-        // vm.svgRatios.append("line")
-        //   .attr("class", "start-of-lifetime-line")
-        //   .attr("x1", vm.x(vm.parseTime(commonService.startYear + 1)))
-        //   .attr("y1", vm.y(vm.y.domain()[0]))
-        //   .attr("x2", vm.x(vm.parseTime(commonService.startYear + 1)))
-        //   .attr("y2", vm.y(vm.y.domain()[1]))
 
         //build area path from start and end lines
         let lifetimeAreaPath = [{
@@ -456,7 +384,6 @@ function contentGraphService(commonService) {
         let lifetimeStartX = vm.x(vm.parseTime(commonService.startYear + 1))
         let lifetimeEndX = vm.x(vm.parseTime(vm.designLifetime))
         let paddingVal = 7
-        // let lifetimeStartTxt = "Begin lifespan, " + commonService.currentYear
         let lifetimeEndTxt = "End lifespan, " + vm.designLifetime
         vm.appendLifeSpanLabel(vm.svgRatios, lifetimeEndTxt, lifetimeEndX, 4, paddingVal, -90)
       })
@@ -467,7 +394,6 @@ function contentGraphService(commonService) {
   vm.getProbFailureNum = function(probLine) {
     //get vals up to lifetime into array
     let upToLifetimeVals = []
-    // let i = 0
     let designLifetimeYear = vm.parseTime(vm.designLifetime)
 
     for (let i = 0; i < probLine.length; i++) {
@@ -476,7 +402,6 @@ function contentGraphService(commonService) {
       }
     }
 
-
     //get differences of vals in upToLifetimeVals from 1 into array
     let difVals = []
     for (let i = 0; i < upToLifetimeVals.length; i++) {
@@ -484,10 +409,7 @@ function contentGraphService(commonService) {
     }
 
     //multiply those values together
-    // difVals = [1,2,3,4,5]
-    // difVals=[0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9]
     let prod = difVals[0]
-
 
     if (difVals.length > 1) {
       for (let i = 1; i < difVals.length; i++) {
@@ -501,16 +423,11 @@ function contentGraphService(commonService) {
       prod = 0
     }
 
-    // document.getElementById('prob-ind').innerHTML = (((1 - prod) * 100)).toFixed(2) + '%'
     vm.prob = (((1 - prod) * 100)).toFixed(2) + '%'
-    console.log("probability indicator: ", vm.prob)
-
+    //console.log("probability indicator: ", vm.prob)
   }
 
   vm.updateProbabilityGraph = function(cb) {
-
-    // let width = 900 - vm.margin.left - vm.margin.right
-    // let height = 200 - vm.margin.top - vm.margin.bottom
 
     // parse the date / time
     vm.parseTimeProb = d3.timeParse("%Y");
@@ -530,23 +447,14 @@ function contentGraphService(commonService) {
 
     vm.gMinMaxProb;
 
-    // vm.gThreshProb = vm.threshold / vm.currentBfw //verify this division with AM: ask why subtracting 2 and not adding?
-    // vm.gThreshProb = vm.threshold / vm.currentBfw
-
     //note; vm.theshold is value from form input PCS as-is
     vm.gThreshProb = vm.threshold / vm.culvertSize
 
-    console.log("---vm.culvertSize ", vm.culvertSize)
-    console.log("---vm.threshold ", vm.threshold)
-    console.log("---vm.currentBfw ", vm.currentBfw)
-    console.log("---vm.gThreshProb ", vm.gThreshProb)
+    //console.log("---vm.culvertSize ", vm.culvertSize)
+    //console.log("---vm.threshold ", vm.threshold)
+    //console.log("---vm.currentBfw ", vm.currentBfw)
+    //console.log("---vm.gThreshProb ", vm.gThreshProb)
 
-    /*
-    ((vm.threshold-2)/1.2))/vm.currentBfw
-    */
-
-    // commonService.startYear = 2014
-    // commonService.endYear = 2090
     vm.numYears = (commonService.endYear) - (commonService.startYear)
     vm.arrYearsProb = []
 
@@ -566,23 +474,16 @@ function contentGraphService(commonService) {
     /*
     open csv,
     generate value lines (one for each model) each valueLine goes into an array valueLines,
-
     */
     vm.yProb.domain([0.0, 1.0]);
-    // d3.csv("./contentGraph/ratio00.csv", function(error, data) {
-    // d3.csv("./testcsv/A1B45.65625-120.96875ratio.csv", function(error, data) {
     d3.csv("./testcsv/" + vm.filePrefix + "/" + vm.filePrefix + "ratio.csv", function(error, data) {
       if (error) throw error;
-      console.log("ratio data: ", data)
+      //console.log("ratio data: ", data)
       //for each object, make it an array as above for each value line
       let valueLines = []
       for (valueLineObj of data) {
-        // console.log("valueLineObj from prob : ", valueLineObj)
         let valueLine = []
         for (key in valueLineObj) {
-          // console.log("key in valueLineObj prob: ", parseInt(key) > 2018)
-          // if(!(key > 2018)) console.log("this was the key: ", key)
-          // if (key !== "") valueLine.push({
           if (key !== "" && key > commonService.startYear) valueLine.push({
             year: key,
             val: valueLineObj[key]
@@ -591,24 +492,20 @@ function contentGraphService(commonService) {
         vm.doFirst(valueLine)
         valueLines.push(valueLine)
       }
-      console.log("updateProbabilityGraph valueLines: ", valueLines)
-      console.log("vm.gThreshProb: ", vm.gThreshProb)
+      //console.log("updateProbabilityGraph valueLines: ", valueLines)
+      //console.log("vm.gThreshProb: ", vm.gThreshProb)
       //---get average first year of probable failure---
       //for each valueLine, record first year that shows value above threshold (bfwDesign)
-      //return tbd
       let failureYears = []
       for (i = 0; i < valueLines.length; i++) {
-        // console.log("i: ", i)
-        // console.log("this is numYears: ", vm.numYears)
         for (j = 0; j < vm.numYears; j++) {
           if (valueLines[i][j].val > vm.gThreshProb) {
-            // console.log("fail val: ", valueLines[i][j].val)
             failureYears.push(valueLines[i][j].year)
             break;
           }
         }
       }
-      console.log("failureYears: ", failureYears)
+      //console.log("failureYears: ", failureYears)
       vm.nModels = failureYears.length
       //get averge of years recorded:
       let failureYearsSum = 0
@@ -622,13 +519,11 @@ function contentGraphService(commonService) {
       } else {
         vm.avgFirstFailYear = "N/A"
       }
-      console.log("vm.avgFirstFailYear: ", vm.avgFirstFailYear)
-      //------------------------------------------------
+      //console.log("vm.avgFirstFailYear: ", vm.avgFirstFailYear)
 
       // build probability value line (for each date, in each line,
       // count how many values are above thresh and divide by total valuelines to get y for that date)
       // for each "year slot" check all values in all lines for that year
-      // console.log("before valueLines.length: ",valueLines.length)
       let probLine = []
       for (i = 0; i < vm.numYears; i++) {
 
@@ -639,20 +534,18 @@ function contentGraphService(commonService) {
           }
         }
         let yearVal = vm.parseTimeProb(parseInt(valueLine[i].year))
-        //why can't i call date key year?
+
         probLine.push({
           year: yearVal,
           val: valsAbove / valueLines.length
         })
       }
 
-      // console.log("after valueLines.length: ",valueLines.length)
-
       vm.getProbFailureNum(probLine)
 
       //plot probability line
       data = probLine
-      console.log("probline: ", probLine)
+      //console.log("probline: ", probLine)
       vm.svgProbability.append("path")
         .data([data])
         .attr("class", "color-graph-prob-line")
@@ -726,12 +619,6 @@ function contentGraphService(commonService) {
           .attr("y1", vm.yProb(vm.yProb.domain()[0]))
           .attr("x2", vm.x(vm.parseTime(vm.designLifetime)))
           .attr("y2", vm.yProb(vm.yProb.domain()[1]))
-
-        // //append liftime labels
-        // let lifetimeStartX = vm.x(vm.parseTime(commonService.startYear + 1))
-        // let lifetimeEndX = vm.x(vm.parseTime(vm.designLifetime))
-        // let paddingVal = 7
-
       cb()
 
     });
@@ -748,8 +635,6 @@ function contentGraphService(commonService) {
       .style("font-size", "0.75rem")
       .attr("fill", "#000")
       .text("Year");
-    // d3.selectAll('path.domain').attr('color', 'red')
-
 
     // Add the Y Axis
     vm.svgProbability.append("g")
@@ -757,7 +642,6 @@ function contentGraphService(commonService) {
       .append("text")
       .attr("transform", "translate(-32) rotate(-90)")
       .attr("y", 0)
-      // .attr("dy", "-1.75rem")
       .style("font-size", "0.75rem")
       .attr("fill", "#000")
       .text("Probability");
@@ -773,14 +657,6 @@ function contentGraphService(commonService) {
   }
 
   vm.clearGraphs = function() {
-    //also set style
-    // g text {
-    //   fill: #FF0000
-    //   y: 9
-    //   dy: 0.71em
-    // }
-    // vm.svgProbability.axisLeft.text.
-    console.log("vm.clearGraphs() happened")
     while (vm.svgRatios._groups[0][0].lastChild) {
       vm.svgRatios._groups[0][0].removeChild(vm.svgRatios._groups[0][0].lastChild);
     }

@@ -16,7 +16,6 @@ angular.module('app').component('contentGraph', {
       require: 'ngModel',
       link: function(scope, element, attrs, ngModel) {
         ngModel.$parsers.push(function(value) {
-          // return '' + parseFloat(value);
           return '' + value;
         });
         ngModel.$formatters.push(function(value) {
@@ -32,28 +31,22 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
   var ctrl = this
 
   ctrl.$onInit = function() {
-
-    console.log("content graph init")
     ctrl.prob = "-"
     ctrl.avgFirstFailYear = contentGraphService.avgFirstFailYear
     commonService.editMode.mode = "graph"
     commonService.setLatLngHeader($stateParams.lat, $stateParams.lng)
 
     //create an instance of the map tile in commonService so exists when user hits back when deep linked
-
     if (commonService.selectedTile === null) {
-      console.log("AA")
       commonService.tileFromGraph = {
         lat: parseFloat($stateParams.lat),
         lng: parseFloat($stateParams.lng)
       };
     } else {
-      console.log("BB")
       //clear from service so it's not re-used
       commonService.tileFromGraph = null;
     }
 
-    //&startYear&endYear&threshold&designLifetime&bfwDesign
     if ($stateParams.currentBfw === undefined) {
       ctrl.currentBfw = commonService.defaultCurrentBfw
     } else {
@@ -74,33 +67,18 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
     ctrl.lng = $stateParams.lng
 
     ctrl.designLifetimeMax = commonService.designLifetimeMax
-    console.log("ctrl.designLifetime ", ctrl.designLifetime)
-    console.log("ctrl.designLifetimeMax ", ctrl.designLifetimeMax)
     ctrl.designLifetimeMin = 0
 
     ctrl.updateGraphsOnInit()
   }
 
-  // $state.go('common-top.content-graph', {
-  //   lat: 123,
-  //   lng: 345,
-  //   startYear: ctrl.startYear,
-  //   endYear: ctrl.endYear,
-  //   currentBfw: ctrl.currentBfw,
-  //   designLifetime: ctrl.designLifetime,
-  //   bfwDesign: ctrl.bfwDesign
-  // })
-
   ctrl.updateGraphsOnInit = function() {
-    console.log("hello from ctrl.updateGraphsOnInit", ctrl.designLifetime, ctrl.bfwDesign, ctrl.currentBfw)
-    // contentGraphService.initRatiosGraph(ctrl.lat, ctrl.lng, ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign)
     contentGraphService.initRatiosGraph(ctrl.lat, ctrl.lng)
     contentGraphService.updateRatiosGraph(ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign, () => {
       contentGraphService.updateProbabilityGraph(() => {
         ctrl.prob = contentGraphService.prob
         ctrl.avgFirstFailYear = contentGraphService.avgFirstFailYear
         ctrl.nModels = contentGraphService.nModels
-        console.log("all done")
         $scope.$apply()
       })
     })
@@ -109,8 +87,6 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
   ctrl.cb = function() {
     ctrl.prob = contentGraphService.prob
     ctrl.avgFirstFailYear = contentGraphService.avgFirstFailYear
-    console.log("all done")
-
     $state.go('common-top.content-graph', {
         lat: ctrl.lat,
         lng: ctrl.lng,
@@ -129,12 +105,6 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
     }
 
     ctrl.updateGraphs = function() {
-      console.log("hello from ctrl.updateGraphs")
-      console.log("from contentGraph ctrl.currentBfw ctrl.bfwDesign",ctrl.currentBfw, ctrl.bfwDesign)
-      // contentGraphService.initRatiosGraph(ctrl.lat, ctrl.lng, ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign)
       contentGraphService.updateRatiosGraph(ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign, ctrl.updateRatiosGraphCb)
-      // contentGraphService.updateRatiosGraph()
-      // contentGraphService.updateProbabilityGraph()
     }
-
   }

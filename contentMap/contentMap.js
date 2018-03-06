@@ -12,8 +12,6 @@
     // }
   })
 
-  // Toolbar.$inject = ['serviceSvg','serviceCase', 'servicePartition']
-  // function Toolbar(serviceSvg, serviceCase, servicePartition) {
   ContentMap.$inject = ['$scope', 'contentGraphService', '$state', '$stateParams', 'commonService']
 
   function ContentMap($scope, contentGraphService, $state, $stateParams, commonService) {
@@ -31,8 +29,6 @@
     ctrl.gridInc = 0.0625 / 2
 
     ctrl.$onInit = function() {
-      console.log("map onInit")
-
       let map = new google.maps.Map(document.getElementById('map'), {
         center: {
           lat: ctrl.coords.lat,
@@ -207,9 +203,6 @@
           map: map,
           bounds: square
         }
-
-        // let cenLat = square.getCenter().lat()
-        // let cenLng = square.getCenter().lng()
         let tile = new google.maps.Rectangle(tileOpts);
 
         commonService.selectedTile = tile
@@ -243,13 +236,10 @@
       // d3.csv("./VIC_Castro_Regions.csv", function(error, data) {
       d3.csv("./Test_Regions.csv", function(error, data) {
         if (error) throw error;
-        console.log("Test_Regions.csv: ", data)
-
         //build grid square tiles from csv regions data
         for (let obj of data) {
           let latStartCen = parseFloat(obj.lat)
           let lonStartCen = parseFloat(obj.lng)
-          console.log("latStartCen, lonStartCen: ", latStartCen, lonStartCen)
           let swCornerLat = (latStartCen - ctrl.gridInc)
           let swCornerLng = (lonStartCen - ctrl.gridInc)
 
@@ -283,17 +273,13 @@
           }
           //do all this so that correct tile is highlighted when user switched back to map from graph
           if (commonService.selectedTile !== null) {
-            console.log("snarf selectedTile lat and lng: ", commonService.selectedTile.getBounds().getCenter().lat(), commonService.selectedTile.getBounds().getCenter().lng())
-            console.log("snarf cenLat and cenLng: ", cenLat, cenLng)
             if (
               commonService.selectedTile.getBounds().getCenter().lat() !== cenLat ||
               commonService.selectedTile.getBounds().getCenter().lng() !== cenLng
             ) {
-              console.log("snarf unsel")
               tileOpts.strokeColor = ctrl.colorUnsel
               tile = new google.maps.Rectangle(tileOpts);
             } else {
-              console.log("snarf sel")
               tileOpts.strokeColor = ctrl.colorSel,
                 tileOpts.zIndex = 99999,
                 tileOpts.strokeWeight = 4.0
@@ -306,8 +292,6 @@
             tileOpts.strokeColor = ctrl.colorUnsel
             tile = new google.maps.Rectangle(tileOpts);
           }
-
-          // let tile = new google.maps.Rectangle(tileOpts);
 
           //assign event handlers to new tile
           ctrl.addDown(tile)
@@ -382,23 +366,19 @@
     ctrl.addDown = function(tile) {
       tile.addListener('mousedown', function(event) {
         let thisTileCen = this.getBounds().getCenter()
-        console.log("down enter")
         if (commonService.selectedTile !== null) {
-          console.log("down if")
           commonService.selectedTile.setOptions({
             strokeColor: ctrl.colorUnsel,
             zIndex: 999999,
             strokeWeight: 1.0
           })
-        } //else {
-          console.log("down else")
-          this.setOptions({
+        }
+        this.setOptions({
 
-            strokeColor: ctrl.colorSel,
-            zIndex: 99999,
-            strokeWeight: 4.0
-          })
-        // }
+          strokeColor: ctrl.colorSel,
+          zIndex: 99999,
+          strokeWeight: 4.0
+        })
       })
     }
 
