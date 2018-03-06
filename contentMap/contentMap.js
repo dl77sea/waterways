@@ -317,6 +317,12 @@
           ctrl.selectedLat = this.getBounds().getCenter().lng()
 
           commonService.editMode.mode = "graph"
+          
+          //set this for ratios file download
+          // commonService.coords.lat = commonService.selectedTile.getBounds().getCenter().lat()
+          // commonService.coords.lng = commonService.selectedTile.getBounds().getCenter().lng()
+
+          //go to graph component
           $state.go('common-top.content-graph', {
             lat: commonService.selectedTile.getBounds().getCenter().lat(),
             lng: commonService.selectedTile.getBounds().getCenter().lng(),

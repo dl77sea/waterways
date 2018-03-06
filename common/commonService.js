@@ -14,6 +14,11 @@ function commonService() {
     mode: "map"
   }
 
+  // vm.coords = {
+  //   lat: vm.defaultLat,
+  //   lng: vm.defaultLng
+  // }
+
   vm.setLatLngHeader = function(cenLat, cenLng) {
     document.getElementById('coord-display').innerHTML = "&nbsp;&nbsp;LAT " + cenLat + ",&nbsp;&nbsp;" + "LONG&nbsp;&nbsp;" + cenLng
   }
