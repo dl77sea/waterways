@@ -3,8 +3,8 @@ function Footer(commonService, $scope) {
 
   ctrl.$onInit = function() {
     ctrl.editMode = commonService.editMode
-    ctrl.csvFile = "./testcsv/" + ctrl.coords.lat + ctrl.coords.lng + "/" + ctrl.coords.lat + ctrl.coords.lng + "ratio.csv"
-    ctrl.csvFileName = "./testcsv/" + ctrl.coords.lat + ctrl.coords.lng + "/"
+    ctrl.csvFile = "./csv/" + ctrl.coords.lat + ctrl.coords.lng + "/" + ctrl.coords.lat + ctrl.coords.lng + "ratio.csv"
+    ctrl.csvFileName = "./csv/" + ctrl.coords.lat + ctrl.coords.lng + "/"
     ctrl.csvFilePath = ctrl.coords.lat + ctrl.coords.lng + "ratio.csv"
   }
 
