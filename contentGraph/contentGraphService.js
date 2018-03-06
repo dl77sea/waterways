@@ -100,7 +100,7 @@ function contentGraphService(commonService) {
     })
 
     var areaPath = []
-    d3.csv("./testcsv/" + vm.filePrefix + "/" + vm.filePrefix + "ratio.csv", function(error, data) {
+    d3.csv("./csv/" + vm.filePrefix + "/" + vm.filePrefix + "ratio.csv", function(error, data) {
       if (error) throw error;
       var rangeMin
       var rangeMax
@@ -244,7 +244,7 @@ function contentGraphService(commonService) {
     //average line
     vm.genAvereageLine = function(rangeMin, rangeMax, area) {
       let avgLine = []
-      d3.csv("./testcsv/" + vm.filePrefix + "/" + vm.filePrefix + "avgratio.csv", function(error, data) {
+      d3.csv("./csv/" + vm.filePrefix + "/" + vm.filePrefix + "avgratio.csv", function(error, data) {
         if (error) throw error;
         //console.log("avg line unmodified from avgratio csv: ", data)
         //build avg line
@@ -476,7 +476,7 @@ function contentGraphService(commonService) {
     generate value lines (one for each model) each valueLine goes into an array valueLines,
     */
     vm.yProb.domain([0.0, 1.0]);
-    d3.csv("./testcsv/" + vm.filePrefix + "/" + vm.filePrefix + "ratio.csv", function(error, data) {
+    d3.csv("./csv/" + vm.filePrefix + "/" + vm.filePrefix + "ratio.csv", function(error, data) {
       if (error) throw error;
       //console.log("ratio data: ", data)
       //for each object, make it an array as above for each value line
