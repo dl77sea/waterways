@@ -70,12 +70,15 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
     ctrl.designLifetimeMin = 0
 
     ctrl.updateGraphsOnInit()
+
+    ctrl.sizePerCode = Number.parseFloat(1.2 * ctrl.currentBfw + 2).toFixed(2)
   }
 
   ctrl.updateGraphsOnInit = function() {
     contentGraphService.initRatiosGraph(ctrl.lat, ctrl.lng)
     contentGraphService.updateRatiosGraph(ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign, () => {
       contentGraphService.updateProbabilityGraph(() => {
+//        ctrl.prob = Number.parseFloat(contentGraphService.prob).toFixed(0)
         ctrl.prob = contentGraphService.prob
         ctrl.avgFirstFailYear = contentGraphService.avgFirstFailYear
         ctrl.nModels = contentGraphService.nModels
@@ -85,6 +88,7 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
   }
 
   ctrl.cb = function() {
+//    ctrl.prob = Number.parseFloat(contentGraphService.prob).toFixed(0)
     ctrl.prob = contentGraphService.prob
     ctrl.avgFirstFailYear = contentGraphService.avgFirstFailYear
     $state.go('common-top.content-graph', {
