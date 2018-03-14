@@ -23,4 +23,6 @@ function commonService() {
     vm.endYear = 2099
     vm.designLifetimeMax = vm.endYear - vm.startYear
   }
+
+  vm.mapExist = false;
 }
