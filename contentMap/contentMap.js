@@ -17,6 +17,9 @@
   function ContentMap($scope, contentGraphService, $state, $stateParams, commonService, contentMapService) {
     var ctrl = this
 
+
+    // ctrl.spinner = contentMapService.showSpinner
+
     // commonService.editMode.mode = "map"
 
     // ctrl.defaultLat = 47.34375
@@ -28,9 +31,12 @@
     //
     // ctrl.gridInc = 0.0625 / 2
 
+
     ctrl.$onInit = function() {
       // contentMapService.buildMap()
+      // ctrl.spinner = true;
       contentMapService.initMap()
+      // ctrl.spinner = contentMapService.showSpinner
     }
 
   }

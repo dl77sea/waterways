@@ -5,7 +5,7 @@ function contentMapService($state, commonService) {
   console.log("top")
   var vm = this
 
-
+  // vm.showSpinner = false;
   vm.defaultLat = 47.34375
   vm.defaultLng = -120.78125
   vm.coords = {
@@ -20,6 +20,14 @@ function contentMapService($state, commonService) {
   vm.map = null
 
   vm.initMap = function() {
+    document.querySelector(".spinner-container").style.display = "block";
+
+    // angular.element(document).ready(function () {
+    //   // document.getElementById('msg').innerHTML = 'Hello';
+    //   console.log("hello from angular.element(document).ready function")
+    //   document.querySelector(".spinner-container").style.display = "none"; //setAttribute("display", "none")
+    // });
+
     console.log("contentMapService init")
     // commonService.editMode.mode = "map"
     vm.map = new google.maps.Map(document.getElementById('map'), {
@@ -162,22 +170,125 @@ function contentMapService($state, commonService) {
     // google.maps.event.addListenerOnce(map, 'idle', function(){
     //     // do something only the first time the map is loaded
     // });
-    google.maps.event.addListenerOnce(vm.map, 'idle', function(){
-      console.log("map up")
-        vm.buildGrid()
+
+    //tilesloaded
+    google.maps.event.addListenerOnce(vm.map, 'idle', function() {
+      // google.maps.event.addListenerOnce(vm.map, 'tilesloaded', function() {
+      // console.log("map up")
+      // document.querySelector(".spinner-container").style.display = "block";
+    // })
+      // vm.showSpinner = false;
+      // document.querySelector(".spinner-container").style.display = "block"; //setAttribute("display", "none")
+      // document.querySelector(".spinner-container").style.display = "block";
+      vm.buildGrid()
     });
 
+    // google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
+    //     //this part runs when the mapobject is created and rendered
+    // google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
+    //         //this part runs when the mapobject shown for the first time
+    //     });
+    // });
 
+
+
+    // vm.showSpinner = false;
+  }
+
+  vm.buildGrid = function() {
+    // ---are we comming from a deep linked graph?
+    if (commonService.tileFromGraph !== null) {
+      console.log("coming from graph")
+
+      let latStartCen = commonService.tileFromGraph.lat
+      let lonStartCen = commonService.tileFromGraph.lng
+
+      let swCornerLat = (latStartCen - vm.gridInc)
+      let swCornerLng = (lonStartCen - vm.gridInc)
+
+      let neCornerLat = (latStartCen + vm.gridInc)
+      let neCornerLng = (lonStartCen + vm.gridInc)
+
+      let swCorner = {
+        lat: swCornerLat,
+        lng: swCornerLng
+      }
+
+      let neCorner = {
+        lat: neCornerLat,
+        lng: neCornerLng
+      }
+
+      let square = new google.maps.LatLngBounds(swCorner, neCorner)
+
+      let tileOpts = {
+        strokeColor: vm.colorUnsel,
+        strokeOpacity: 1.0,
+        strokeWeight: 1.0,
+        fillColor: '#FFFFFF',
+        fillOpacity: 0.0,
+        zIndex: -1,
+        map: vm.map,
+        bounds: square
+      }
+
+      // let cenLat = square.getCenter().lat()
+      // let cenLng = square.getCenter().lng()
+      let tile = new google.maps.Rectangle(tileOpts);
+
+      commonService.selectedTile = tile
     }
 
-    vm.buildGrid = function() {
-      // ---are we comming from a deep linked graph?
-      if (commonService.tileFromGraph !== null) {
-        console.log("coming from graph")
+    //if comming back from graph page
+    if (commonService.selectedTile !== null) {
+      console.log("coming from graph selectTile exist")
+      vm.map.panTo({
+        lat: commonService.selectedTile.getBounds().getCenter().lat(),
+        lng: commonService.selectedTile.getBounds().getCenter().lng()
+      });
+      // map.setZoom(10);
+    }
 
-        let latStartCen = commonService.tileFromGraph.lat
-        let lonStartCen = commonService.tileFromGraph.lng
+    //---begin populating grid squares from regions csv---
+    console.log("check")
+    let gridX = 18
+    let gridY = 18
+    let gridInc = vm.gridInc
+    let latStartCen = 48.71875 + (9 * (vm.gridInc * 2))
+    let lonStartCen = -122.09375 - (9 * (vm.gridInc * 2))
 
+    let tileOpts;
+    let tile;
+
+    vm.colorUnsel = "#A0A0A0"
+    vm.colorSel = "#0097a7"
+    vm.colorDown = "#00FFFF"
+    vm.colorOver = "#FFF"
+
+    let data;
+
+    if (commonService.mapExist === false) {
+      // read in tiles center locations from csv
+      console.log("csv data from file")
+      d3.csv("./VIC_Castro_Regions.csv", function(error, dataFromCsv) {
+        data = dataFromCsv;
+        if (error) throw error;
+
+        vm.gridArray = data;
+
+        vm.processCsvData(data)
+      })
+    } else {
+      console.log("csv data from array")
+      let data = vm.gridArray;
+      vm.processCsvData(data)
+    }
+    vm.processCsvData = function(data) {
+      console.log("here is the data: ", data)
+      //build grid square tiles from csv regions data
+      for (let obj of data) {
+        let latStartCen = parseFloat(obj.lat)
+        let lonStartCen = parseFloat(obj.lng)
         let swCornerLat = (latStartCen - vm.gridInc)
         let swCornerLng = (lonStartCen - vm.gridInc)
 
@@ -195,8 +306,10 @@ function contentMapService($state, commonService) {
         }
 
         let square = new google.maps.LatLngBounds(swCorner, neCorner)
+        let cenLat = square.getCenter().lat()
+        let cenLng = square.getCenter().lng()
 
-        let tileOpts = {
+        tileOpts = {
           strokeColor: vm.colorUnsel,
           strokeOpacity: 1.0,
           strokeWeight: 1.0,
@@ -207,123 +320,39 @@ function contentMapService($state, commonService) {
           bounds: square
         }
 
-        // let cenLat = square.getCenter().lat()
-        // let cenLng = square.getCenter().lng()
-        let tile = new google.maps.Rectangle(tileOpts);
-
-        commonService.selectedTile = tile
-      }
-
-      //if comming back from graph page
-      if (commonService.selectedTile !== null) {
-        console.log("coming from graph selectTile exist")
-        vm.map.panTo({
-          lat: commonService.selectedTile.getBounds().getCenter().lat(),
-          lng: commonService.selectedTile.getBounds().getCenter().lng()
-        });
-        // map.setZoom(10);
-      }
-
-      //---begin populating grid squares from regions csv---
-      console.log("check")
-      let gridX = 18
-      let gridY = 18
-      let gridInc = vm.gridInc
-      let latStartCen = 48.71875 + (9 * (vm.gridInc * 2))
-      let lonStartCen = -122.09375 - (9 * (vm.gridInc * 2))
-
-      let tileOpts;
-      let tile;
-
-      vm.colorUnsel = "#A0A0A0"
-      vm.colorSel = "#0097a7"
-      vm.colorDown = "#00FFFF"
-      vm.colorOver = "#FFF"
-
-      let data;
-
-      if (commonService.mapExist === false) {
-        // read in tiles center locations from csv
-        console.log("csv data from file")
-        d3.csv("./VIC_Castro_Regions.csv", function(error, dataFromCsv) {
-          data = dataFromCsv;
-          if (error) throw error;
-
-          vm.gridArray = data;
-
-          vm.processCsvData(data)
-        })
-      } else {
-        console.log("csv data from array")
-        let data = vm.gridArray;
-        vm.processCsvData(data)
-      }
-      vm.processCsvData = function(data) {
-        console.log("here is the data: ", data)
-        //build grid square tiles from csv regions data
-        for (let obj of data) {
-          let latStartCen = parseFloat(obj.lat)
-          let lonStartCen = parseFloat(obj.lng)
-          let swCornerLat = (latStartCen - vm.gridInc)
-          let swCornerLng = (lonStartCen - vm.gridInc)
-
-          let neCornerLat = (latStartCen + vm.gridInc)
-          let neCornerLng = (lonStartCen + vm.gridInc)
-
-          let swCorner = {
-            lat: swCornerLat,
-            lng: swCornerLng
-          }
-
-          let neCorner = {
-            lat: neCornerLat,
-            lng: neCornerLng
-          }
-
-          let square = new google.maps.LatLngBounds(swCorner, neCorner)
-          let cenLat = square.getCenter().lat()
-          let cenLng = square.getCenter().lng()
-
-          tileOpts = {
-            strokeColor: vm.colorUnsel,
-            strokeOpacity: 1.0,
-            strokeWeight: 1.0,
-            fillColor: '#FFFFFF',
-            fillOpacity: 0.0,
-            zIndex: -1,
-            map: vm.map,
-            bounds: square
-          }
-
-          //do all this so that correct tile is highlighted when user switched back to map from graph
-          if (commonService.selectedTile !== null) {
-            if (
-              commonService.selectedTile.getBounds().getCenter().lat() !== cenLat ||
-              commonService.selectedTile.getBounds().getCenter().lng() !== cenLng
-            ) {
-              tileOpts.strokeColor = vm.colorUnsel
-              tile = new google.maps.Rectangle(tileOpts);
-            } else {
-              tileOpts.strokeColor = vm.colorSel,
-                tileOpts.zIndex = 99999,
-                tileOpts.strokeWeight = 4.0
-
-              //replace existing commonService.selectedTile with reference to newly generated equivelant
-              tile = new google.maps.Rectangle(tileOpts);
-              commonService.selectedTile = tile
-            }
-          } else {
+        //do all this so that correct tile is highlighted when user switched back to map from graph
+        if (commonService.selectedTile !== null) {
+          if (
+            commonService.selectedTile.getBounds().getCenter().lat() !== cenLat ||
+            commonService.selectedTile.getBounds().getCenter().lng() !== cenLng
+          ) {
             tileOpts.strokeColor = vm.colorUnsel
             tile = new google.maps.Rectangle(tileOpts);
-          }
+          } else {
+            tileOpts.strokeColor = vm.colorSel,
+              tileOpts.zIndex = 99999,
+              tileOpts.strokeWeight = 4.0
 
-          //assign event handlers to new tile
-          vm.addDown(tile)
-          vm.addClick(tile)
-          vm.addOver(tile)
-          vm.addUp(tile)
+            //replace existing commonService.selectedTile with reference to newly generated equivelant
+            tile = new google.maps.Rectangle(tileOpts);
+            commonService.selectedTile = tile
+          }
+        } else {
+          tileOpts.strokeColor = vm.colorUnsel
+          tile = new google.maps.Rectangle(tileOpts);
         }
-        commonService.mapExist = true
+
+        //assign event handlers to new tile
+        vm.addDown(tile)
+        vm.addClick(tile)
+        vm.addOver(tile)
+        vm.addUp(tile)
+      }
+      commonService.mapExist = true
+      // vm.showSpinner = true;
+      console.log("snarf")
+      setTimeout(function() {document.querySelector(".spinner-container").style.display = "none";}, 1500)
+      // document.querySelector(".spinner-container").setAttribute("display", "none")
     }
   }
 
