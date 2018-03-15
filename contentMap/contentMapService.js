@@ -29,7 +29,7 @@ function contentMapService($state, commonService) {
     // });
 
     console.log("contentMapService init")
-    // commonService.editMode.mode = "map"
+    commonService.editMode.mode = "map"
     vm.map = new google.maps.Map(document.getElementById('map'), {
       center: {
         lat: vm.coords.lat,
@@ -351,7 +351,7 @@ function contentMapService($state, commonService) {
       commonService.mapExist = true
       // vm.showSpinner = true;
       console.log("snarf")
-      setTimeout(function() {document.querySelector(".spinner-container").style.display = "none";}, 1500)
+      setTimeout(function() {document.querySelector(".spinner-container").style.display = "none";}, 2000)
       // document.querySelector(".spinner-container").setAttribute("display", "none")
     }
   }
@@ -370,7 +370,7 @@ function contentMapService($state, commonService) {
         vm.selectedLat = this.getBounds().getCenter().lat()
         vm.selectedLat = this.getBounds().getCenter().lng()
 
-        // commonService.editMode.mode = "graph"
+        commonService.editMode.mode = "graph"
         $state.go('common-top.content-graph', {
           lat: commonService.selectedTile.getBounds().getCenter().lat(),
           lng: commonService.selectedTile.getBounds().getCenter().lng(),
