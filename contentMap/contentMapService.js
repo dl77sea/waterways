@@ -240,14 +240,14 @@ function contentMapService($state, commonService) {
     }
 
     //if comming back from graph page
-    if (commonService.selectedTile !== null) {
-      console.log("coming from graph selectTile exist")
-      vm.map.panTo({
-        lat: commonService.selectedTile.getBounds().getCenter().lat(),
-        lng: commonService.selectedTile.getBounds().getCenter().lng()
-      });
-      // map.setZoom(10);
-    }
+    // if (commonService.selectedTile !== null) {
+    //   console.log("coming from graph selectTile exist")
+    //   vm.map.panTo({
+    //     lat: commonService.selectedTile.getBounds().getCenter().lat(),
+    //     lng: commonService.selectedTile.getBounds().getCenter().lng()
+    //   });
+    //   // map.setZoom(10);
+    // }
 
     //---begin populating grid squares from regions csv---
     console.log("check")
