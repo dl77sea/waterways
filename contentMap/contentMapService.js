@@ -2,7 +2,7 @@ angular.module('app').service('contentMapService', contentMapService)
 contentMapService.$inject = ['$state', 'commonService']
 
 function contentMapService($state, commonService) {
-  console.log("top")
+
   var vm = this
 
   // vm.showSpinner = false;
@@ -22,13 +22,6 @@ function contentMapService($state, commonService) {
   vm.initMap = function() {
     document.querySelector(".spinner-container").style.display = "block";
 
-    // angular.element(document).ready(function () {
-    //   // document.getElementById('msg').innerHTML = 'Hello';
-    //   console.log("hello from angular.element(document).ready function")
-    //   document.querySelector(".spinner-container").style.display = "none"; //setAttribute("display", "none")
-    // });
-
-    console.log("contentMapService init")
     commonService.editMode.mode = "map"
     vm.map = new google.maps.Map(document.getElementById('map'), {
       center: {
@@ -167,32 +160,12 @@ function contentMapService($state, commonService) {
         }
       ]
     });
-    // google.maps.event.addListenerOnce(map, 'idle', function(){
-    //     // do something only the first time the map is loaded
-    // });
 
     //tilesloaded
     google.maps.event.addListenerOnce(vm.map, 'idle', function() {
-      // google.maps.event.addListenerOnce(vm.map, 'tilesloaded', function() {
-      // console.log("map up")
-      // document.querySelector(".spinner-container").style.display = "block";
-    // })
-      // vm.showSpinner = false;
-      // document.querySelector(".spinner-container").style.display = "block"; //setAttribute("display", "none")
-      // document.querySelector(".spinner-container").style.display = "block";
       vm.buildGrid()
     });
 
-    // google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
-    //     //this part runs when the mapobject is created and rendered
-    // google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
-    //         //this part runs when the mapobject shown for the first time
-    //     });
-    // });
-
-
-
-    // vm.showSpinner = false;
   }
 
   vm.buildGrid = function() {
@@ -241,7 +214,7 @@ function contentMapService($state, commonService) {
 
     //if comming back from graph page
     if (commonService.selectedTile !== null) {
-      console.log("coming from graph selectTile exist")
+
       vm.map.panTo({
         lat: commonService.selectedTile.getBounds().getCenter().lat(),
         lng: commonService.selectedTile.getBounds().getCenter().lng()
@@ -252,7 +225,7 @@ function contentMapService($state, commonService) {
 
 
     //---begin populating grid squares from regions csv---
-    console.log("check")
+
     let gridX = 18
     let gridY = 18
     let gridInc = vm.gridInc
@@ -271,7 +244,6 @@ function contentMapService($state, commonService) {
 
     if (commonService.mapExist === false) {
       // read in tiles center locations from csv
-      console.log("csv data from file")
       d3.csv("./VIC_Castro_Regions.csv", function(error, dataFromCsv) {
         data = dataFromCsv;
         if (error) throw error;
@@ -281,12 +253,10 @@ function contentMapService($state, commonService) {
         vm.processCsvData(data)
       })
     } else {
-      console.log("csv data from array")
       let data = vm.gridArray;
       vm.processCsvData(data)
     }
     vm.processCsvData = function(data) {
-      console.log("here is the data: ", data)
       //build grid square tiles from csv regions data
       for (let obj of data) {
         let latStartCen = parseFloat(obj.lat)
@@ -351,10 +321,7 @@ function contentMapService($state, commonService) {
         vm.addUp(tile)
       }
       commonService.mapExist = true
-      // vm.showSpinner = true;
-      console.log("snarf")
-      setTimeout(function() {document.querySelector(".spinner-container").style.display = "none";}, 2000)
-      // document.querySelector(".spinner-container").setAttribute("display", "none")
+      setTimeout(function() {document.querySelector(".spinner-container").style.display = "none";}, 1500)
     }
   }
 
@@ -428,15 +395,12 @@ function contentMapService($state, commonService) {
           zIndex: 999999,
           strokeWeight: 1.0
         })
-      } //else {
-      console.log("down else")
+      }
       this.setOptions({
-
         strokeColor: vm.colorSel,
         zIndex: 99999,
         strokeWeight: 4.0
       })
-
     })
   }
 

@@ -281,8 +281,7 @@ function contentGraphService(commonService) {
           .attr("d", vm.valueline);
 
         // Add threshold line
-        //console.log("adding threshold line, vm.gTresh: ", vm.gThresh)
-        console.log("at add threhold and y min: ", vm.gThresh, vm.areaMin)
+        //console.log("adding threshold line, vm.gTresh: ", vm.gThresh)      
         if (vm.gThresh >= vm.areaMin && vm.gThresh <= vm.areaMax) {
           vm.svgRatios.append("line")
             .attr("class", "color-graph-ratio-thresh")
