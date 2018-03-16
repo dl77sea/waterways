@@ -281,23 +281,22 @@ function contentGraphService(commonService) {
         // Add threshold line
         //console.log("adding threshold line, vm.gTresh: ", vm.gThresh)
 
-        //conditional here does not always re-render clean with safari
-        // if (vm.gThresh >= vm.areaMin && vm.gThresh <= vm.areaMax) {
-        vm.svgRatios.append("line")
-          .attr("class", "color-graph-ratio-thresh")
-          .attr("x1", vm.x(vm.gMinMax[0]))
-          .attr("y1", vm.y(vm.gThresh))
-          .attr("x2", vm.x(vm.gMinMax[1]))
-          .attr("y2", vm.y(vm.gThresh))
+        if (vm.gThresh >= vm.areaMin && vm.gThresh <= vm.areaMax) {
+          vm.svgRatios.append("line")
+            .attr("class", "color-graph-ratio-thresh")
+            .attr("x1", vm.x(vm.gMinMax[0]))
+            .attr("y1", vm.y(vm.gThresh))
+            .attr("x2", vm.x(vm.gMinMax[1]))
+            .attr("y2", vm.y(vm.gThresh))
 
-        //add threshold label
-        let pcsTxt = "Proposed Culvert Size (ft)"
-        let pcsEndX = vm.x(vm.parseTime(commonService.endYear))
-        let padding = 7
-        let rotation = 0
-        let pcsTxtY = vm.y(vm.threshold) - padding
-        vm.appendLifeSpanLabel(vm.svgRatios, pcsTxt, pcsEndX, pcsTxtY, padding, rotation)
-        // }
+          //add threshold label
+          let pcsTxt = "Proposed Culvert Size (ft)"
+          let pcsEndX = vm.x(vm.parseTime(commonService.endYear))
+          let padding = 7
+          let rotation = 0
+          let pcsTxtY = vm.y(vm.threshold) - padding
+          vm.appendLifeSpanLabel(vm.svgRatios, pcsTxt, pcsEndX, pcsTxtY, padding, rotation)
+        }
 
         // Add the X Axis
         vm.svgRatios.append("g")

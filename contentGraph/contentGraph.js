@@ -38,13 +38,11 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
 
     //create an instance of the map tile in commonService so exists when user hits back when deep linked
     if (commonService.selectedTile === null) {
-      console.log("commonService.selectedTile was null")
       commonService.tileFromGraph = {
         lat: parseFloat($stateParams.lat),
         lng: parseFloat($stateParams.lng)
       };
     } else {
-      console.log("commonService.selectedTile was not null")
       //clear from service so it's not re-used
       commonService.tileFromGraph = null;
     }
@@ -72,12 +70,15 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
     ctrl.designLifetimeMin = 0
 
     ctrl.updateGraphsOnInit()
+
+    ctrl.sizePerCode = Number.parseFloat(1.2 * ctrl.currentBfw + 2).toFixed(2)
   }
 
   ctrl.updateGraphsOnInit = function() {
     contentGraphService.initRatiosGraph(ctrl.lat, ctrl.lng)
     contentGraphService.updateRatiosGraph(ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign, () => {
       contentGraphService.updateProbabilityGraph(() => {
+//        ctrl.prob = Number.parseFloat(contentGraphService.prob).toFixed(0)
         ctrl.prob = contentGraphService.prob
         ctrl.avgFirstFailYear = contentGraphService.avgFirstFailYear
         ctrl.nModels = contentGraphService.nModels
@@ -87,6 +88,7 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
   }
 
   ctrl.cb = function() {
+//    ctrl.prob = Number.parseFloat(contentGraphService.prob).toFixed(0)
     ctrl.prob = contentGraphService.prob
     ctrl.avgFirstFailYear = contentGraphService.avgFirstFailYear
     $state.go('common-top.content-graph', {
@@ -108,8 +110,5 @@ function ContentGraph(contentGraphService, $state, $stateParams, commonService, 
 
     ctrl.updateGraphs = function() {
       contentGraphService.updateRatiosGraph(ctrl.currentBfw, ctrl.designLifetime, ctrl.bfwDesign, ctrl.updateRatiosGraphCb)
-      // contentGraphService.updateRatiosGraph()
-      // contentGraphService.updateProbabilityGraph()
     }
-
   }
