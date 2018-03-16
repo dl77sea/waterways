@@ -180,10 +180,6 @@ function contentGraphService(commonService) {
       rangeMin = Math.min(...minValsJustValues)
       rangeMax = Math.max(...maxValsJustValues)
 
-      // for use as conditional check for plotting threhold line on graph
-      vm.areaMin = rangeMin;
-      vm.areaMax = rangeMax;
-
       //console.log("rangemin, max: ", rangeMin, rangeMax)
       vm.y.domain([rangeMin, rangeMax])
 
@@ -281,23 +277,21 @@ function contentGraphService(commonService) {
           .attr("d", vm.valueline);
 
         // Add threshold line
-        //console.log("adding threshold line, vm.gTresh: ", vm.gThresh)      
-        if (vm.gThresh >= vm.areaMin && vm.gThresh <= vm.areaMax) {
-          vm.svgRatios.append("line")
-            .attr("class", "color-graph-ratio-thresh")
-            .attr("x1", vm.x(vm.gMinMax[0]))
-            .attr("y1", vm.y(vm.gThresh))
-            .attr("x2", vm.x(vm.gMinMax[1]))
-            .attr("y2", vm.y(vm.gThresh))
+        //console.log("adding threshold line, vm.gTresh: ", vm.gThresh)
+        vm.svgRatios.append("line")
+          .attr("class", "color-graph-ratio-thresh")
+          .attr("x1", vm.x(vm.gMinMax[0]))
+          .attr("y1", vm.y(vm.gThresh))
+          .attr("x2", vm.x(vm.gMinMax[1]))
+          .attr("y2", vm.y(vm.gThresh))
 
-          //add threshold label
-          let pcsTxt = "Proposed Culvert Size (ft)"
-          let pcsEndX = vm.x(vm.parseTime(commonService.endYear))
-          let padding = 7
-          let rotation = 0
-          let pcsTxtY = vm.y(vm.threshold) - padding
-          vm.appendLifeSpanLabel(vm.svgRatios, pcsTxt, pcsEndX, pcsTxtY, padding, rotation)
-        }
+        //add threshold label
+        let pcsTxt = "Proposed Culvert Size (ft)"
+        let pcsEndX = vm.x(vm.parseTime(commonService.endYear))
+        let padding = 7
+        let rotation = 0
+        let pcsTxtY = vm.y(vm.threshold) - padding
+        vm.appendLifeSpanLabel(vm.svgRatios, pcsTxt, pcsEndX, pcsTxtY, padding, rotation)
 
         // Add the X Axis
         vm.svgRatios.append("g")
@@ -585,46 +579,46 @@ function contentGraphService(commonService) {
         .attr("x2", vm.x(vm.gMinMaxProb[1]))
         .attr("y2", vm.yProb(vm.yProb.domain()[1]))
 
-      //lifespan fill area and lines
-      //build area path from start and end lines
-      let lifetimeAreaPath = [{
-          year: vm.parseTime(commonService.startYear + 1),
-          val0: vm.yProb.domain()[0],
-          val1: vm.yProb.domain()[1]
-        },
-        {
-          year: vm.parseTime(vm.designLifetime),
-          val0: vm.yProb.domain()[0],
-          val1: vm.yProb.domain()[1]
-        }
-      ]
+        //lifespan fill area and lines
+        //build area path from start and end lines
+        let lifetimeAreaPath = [{
+            year: vm.parseTime(commonService.startYear + 1),
+            val0: vm.yProb.domain()[0],
+            val1: vm.yProb.domain()[1]
+          },
+          {
+            year: vm.parseTime(vm.designLifetime),
+            val0: vm.yProb.domain()[0],
+            val1: vm.yProb.domain()[1]
+          }
+        ]
 
-      var area = d3.area()
-        // .curve(d3.curveBasis)
-        .x(function(d) {
-          return vm.x(d.year);
-        })
-        .y0(function(d) {
-          return vm.yProb(d.val0);
-        })
-        .y1(function(d) {
-          return vm.yProb(d.val1);
-        });
-
-
-      vm.svgProbability.append("path")
-        .attr("class", "lifetime-fill")
-        .attr("d", function(d) {
-          return area(lifetimeAreaPath);
-        });
+        var area = d3.area()
+          // .curve(d3.curveBasis)
+          .x(function(d) {
+            return vm.x(d.year);
+          })
+          .y0(function(d) {
+            return vm.yProb(d.val0);
+          })
+          .y1(function(d) {
+            return vm.yProb(d.val1);
+          });
 
 
-      vm.svgProbability.append("line")
-        .attr("class", "end-of-lifetime-line")
-        .attr("x1", vm.x(vm.parseTime(vm.designLifetime)))
-        .attr("y1", vm.yProb(vm.yProb.domain()[0]))
-        .attr("x2", vm.x(vm.parseTime(vm.designLifetime)))
-        .attr("y2", vm.yProb(vm.yProb.domain()[1]))
+        vm.svgProbability.append("path")
+          .attr("class", "lifetime-fill")
+          .attr("d", function(d) {
+            return area(lifetimeAreaPath);
+          });
+
+
+        vm.svgProbability.append("line")
+          .attr("class", "end-of-lifetime-line")
+          .attr("x1", vm.x(vm.parseTime(vm.designLifetime)))
+          .attr("y1", vm.yProb(vm.yProb.domain()[0]))
+          .attr("x2", vm.x(vm.parseTime(vm.designLifetime)))
+          .attr("y2", vm.yProb(vm.yProb.domain()[1]))
       cb()
 
     });
