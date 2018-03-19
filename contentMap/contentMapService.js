@@ -215,11 +215,11 @@ function contentMapService($state, commonService) {
     //if comming back from graph page
     if (commonService.selectedTile !== null) {
 
-      vm.map.panTo({
-        lat: commonService.selectedTile.getBounds().getCenter().lat(),
-        lng: commonService.selectedTile.getBounds().getCenter().lng()
-      });
-      vm.map.setZoom(10);
+      //vm.map.panTo({
+      //  lat: commonService.selectedTile.getBounds().getCenter().lat(),
+      //  lng: commonService.selectedTile.getBounds().getCenter().lng()
+      //});
+      vm.map.setZoom(7);
     }
 
 
