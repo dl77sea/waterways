@@ -428,7 +428,7 @@ function contentGraphService(commonService) {
       prod = 0
     }
 
-    vm.prob = (((1 - prod) * 100)).toFixed(2) + '%'
+    vm.prob = (((1 - prod) * 100)).toFixed(0) + '%'
     //console.log("probability indicator: ", vm.prob)
   }
 
